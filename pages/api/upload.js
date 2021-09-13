@@ -1,9 +1,11 @@
 import nextConnect from 'next-connect';
 import multer from 'multer';
 
+const uploadPath = '/static/uploads';
+
 const upload = multer({
     storage: multer.diskStorage({
-        destination: './public/uploads',
+        destination: `./public${uploadPath}`,
         filename: (req, file, cb) => cb(null, file.originalname)
     })
 });
@@ -20,7 +22,8 @@ const apiRoute = nextConnect({
 apiRoute.use(upload.array('theFiles'));
 
 apiRoute.post((req, res) => {
-    res.status(200).json({ data: 'success' });
+    const files = req.files.map((file) => `${uploadPath}/${file.originalname}`);
+    res.status(200).json({ data: 'success', files });
 });
 
 export default apiRoute;

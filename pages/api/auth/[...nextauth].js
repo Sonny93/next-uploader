@@ -13,6 +13,10 @@ export default NextAuth({
             },
             async authorize(credentials, req) {
                 console.log('credentials', credentials);
+                return {
+                    name: 'Sonny',
+                    email: credentials?.email
+                }
 
                 const connection = await mysql.createConnection({
                     host: process.env.DB_HOST,
