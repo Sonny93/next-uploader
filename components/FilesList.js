@@ -15,7 +15,6 @@ export default function FilesList({ files, setFiles, isBrowser }) {
     }, []);
 
     function ModalPreviewFile({ file }) {
-        console.log('modalpreviewfile file', file);
         if (!file) return <Modal isOpen={false} />
         return <Modal 
             isOpen={true} 
@@ -45,9 +44,14 @@ export default function FilesList({ files, setFiles, isBrowser }) {
             <div className='icon-container'>
                 <img src={file.uploadPath} />
             </div>
-            <span>
-                {file.fileName} - {file.size} - {file.type}
-            </span>
+            <div className='meta'>
+                <span className='name'>
+                    {file.name}    
+                </span>
+                <span className='details'>
+                    {file.size} - fichier {file.extension}
+                </span>
+            </div>
         </li>)}
     </ul>
 }
