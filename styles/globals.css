@@ -66,3 +66,16 @@ button:not(:disabled):hover {
 	box-shadow: #105b97 0 0 3px 1px;
 	background: #105b97;
 }
+
+.ReactModal__Content {
+	inset: 20px!important;
+}
+
+@media (max-width: 1024px) {
+	.App {
+		width: 100%;
+	}
+	.App .filelist {
+		width: 100%;
+	}
+}

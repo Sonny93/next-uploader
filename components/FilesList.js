@@ -20,10 +20,10 @@ export default function FilesList({ files, setFiles, isBrowser }) {
             isOpen={true} 
             contentLabel="File preview" 
             appElement={isBrowser ? document.getElementById("__next") : document.body}>
-            {JSON.stringify(file, null, 4)}
             <button onClick={() => setFilePreview(null)}>
                 fermer
             </button>
+            {JSON.stringify(file, null, 4)}
         </Modal>
     }
 

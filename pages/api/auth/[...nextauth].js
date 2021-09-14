@@ -12,12 +12,6 @@ export default NextAuth({
                 password: { label: "Mot de passe", type: "password", placeholder: "********" }
             },
             async authorize(credentials, req) {
-                console.log('credentials', credentials);
-                return {
-                    name: 'Sonny',
-                    email: credentials?.email
-                }
-
                 const connection = await mysql.createConnection({
                     host: process.env.DB_HOST,
                     user: process.env.DB_USER,
