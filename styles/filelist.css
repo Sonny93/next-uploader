@@ -1,0 +1,33 @@
+.filelist {
+	height: auto;
+	width: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.filelist .file {
+    cursor: pointer;
+	height: 70px;
+	width: 100%;
+	list-style: none;
+	margin-bottom: 10px;
+	border: 1px solid #dadce0;
+	padding: 10px;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+    transition: .15s;
+}
+
+.filelist .file:hover {
+	box-shadow: #dadce0 0 0 3px 1px;
+}
+
+.filelist .file img {
+	max-height: 48px;
+	max-width: 68px;
+	width: auto;
+    margin-right: 5px;
+}

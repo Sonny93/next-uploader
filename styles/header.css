@@ -1,0 +1,31 @@
+.header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	height: auto;
+	width: 100%;
+	margin-bottom: 5px;
+	background: #fff;
+	border: 1px solid #dadce0;
+	padding: 8px 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.header .navbar {
+	height: auto;
+	width: 100%;
+	border: 1px solid #dadce0;
+	padding: 8px 15px;
+}
+
+.header .uploader input {
+	display: none;
+}
+
+.header .uploader label {
+	width: fit-content;
+	height: fit-content;
+}
