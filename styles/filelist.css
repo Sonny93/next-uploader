@@ -8,14 +8,16 @@
 }
 
 .filelist .file {
+    user-select: none;
     cursor: pointer;
 	height: 70px;
 	width: 100%;
 	list-style: none;
 	margin-bottom: 10px;
 	border: 1px solid #dadce0;
-	padding: 10px;
 	border-radius: 3px;
+    background: #fff;
+	padding: 10px;
 	display: flex;
 	align-items: center;
     transition: .15s;
@@ -25,9 +27,16 @@
 	box-shadow: #dadce0 0 0 3px 1px;
 }
 
-.filelist .file img {
-	max-height: 48px;
-	max-width: 68px;
-	width: auto;
+.filelist .file .icon-container {
+	height: 48px;
+	width: 60px;
     margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filelist .file .icon-container img {
+	max-height: 48px;
+	max-width: 60px;
 }
