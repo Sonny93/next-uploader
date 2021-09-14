@@ -1,8 +1,20 @@
-import { readdir } from 'fs/promises';
+import { readdir, stat } from 'fs/promises';
+import { File } from '../../utils';
 
 export default async function handler(req, res) {
     try {
-        const files = await (await readdir('./public/static/uploads')).map((file) => `./static/uploads/${file}`);
+        const uploadPath = './public/static/uploads';
+
+        const filesFolder = await readdir(uploadPath);
+        const files = [];
+
+        for await (const fileName of filesFolder) {
+            const fileStat = await (await stat(`${uploadPath}/${fileName}`));
+            files.push(
+                new File({ fileName, size: fileStat.size, uploadPath: './static/uploads' })
+            );
+        }
+        
         res.status(200).json({ files: Array.from(files) });
     } catch (error) {
         res.status(501).json({ error });

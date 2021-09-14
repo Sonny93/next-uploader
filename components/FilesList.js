@@ -13,17 +13,23 @@ export default function FilesList({ files, setFiles }) {
 
     if (!files) {
         return <div>
-            chargement des fichiers
+            Chargement des fichiers
+        </div>
+    } else if (files.length < 1) {
+        return <div>
+            Aucun fichier
         </div>
     }
 
     return <ul className='filelist'>
         {files.length} fichier{files.length > 1 ? 's' : ''}
-        {files.length > 0 ? <>
-            {files.map((file, key) => <li className='file' key={key}>
-                <img src={file} />
-                <span>fichier</span>
-            </li>)}
-        </> : 'Aucun fichier'}
+        {files.map((file, key) => <li className='file' key={key}>
+            <div className='icon-container'>
+                <img src={file.uploadPath} />
+            </div>
+            <span>
+                {file.fileName} - {file.size} - {file.type}
+            </span>
+        </li>)}
     </ul>
 }

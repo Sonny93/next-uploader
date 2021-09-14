@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import toastr from 'toastr';
+import Modal from 'react-modal';
 
 import { calculSize } from '../utils';
 
@@ -13,9 +14,11 @@ function FileInput({ refInput, setFiles }) {
         ref={refInput} />
 }
 
-export default function Upload({ setFiles }) {
+export default function Upload({ setFiles, filesUpload, setFilesUpload }) {
 	const refInputFile = useRef();
-	const [filesUpload, setFilesUpload] = useState(null);
+
+    const [isBrowser, setIsBrowser] = useState(false);
+    useEffect(() => setIsBrowser(true), []);
 
 	async function upload() {
 		if (!filesUpload || filesUpload?.length < 1) return;
@@ -32,7 +35,7 @@ export default function Upload({ setFiles }) {
 			}
 		});
 		setFilesUpload(null);
-
+        
 		setFiles(data?.files ? (filesPrev) => {
 			const filesToReturn = Array.from(filesPrev);
 			for (const file of data?.files)
@@ -41,6 +44,22 @@ export default function Upload({ setFiles }) {
 			return filesToReturn;
 		} : []);
 	}
+
+    function ModalFilesPreview() {
+        return <Modal 
+            isOpen={true} 
+            contentLabel="Example Modal" 
+            appElement={isBrowser ? document.getElementById("__next") : null}>
+            {filesUpload && Array.from(filesUpload).map((file, key) => {
+                return <li key={key}>
+                    {file.name} - {file.size}
+                </li>
+            })}
+            <button onClick={upload} disabled={false}>
+                Envoyer ({filesUpload.length} fichier{filesUpload.length > 1 ? 's' : ''})
+            </button>
+        </Modal>
+    }
     
     if (!filesUpload || filesUpload.length < 1) {
         return <div className='uploader'>
@@ -52,13 +71,11 @@ export default function Upload({ setFiles }) {
                 Sélectionner des fichiers
             </button>
             <FileInput refInput={refInputFile} setFiles={setFilesUpload} />
-            <button onClick={upload} disabled={true}>
-                Upload
-            </button>
         </div>;
     }
 
     return <div className='uploader'>
+        <ModalFilesPreview />
         <button
             onClick={(e) => {
                 e.preventDefault();
@@ -67,18 +84,5 @@ export default function Upload({ setFiles }) {
             Sélectionner des fichiers
         </button>
         <FileInput refInput={refInputFile} setFiles={setFilesUpload} />
-        <button onClick={upload} disabled={false}>
-            Envoyer ({filesUpload.length} fichier{filesUpload.length > 1 ? 's' : ''})
-        </button>
-        <ul>
-            <legend>
-                Fichiers à envoyer
-            </legend>
-            {Array.from(filesUpload).map((file, key) => {
-                return <li key={key}>
-                    {file.name} - {calculSize(file.size)}
-                </li>
-            })}
-        </ul>
     </div>;
 }
