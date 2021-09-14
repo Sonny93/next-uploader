@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import toastr from 'toastr';
 
-export default function FilesList({ files, setFiles }) {
+export default function FilesList({ files, setFiles, isBrowser }) {
+    const [filePreview, setFilePreview] = useState(null);
+
     useEffect(async () => {
         const request = await fetch('/api/files');
         if (!request.ok)
@@ -10,6 +13,20 @@ export default function FilesList({ files, setFiles }) {
         const data = await request.json();
         setFiles(data?.files || []);
     }, []);
+
+    function ModalPreviewFile({ file }) {
+        console.log('modalpreviewfile file', file);
+        if (!file) return <Modal isOpen={false} />
+        return <Modal 
+            isOpen={true} 
+            contentLabel="File preview" 
+            appElement={isBrowser ? document.getElementById("__next") : document.body}>
+            {JSON.stringify(file, null, 4)}
+            <button onClick={() => setFilePreview(null)}>
+                fermer
+            </button>
+        </Modal>
+    }
 
     if (!files) {
         return <div>
@@ -22,8 +39,9 @@ export default function FilesList({ files, setFiles }) {
     }
 
     return <ul className='filelist'>
+        <ModalPreviewFile file={filePreview} />
         {files.length} fichier{files.length > 1 ? 's' : ''}
-        {files.map((file, key) => <li className='file' key={key}>
+        {files.map((file, key) => <li className='file' key={key} onClick={(e) => setFilePreview(file)}>
             <div className='icon-container'>
                 <img src={file.uploadPath} />
             </div>

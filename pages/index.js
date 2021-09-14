@@ -8,12 +8,15 @@ export default function Home() {
 	const [files, setFiles] = useState(null);
 	const [filesUpload, setFilesUpload] = useState(null);
 
+    const [isBrowser, setIsBrowser] = useState(false);
+    useEffect(() => setIsBrowser(true), []);
+
 	function Navbar() {
 		return <div className='navbar'>
 			<div>
 				Vous êtes connecté <button onClick={() => signOut()}>Se déconnecter</button>
 			</div>
-			{session && <Upload setFiles={setFiles} filesUpload={filesUpload} setFilesUpload={setFilesUpload} />}
+			{session && <Upload isBrowser={isBrowser} setFiles={setFiles} filesUpload={filesUpload} setFilesUpload={setFilesUpload} />}
 		</div>;
 	}
 
@@ -22,6 +25,6 @@ export default function Home() {
 		<div className='header'>
 			<Navbar />
 		</div>
-		<FilesList files={files} setFiles={setFiles} />
+		<FilesList isBrowser={isBrowser} files={files} setFiles={setFiles} />
 	</div>
 }
