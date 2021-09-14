@@ -30,7 +30,7 @@ class File {
     constructor({ fileName, size, uploadPath }) {
         const extension = (path.extname(fileName)).substring(1);
 
-        this.name = fileName.substring(0, fileName.length - extension.length);
+        this.name = fileName.substring(0, fileName.length - extension.length - 1);
         this.extension = extension;
         this.type = fileType(extension);
 
