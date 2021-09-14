@@ -66,28 +66,15 @@ export default function Upload({ setFiles, filesUpload, setFilesUpload, isBrowse
             </button>
         </Modal>
     }
-    
-    if (!filesUpload || filesUpload.length < 1) {
-        return <div className='uploader'>
-            <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    refInputFile.current.click();
-                }}>
-                Sélectionner des fichiers
-            </button>
-            <FileInput refInput={refInputFile} setFiles={setFilesUpload} />
-        </div>;
-    }
 
     return <div className='uploader'>
-        <ModalFilesUpload />
+        {filesUpload?.length > 0 ? <ModalFilesUpload /> : null}
         <button
             onClick={(e) => {
                 e.preventDefault();
                 refInputFile.current.click();
             }}>
-            Sélectionner des fichiers
+            +
         </button>
         <FileInput refInput={refInputFile} setFiles={setFilesUpload} />
     </div>;

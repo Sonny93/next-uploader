@@ -20,7 +20,6 @@ export default function Home() {
 		</div>;
 	}
 
-	console.log(files);
 	return <div className='App'>
 		<div className='header'>
 			<Navbar />
