@@ -30,7 +30,7 @@
 .filelist .file .icon-container {
 	height: 48px;
 	width: 60px;
-    margin-right: 5px;
+    margin-right: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,4 +39,16 @@
 .filelist .file .icon-container img {
 	max-height: 48px;
 	max-width: 60px;
+}
+
+.filelist .file .meta {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.filelist .file .meta .details {
+	font-size: .8em;
+	color: grey;
+	font-style: italic;
 }
