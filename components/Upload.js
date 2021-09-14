@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import toastr from 'toastr';
 import Modal from 'react-modal';
+import toastr from 'toastr';
 
 import { calculSize } from '../utils';
 
@@ -14,11 +14,8 @@ function FileInput({ refInput, setFiles }) {
         ref={refInput} />
 }
 
-export default function Upload({ setFiles, filesUpload, setFilesUpload }) {
+export default function Upload({ setFiles, filesUpload, setFilesUpload, isBrowser }) {
 	const refInputFile = useRef();
-
-    const [isBrowser, setIsBrowser] = useState(false);
-    useEffect(() => setIsBrowser(true), []);
 
 	async function upload() {
 		if (!filesUpload || filesUpload?.length < 1) return;
@@ -45,11 +42,17 @@ export default function Upload({ setFiles, filesUpload, setFilesUpload }) {
 		} : []);
 	}
 
-    function ModalFilesPreview() {
+	async function cancelUpload() {
+        setFilesUpload(null);
+        if (refInputFile?.current)
+            refInputFile.current.files = null;
+	}
+
+    function ModalFilesUpload() {
         return <Modal 
             isOpen={true} 
-            contentLabel="Example Modal" 
-            appElement={isBrowser ? document.getElementById("__next") : null}>
+            contentLabel="Files list" 
+            appElement={isBrowser ? document.getElementById("__next") : document.body}>
             {filesUpload && Array.from(filesUpload).map((file, key) => {
                 return <li key={key}>
                     {file.name} - {file.size}
@@ -57,6 +60,9 @@ export default function Upload({ setFiles, filesUpload, setFilesUpload }) {
             })}
             <button onClick={upload} disabled={false}>
                 Envoyer ({filesUpload.length} fichier{filesUpload.length > 1 ? 's' : ''})
+            </button>
+            <button onClick={cancelUpload} disabled={false}>
+                Annuler
             </button>
         </Modal>
     }
@@ -75,7 +81,7 @@ export default function Upload({ setFiles, filesUpload, setFilesUpload }) {
     }
 
     return <div className='uploader'>
-        <ModalFilesPreview />
+        <ModalFilesUpload />
         <button
             onClick={(e) => {
                 e.preventDefault();
