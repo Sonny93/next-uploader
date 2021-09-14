@@ -1,5 +1,8 @@
+import { stat } from 'fs/promises';
 import nextConnect from 'next-connect';
 import multer from 'multer';
+
+import { File } from '../../utils';
 
 const uploadPath = '/static/uploads';
 
@@ -21,8 +24,15 @@ const apiRoute = nextConnect({
 
 apiRoute.use(upload.array('theFiles'));
 
-apiRoute.post((req, res) => {
-    const files = req.files.map((file) => `${uploadPath}/${file.originalname}`);
+apiRoute.post(async (req, res) => {
+    const files = [];
+
+    for await (const file of req.files) {
+        const fileStat = await (await stat(`./public/${uploadPath}/${file.originalname}`));
+        files.push(
+            new File({ fileName: file.originalname, size: fileStat.size, uploadPath: './static/uploads' })
+        );
+    }
     res.status(200).json({ data: 'success', files });
 });
 

@@ -1,31 +1,27 @@
 import { useSession, signIn, signOut } from "next-auth/client";
-import { useState } from "react";
-import Modal from 'react-modal';
-
+import { useState, useEffect } from "react";
 import FilesList from "../components/FilesList";
 import Upload from "../components/Upload";
 
 export default function Home() {
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
+	const [filesUpload, setFilesUpload] = useState(null);
 
 	function Navbar() {
-		if (!session) {
-			return <div className='navbar'>
-				Vous n'êtes pas connecté <button onClick={() => signIn()}>Se connecter</button>
-			</div>;
-		} else {
-			return <div className='navbar'>
+		return <div className='navbar'>
+			<div>
 				Vous êtes connecté <button onClick={() => signOut()}>Se déconnecter</button>
-				<Upload setFiles={setFiles} />
-			</div>;
-		}
+			</div>
+			{session && <Upload setFiles={setFiles} filesUpload={filesUpload} setFilesUpload={setFilesUpload} />}
+		</div>;
 	}
 
+	console.log(files);
 	return <div className='App'>
 		<div className='header'>
 			<Navbar />
-			<FilesList files={files} setFiles={setFiles} />
 		</div>
+		<FilesList files={files} setFiles={setFiles} />
 	</div>
 }
