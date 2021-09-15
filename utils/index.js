@@ -27,7 +27,7 @@ function fileType(extension) {
 }
 
 class File {
-    constructor({ fileName, size, uploadPath }) {
+    constructor({ fileName, size, url }) {
         const extension = (path.extname(fileName)).substring(1);
 
         this.name = fileName.substring(0, fileName.length - extension.length - 1);
@@ -37,7 +37,7 @@ class File {
         this.fileName = fileName;
         this.brutSize = size;
         this.size = calculSize(size);
-        this.uploadPath = `${uploadPath}/${fileName}`;
+        this.url = `${url}/${fileName}`;
     }
 }
 
