@@ -72,15 +72,17 @@ button:not(:disabled):hover {
 
 #__next {
 	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 }
 
 .App {
 	height: 100%;
-	width: 100%;
-}
-
-.ReactModal__Content {
-	inset: 20px!important;
+	width: 500px;
+	padding: 10px;
 }
 
 @media (max-width: 1024px) {
