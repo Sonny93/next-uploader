@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         for await (const fileName of filesFolder) {
             const fileStat = await (await stat(`${uploadPath}/${fileName}`));
             files.push(
-                new File({ fileName, size: fileStat.size, uploadPath: './static/uploads' })
+                new File({ fileName, size: fileStat.size, url: 'http://localhost:4000/uploads' })
             );
         }
         

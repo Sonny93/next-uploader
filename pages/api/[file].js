@@ -3,7 +3,7 @@ import { readdir } from 'fs/promises';
 export default async function handler(req, res) {
     const { file } = req.query;
     try {
-        const files = await readdir('./public/uploads');
+        const files = await readdir('./uploads');
         for (const file of files) {
             console.log(file);
         }
