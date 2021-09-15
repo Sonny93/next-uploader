@@ -1,7 +1,4 @@
 .header {
-	position: sticky;
-	top: 0;
-	left: 0;
 	height: auto;
 	width: 100%;
 	margin-bottom: 5px;
@@ -14,8 +11,10 @@
 .header .navbar {
 	height: auto;
 	width: 100%;
-	background: #fff;
-	border: 1px solid #dadce0;
+	color: #fff;
+	/* background: #fff; */
+	/* border: 1px solid #dadce0; */
+	backdrop-filter: brightness(.5);
 	padding: 8px 15px;
 }
 
