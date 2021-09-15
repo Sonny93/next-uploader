@@ -1,6 +1,6 @@
 module.exports = {
 	reactStrictMode: true,
 	images: {
-		domains: ['localhost'],
+		domains: ['localhost', 'main.sonnydata.fr', 'test.sonnydata.fr'],
 	}
 }

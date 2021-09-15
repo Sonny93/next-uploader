@@ -4,11 +4,9 @@ import multer from 'multer';
 
 import { File } from '../../utils';
 
-const uploadPath = '/static/uploads';
-
 const upload = multer({
     storage: multer.diskStorage({
-        destination: `./public${uploadPath}`,
+        destination: process.env.UPLOAD_DIR,
         filename: (req, file, cb) => cb(null, file.originalname)
     })
 });
@@ -28,9 +26,9 @@ apiRoute.post(async (req, res) => {
     const files = [];
 
     for await (const file of req.files) {
-        const fileStat = await (await stat(`./public/${uploadPath}/${file.originalname}`));
+        const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${file.originalname}`));
         files.push(
-            new File({ fileName: file.originalname, size: fileStat.size, url: 'http://localhost:4000/uploads' })
+            new File({ fileName: file.originalname, size: fileStat.size, url: process.env.UPLOAD_URL })
         );
     }
     res.status(200).json({ data: 'success', files });
