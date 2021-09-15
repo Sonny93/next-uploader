@@ -3,15 +3,13 @@ import { File } from '../../utils';
 
 export default async function handler(req, res) {
     try {
-        const uploadPath = './public/static/uploads';
-
-        const filesFolder = await readdir(uploadPath);
+        const filesFolder = await readdir(process.env.UPLOAD_DIR);
         const files = [];
 
         for await (const fileName of filesFolder) {
-            const fileStat = await (await stat(`${uploadPath}/${fileName}`));
+            const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fileName}`));
             files.push(
-                new File({ fileName, size: fileStat.size, url: 'http://localhost:4000/uploads' })
+                new File({ fileName, size: fileStat.size, url: process.env.UPLOAD_URL })
             );
         }
         
