@@ -1,16 +1,7 @@
-.header {
+.navbar {
 	height: auto;
 	width: 100%;
 	margin-bottom: 5px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-}
-
-.header .navbar {
-	height: auto;
-	width: 100%;
 	color: #fff;
 	background: rgba(0, 0, 0, 0.5);
 	padding: 8px 15px;
