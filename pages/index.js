@@ -14,14 +14,11 @@ export default function Home() {
 	function Navbar() {
 		return <div className='navbar'>
 			{session ? <>
-				<div>
-					Vous êtes connecté <button onClick={() => signOut()}>Se déconnecter</button>
-				</div>
+				<button onClick={() => signOut()}>Se déconnecter</button>
 				<Upload isBrowser={isBrowser} setFiles={setFiles} filesUpload={filesUpload} setFilesUpload={setFilesUpload} />
 			</> : <>
-				<div>
-					Vous n'êtes pas connecté <button onClick={() => signIn()}>Se connecter</button>
-				</div>
+				<button onClick={() => signIn()}>Se connecter</button>
+				Vous n'êtes pas connecté
 			</>}
 		</div>;
 	}
