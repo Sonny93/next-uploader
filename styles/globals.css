@@ -9,11 +9,14 @@ html, body {
 	font-size: 1em;
 	font-family: 'Poppins', sans-serif;
 	color: #111;
-	background: repeating-linear-gradient(135deg, #c8c1c11a 0px, #c8c1c11a 2px, transparent 2px, transparent 4px), linear-gradient(90deg, rgb(255, 255, 255), rgb(255, 255, 255));
+	/* background: repeating-linear-gradient(135deg, #c8c1c11a 0px, #c8c1c11a 2px, transparent 2px, transparent 4px), linear-gradient(90deg, rgb(255, 255, 255), rgb(255, 255, 255)); */
+	background: url(https://images.unsplash.com/photo-1507608158173-1dcec673a2e5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80);
+	background-repeat: no-repeat;
+	background-size: cover;
 	margin: 0;
 	border: 0;
 	padding: 0;
-	/* overflow: hidden; */
+	overflow: hidden;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -65,6 +68,15 @@ button:disabled {
 button:not(:disabled):hover {
 	box-shadow: #105b97 0 0 3px 1px;
 	background: #105b97;
+}
+
+#__next {
+	height: 100%;
+}
+
+.App {
+	height: 100%;
+	width: 100%;
 }
 
 .ReactModal__Content {

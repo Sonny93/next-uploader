@@ -23,6 +23,13 @@ export default function FilesList({ files, setFiles, isBrowser }) {
             <button onClick={() => setFilePreview(null)}>
                 fermer
             </button>
+            {file.type === 'image'
+                ? <img src={file.uploadPath} />
+                : file.type === 'video'
+                    ? <video src={file.uploadPath} controls autoPlay></video>
+                    : file.type === 'audio'
+                        ? <audio src={file.uploadPath}></audio>
+                        : 'no preview finded'}
             {JSON.stringify(file, null, 4)}
         </Modal>
     }
