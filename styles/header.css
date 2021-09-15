@@ -16,13 +16,7 @@
 	/* border: 1px solid #dadce0; */
 	backdrop-filter: brightness(.5);
 	padding: 8px 15px;
-}
-
-.header .uploader input {
-	display: none;
-}
-
-.header .uploader label {
-	width: fit-content;
-	height: fit-content;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
