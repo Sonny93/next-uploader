@@ -30,7 +30,7 @@ apiRoute.post(async (req, res) => {
     for await (const file of req.files) {
         const fileStat = await (await stat(`./public/${uploadPath}/${file.originalname}`));
         files.push(
-            new File({ fileName: file.originalname, size: fileStat.size, uploadPath: './static/uploads' })
+            new File({ fileName: file.originalname, size: fileStat.size, url: 'http://localhost:4000/uploads' })
         );
     }
     res.status(200).json({ data: 'success', files });
