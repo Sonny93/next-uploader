@@ -8,6 +8,7 @@
     height: fit-content;
     width: fit-content;
     font-size: 2.5em;
+    display: flex;
 }
 
 .uploader input {

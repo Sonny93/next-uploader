@@ -85,6 +85,36 @@ button:not(:disabled):hover {
 	padding: 10px;
 }
 
+.loader {
+	height: 100%;
+	width: 100%;
+	/* background: #fff; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.loader.top {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.loader.backdrop {
+	backdrop-filter: blur(20px);
+}
+
+.loader > svg {
+	margin: 0 !important;
+}
+
+.loader > svg > rect {
+	fill: #fff;
+}
+
 @media (max-width: 1024px) {
 	.App {
 		width: 100%;
