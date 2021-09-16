@@ -29,18 +29,15 @@ apiRoute.use(async (req, res, next) => {
         next();
 })
 
-apiRoute.use(upload.array('theFiles'));
+apiRoute.use(upload.single('file'));
 
 apiRoute.post(async (req, res) => {
-    const files = [];
-
-    for await (const file of req.files) {
-        const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${file.originalname}`));
-        files.push(
-            new File({ fileName: file.originalname, size: fileStat.size, url: process.env.UPLOAD_URL })
-        );
-    }
-    res.status(200).json({ files });
+    const fileReq = req?.file;
+    console.log(fileReq);
+    const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fileReq.originalname}`));
+    const file = new File({ fileName: fileReq.originalname, size: fileStat.size, url: process.env.UPLOAD_URL });
+    
+    res.status(200).json({ file });
 });
 
 export default apiRoute;
