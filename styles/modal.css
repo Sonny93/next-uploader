@@ -17,13 +17,13 @@
     background: #fff;
     border-radius: 5px;
     padding: 20px;
-    opacity: 0;
-    transform: translateZ(-30px);
+    /* opacity: 0; */
+    /* transform: translateZ(-30px); */
     display: flex;
     align-items: center;
     /* justify-content: center; */
     flex-direction: column;
-    animation: popinModal .15s both;
+    /* animation: popinModal .15s both; */
 }
 
 .ReactModal__Overlay .modal-container .modal-header {
