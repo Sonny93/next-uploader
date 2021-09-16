@@ -88,6 +88,7 @@ button:not(:disabled):hover {
 .loader {
 	height: 100%;
 	width: 100%;
+	color: #fff;
 	/* background: #fff; */
 	display: flex;
 	align-items: center;
