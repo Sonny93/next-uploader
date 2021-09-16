@@ -1,14 +1,13 @@
-import { useSession, signIn, signOut } from "next-auth/client";
-import { useState, useEffect } from "react";
+import { useSession, signIn, signOut } from 'next-auth/client';
+import { useState, useEffect } from 'react';
 
-import FilesList from "../components/FilesList";
-import Loader from "../components/Loader";
-import Upload from "../components/Upload";
+import FilesList from '../components/FilesList';
+import Loader from '../components/Loader';
+import Upload from '../components/upload/Upload';
 
 export default function Home() {
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
-	const [filesUpload, setFilesUpload] = useState(null);
 
     const [isBrowser, setIsBrowser] = useState(false);
     useEffect(() => setIsBrowser(true), []);
@@ -17,7 +16,7 @@ export default function Home() {
 		return <div className='navbar'>
 			{session ? <>
 				<button onClick={() => signOut()}>Se déconnecter</button>
-				<Upload isBrowser={isBrowser} setFiles={setFiles} filesUpload={filesUpload} setFilesUpload={setFilesUpload} />
+				<Upload isBrowser={isBrowser} setFiles={setFiles} />
 			</> : <>
 				<button onClick={() => signIn()}>Se connecter</button>
 				Vous n'êtes pas connecté
