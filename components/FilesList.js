@@ -6,6 +6,8 @@ import { AiOutlineFileImage, AiOutlineVideoCamera } from 'react-icons/ai';
 import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
+
+import Loader from './Loader';
 import FilePreview from './FilePreview';
 
 export default function FilesList({ files, setFiles, isBrowser }) {
@@ -57,7 +59,7 @@ export default function FilesList({ files, setFiles, isBrowser }) {
 
     if (!files) {
         return <div>
-            Chargement des fichiers
+            <Loader label='Chargement des fichiers' />
         </div>
     } else if (files.length < 1) {
         return <div>
