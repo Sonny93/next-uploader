@@ -9,9 +9,11 @@ import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 
 import Loader from './Loader';
 import FilePreview from './FilePreview';
+import { calculSize } from '../utils';
 
 export default function FilesList({ files, setFiles, isBrowser }) {
     const [filePreview, setFilePreview] = useState(null);
+    const [globalSize, setGlobalSize] = useState(0);
 
     useEffect(() => {
         async function getFiles() {
@@ -20,12 +22,23 @@ export default function FilesList({ files, setFiles, isBrowser }) {
                 return console.error(request);
 
             const data = await request.json();
-            setFiles(data?.files || []);
+
+            if (!data?.files) 
+                return setFiles([]);
+    
+            let somme = 0;
+            data.files.map((file) => somme += parseInt(file?.brutSize, 10));
+
+            setFiles(data.files);
+            setGlobalSize(somme);
         }
 
         getFiles();
         return () => setFiles(null);
     }, [setFiles]);
+
+    useEffect(() => {
+    }, [setGlobalSize, files]);
 
     function ModalPreviewFile({ file }) {
         if (!file) return <Modal isOpen={false} className='modal-container' />;
@@ -51,7 +64,7 @@ export default function FilesList({ files, setFiles, isBrowser }) {
                             {fileIndex < files.length - 1 && <BsArrowRight />}
                         </a>
                     </div>
-                    <FilePreview file={file} filesLength={files.length} index={fileIndex} />
+                    <FilePreview file={file} />
                 </div>
             </Modal>
         </>;
@@ -70,6 +83,7 @@ export default function FilesList({ files, setFiles, isBrowser }) {
     return <>
         <ul className='filelist'>
             <ModalPreviewFile file={filePreview} />
+            {globalSize ? calculSize(globalSize) : '0 o'}
             {files.length} fichier{files.length > 1 ? 's' : ''}
             {files.map((file, key) => {
                 const { type, name, size, extension } = file;
