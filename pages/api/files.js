@@ -15,6 +15,7 @@ export default async function handler(req, res) {
         
         res.status(200).json({ files: Array.from(files) });
     } catch (error) {
+        console.error(error);
         res.status(501).json({ error });
     }
 }

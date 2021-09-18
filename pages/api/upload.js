@@ -1,6 +1,6 @@
 import { stat } from 'fs/promises';
 import nextConnect from 'next-connect';
-import { useSession, getSession } from 'next-auth/client';
+import {  getSession } from 'next-auth/client';
 import multer from 'multer';
 
 import { File } from '../../utils';
@@ -8,16 +8,19 @@ import { File } from '../../utils';
 const upload = multer({
     storage: multer.diskStorage({
         destination: process.env.UPLOAD_DIR,
-        filename: (req, file, cb) => cb(null, file.originalname)
+        filename: (req, file, cb) => {
+            console.log('là', file);
+            cb(null, file?.originalname);
+        }
     })
 });
 
 const apiRoute = nextConnect({
     onError(error, req, res) {
-        res.status(501).json({ error: `Sorry something Happened! ${error.message}` });
+        res.status(501).json({ error: `Une erreur est survenue! ${error.message}` });
     },
     onNoMatch(req, res) {
-        res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
+        res.status(405).json({ error: `La méthode '${req.method}' n'est pas autorisée` });
     },
 });
 
@@ -27,15 +30,24 @@ apiRoute.use(async (req, res, next) => {
         return res.status(403).send({ error: 'Vous devez être connecté' });
     else
         next();
-})
+});
 
 apiRoute.use(upload.single('file'));
 
+apiRoute.use(async (req, res, next) => { // Middleware request db / check
+    const fileReq = req?.file;
+    if (!fileReq)
+        return res.status(400).json({ error: 'Aucun fichier reçu' });
+
+    console.log('file name set by user', fileReq?.nameByUser);
+    // Trouver comment set un nom custom pour les fichiers reçus par l'api
+    next();
+});
+
 apiRoute.post(async (req, res) => {
     const fileReq = req?.file;
-    console.log(fileReq);
-    const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fileReq.originalname}`));
-    const file = new File({ fileName: fileReq.originalname, size: fileStat.size, url: process.env.UPLOAD_URL });
+    const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fileReq?.originalname}`));
+    const file = new File({ fileName: fileReq?.originalname, size: fileStat.size, url: process.env.UPLOAD_URL });
     
     res.status(200).json({ file });
 });
