@@ -9,14 +9,22 @@ async function upload(filesUpload, setFilesUpload, successUpload) {
     try {
         const filesUploaded = [];
         for await (const file of filesUpload) {
+            const name = prompt('name');
+
+            console.log('name', name);
+            file.nameByUser = name;
+
             const fileIndex = filesUpload.findIndex(f => f.name === file.name);
             if (fileIndex === -1)
                 return console.error('fileindex -1');
 
+            const formData = new FormData();
+            formData.append('file', file);
+            
             const { data } = await axios.request({
                 method: 'post',
                 url: '/api/upload',
-                data: new FormData().append('file', file),
+                data: formData,
                 onUploadProgress: (progress) => {
                     setFilesUpload((filesPrev) => {
                         const files = [...filesPrev];
@@ -34,7 +42,6 @@ async function upload(filesUpload, setFilesUpload, successUpload) {
         }
 
         toastr.success(`${filesUploaded.length} fichier(s) uploadés`);
-        return;
         setFilesUpload(null);
         successUpload(filesUploaded);
     } catch (error) {
