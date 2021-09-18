@@ -1,16 +1,16 @@
 import Image from 'next/image';
 import { BiFile } from 'react-icons/bi';
 
-export default function FilePreview({ file, filesLength, index }) {
+export default function FilePreview({ file }) {
     const { type, url, name, extension, size } = file;
     let preview = null;
 
     if (type === 'image') {
         preview = <Image src={url} alt={`${name} image`} layout='fill' />;
     } else if (type === 'video') {
-        preview = <video src={url} />;
+        preview = <video src={url} controls />;
     } else if (type === 'audio') {
-        preview = <audio src={url}></audio>;
+        preview = <audio src={url} controls></audio>;
     } else {
         preview = <BiFile />;
     }
