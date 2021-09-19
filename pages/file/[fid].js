@@ -12,7 +12,7 @@ export default function File({ fid, file, error }) {
             <Head>
                 <meta property='og:author' content='Sonny#0005' />
                 <meta property='og:site_name' content='🟣 >_ Uploader.sonnydata.fr' />
-                <meta charset='UTF-8' />
+                <meta charSet='UTF-8' />
                 <meta name='viewport' content='initial-scale=1.0, width=device-width' />
                 <meta name='theme-color' content='#fff' />
 
