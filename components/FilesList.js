@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
-import toastr from 'toastr';
+import Link from 'next/link';
 
 import { AiOutlineFileImage, AiOutlineVideoCamera } from 'react-icons/ai';
 import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 
 import Loader from './Loader';
-import FilePreview from './FilePreview';
 import { calculSize } from '../utils';
 
-export default function FilesList({ files, setFiles, isBrowser }) {
-    const [filePreview, setFilePreview] = useState(null);
+export default function FilesList({ files, setFiles }) {
     const [globalSize, setGlobalSize] = useState(0);
 
     useEffect(() => {
@@ -37,56 +33,24 @@ export default function FilesList({ files, setFiles, isBrowser }) {
         return () => setFiles(null);
     }, [setFiles]);
 
-    useEffect(() => {
-    }, [setGlobalSize, files]);
-
-    function ModalPreviewFile({ file }) {
-        if (!file) return <Modal isOpen={false} className='modal-container' />;
-
-        const fileIndex = files.findIndex(f => f.name === file.name);
-        if (fileIndex === -1) return <Modal isOpen={false} className='modal-container' />;
-
-        return <>
-            <Modal 
-                isOpen={true} 
-                contentLabel="File preview" 
-                appElement={isBrowser ? document.getElementById("__next") : document.body}
-                className='modal-container'>
-                <div className='modal-content'>
-                    <div className='modal-header'>
-                        <a onClick={() => fileIndex > 0 ? setFilePreview(files[fileIndex - 1]) : null} disabled={fileIndex > 0}>
-                            {fileIndex > 0 && <BsArrowLeft />}
-                        </a>
-                        <button onClick={() => setFilePreview(null)} className='close'>
-                            Fermer
-                        </button>
-                        <a onClick={() => fileIndex < files.length - 1 ? setFilePreview(files[fileIndex + 1]) : null} disabled={fileIndex < files.length - 1}>
-                            {fileIndex < files.length - 1 && <BsArrowRight />}
-                        </a>
-                    </div>
-                    <FilePreview file={file} />
-                </div>
-            </Modal>
-        </>;
-    }
-
-    if (!files) {
+    console.log('files', files);
+    if (files === null) {
         return <div>
             <Loader label='Chargement des fichiers' />
         </div>
-    } else if (files.length < 1) {
+    } else if (files?.length < 1 || files === undefined) {
         return <div>
-            Aucun fichier
+            Aucun fichier {files === undefined}
         </div>
     }
 
     return <>
         <ul className='filelist'>
-            <ModalPreviewFile file={filePreview} />
-            {globalSize ? calculSize(globalSize) : '0 o'}
-            {files.length} fichier{files.length > 1 ? 's' : ''}
+            <p>
+                {`${calculSize(globalSize)} pour ${files.length} fichier${files.length > 1 ? 's' : ''}`}
+            </p>
             {files.map((file, key) => {
-                const { type, name, size, extension } = file;
+                const { type, name, fileName, size, extension } = file;
                 let icon = null;
 
                 if (type === 'image') {
@@ -99,18 +63,22 @@ export default function FilesList({ files, setFiles, isBrowser }) {
                     icon = <BiFile />;
                 }
 
-                return <li className='file' key={key} onClick={(e) => setFilePreview(file)}>
-                    <div className='icon-btn'>
-                        {icon}
-                    </div>
-                    <div className='meta'>
-                        <span className='name'>
-                            {name}    
-                        </span>
-                        <span className='details'>
-                            {size} - fichier {extension}
-                        </span>
-                    </div>
+                return <li className='file' key={key}>
+                    <Link href={`http://localhost:3000/file/${fileName}`}>
+                        <a>
+                            <div className='icon-btn'>
+                                {icon}
+                            </div>
+                            <div className='meta'>
+                                <span className='name'>
+                                    {name}    
+                                </span>
+                                <span className='details'>
+                                    {size} - fichier {extension}
+                                </span>
+                            </div>
+                        </a>
+                    </Link>
                 </li>
             })}
         </ul>
