@@ -9,10 +9,10 @@ async function upload(filesUpload, setFilesUpload, successUpload) {
     try {
         const filesUploaded = [];
         for await (const file of filesUpload) {
-            const name = prompt('name');
+            // const name = prompt('name');
 
-            console.log('name', name);
-            file.nameByUser = name;
+            // console.log('name', name);
+            // file.nameByUser = name;
 
             const fileIndex = filesUpload.findIndex(f => f.name === file.name);
             if (fileIndex === -1)
@@ -81,19 +81,24 @@ export default function ModalUpload({ filesUpload, setFilesUpload, isBrowser, su
             <div className='modal-content'>
                 {filesUpload.map((file, key) => {
                     const { name, size, progress } = file;
-                    const percent = progress ? ((progress.loaded / progress.total) * 100).toFixed(2) : null;
+                    const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
 
-                    return <li className='file-upload' key={key}>
+                    if (parseInt(percent, 10) === 100)
+                        return null;
+
+                    return <li className='file-upload' key={key} style={{ width: '100%', marginBottom: '10px' }}>
                         <div className='name'>
                             {name}
                         </div>
-                        <div className='size'>
-                            {calculSize(size)}
+                        <div className='progression'>
+                            <span style={{ display: 'flex' }}>
+                                <progress min={0} max={100} value={percent} style={{ width: '100%' }} />
+                                <span style={{ wordBreak: 'normal' }}>{percent}%</span>
+                            </span>
+                            <div>
+                                {calculSize(progress?.loaded || 0)} sur {calculSize(progress?.total || size)}
+                            </div>
                         </div>
-                        {progress && <div className='progression'>
-                            <progress min={0} max={100} value={percent}></progress>
-                            {`${percent}%`} - {calculSize(progress.loaded)} sur {calculSize(progress.total)}
-                        </div>}
                     </li>
                 })}
                 <button onClick={() => upload(filesUpload, setFilesUpload, successUpload)} disabled={false}>
