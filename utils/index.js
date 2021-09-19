@@ -1,6 +1,8 @@
 import path from 'path';
 
 function calculSize(size) {
+	if (size === 0)
+		return '0 o'
 	const units = ['Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo'];
 	let toReturn;
 
