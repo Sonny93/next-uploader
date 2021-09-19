@@ -13,7 +13,9 @@ export default function File({ fid, file, error }) {
                 <meta charset='UTF-8' />
                 <meta name='viewport' content='initial-scale=1.0, width=device-width' />
                 <meta name='theme-color' content='#fff' />
-                <title>Uploader</title>
+                <title>
+                    Uploader {`• ${file ? file.name : fid}`}
+                </title>
                 <meta property='og:author' content='Sonny#0005' />
                 <meta property='og:site_name' content='🟣 >_ Uploader.sonnydata.fr' />
                 {!file ? <>
@@ -45,10 +47,9 @@ export default function File({ fid, file, error }) {
                         <a className='home-link'>revenir à la page d'accueil</a>
                     </Link>
                     {error
-                        ? JSON.stringify(error) : file === null
-                            ? `Chargement du fichier ${fid} en cours` : file === undefined
-                                ? `Impossible de charger le fichier ${fid}` :
-                                <FilePreview file={file} />}
+                        ? JSON.stringify(error) : !file
+                            ? `Impossible de charger le fichier ${fid}` :
+                            <FilePreview file={file} />}
                 </div>
             </div>
         );
@@ -65,7 +66,7 @@ export async function getServerSideProps({ query }) {
                 props: {
                     file: null,
                     fid,
-                    error: `Impossible de trouver le fichier ${fid}`  
+                    error: `Impossible de trouver le fichier ${fid}`
                 }
             }
         } else {
@@ -82,7 +83,7 @@ export async function getServerSideProps({ query }) {
             props: {
                 file: null,
                 fid,
-                error: `Impossible de trouver le fichier ${fid} catch`  
+                error: `Impossible de trouver le fichier ${fid} catch`
             }
         }
     }
