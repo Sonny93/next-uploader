@@ -64,7 +64,7 @@ export default function FilesList({ files, setFiles }) {
                 }
 
                 return <li className='file' key={key}>
-                    <Link href={`http://localhost:3000/file/${fileName}`}>
+                    <Link href={`/file/${fileName}`}>
                         <a>
                             <div className='icon-btn'>
                                 {icon}
