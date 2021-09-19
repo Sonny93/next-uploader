@@ -1,4 +1,5 @@
 import { useSession, signIn, signOut } from 'next-auth/client';
+import Head from 'next/head';
 import { useState, useEffect } from 'react';
 
 import FilesList from '../components/FilesList';
@@ -11,6 +12,21 @@ export default function Home() {
 
 	const [isBrowser, setIsBrowser] = useState(false);
 	useEffect(() => setIsBrowser(true), []);
+
+	function Meta() {
+		return <>
+			<Head>
+				<title>Uploader</title>
+				<meta charset='UTF-8' />
+				<meta name='viewport' content='initial-scale=1.0, width=device-width' />
+				<meta property='og:site_name' content='🟣 >_ Uploader.sonnydata.fr' />
+				<meta property='og:title' content='Uploader' />
+				<meta property='og:description' content='Uploader sonnydata.fr créé & développé par Sonny#0005. Site privé.' />
+				<meta property='og:author' content='Sonny#0005' />
+				<meta name='theme-color' content='#fff' />
+			</Head>
+		</>;
+	}
 
 	function Navbar() {
 		return <div className='navbar'>
@@ -27,12 +43,14 @@ export default function Home() {
 	console.log(isLoadingSession, session);
 	if (isLoadingSession && !session) {
 		return <div className='App'>
+			<Meta />
 			<Navbar />
 			<Loader label={'Chargement de la session'} top={true} backdrop={true} />
 		</div>;
 	}
 
 	return <div className='App'>
+		<Meta />
 		<Navbar />
 		<FilesList isBrowser={isBrowser} files={files} setFiles={setFiles} />
 	</div>
