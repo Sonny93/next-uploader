@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import React from 'react';
+import ReactPlayer from 'react-player/lazy';
 import { BiFile } from 'react-icons/bi';
 
 export default function FilePreview({ file }) {
@@ -8,7 +10,7 @@ export default function FilePreview({ file }) {
     if (type === 'image') {
         preview = <Image src={url} alt={`${name} image`} layout='fill' />;
     } else if (type === 'video') {
-        preview = <video src={url} controls />;
+        preview = <ReactPlayer url={url} playing />;
     } else if (type === 'audio') {
         preview = <audio src={url} controls></audio>;
     } else {
@@ -19,11 +21,6 @@ export default function FilePreview({ file }) {
             {preview}
         </div>
         <ul>
-            <li style={{ textAlign: 'center' }}>
-                <a href={url} style={{ fontStyle: 'italic', color: 'gray', fontSize: '.9em' }}>
-                    {url}
-                </a>
-            </li>
             <li>
                 {name}
             </li>
