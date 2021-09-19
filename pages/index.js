@@ -9,8 +9,8 @@ export default function Home() {
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
 
-    const [isBrowser, setIsBrowser] = useState(false);
-    useEffect(() => setIsBrowser(true), []);
+	const [isBrowser, setIsBrowser] = useState(false);
+	useEffect(() => setIsBrowser(true), []);
 
 	function Navbar() {
 		return <div className='navbar'>
@@ -24,10 +24,11 @@ export default function Home() {
 		</div>;
 	}
 
-	if (isLoadingSession) {
+	console.log(isLoadingSession, session);
+	if (isLoadingSession && !session) {
 		return <div className='App'>
 			<Navbar />
-			<Loader top={true} backdrop={true} />
+			<Loader label={'Chargement de la session'} top={true} backdrop={true} />
 		</div>;
 	}
 
