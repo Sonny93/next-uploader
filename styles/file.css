@@ -1,0 +1,65 @@
+.file {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.file > a.home-link {
+    margin-bottom: 5px;
+}
+
+.file ul {
+    width: 100%;
+    border-radius: 5px;
+    padding: 20px;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	backdrop-filter: blur(10px);
+}
+
+.file .preview-wrapper {
+    position: relative;
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.file .preview-wrapper > div {
+    position: unset !important;
+    height: 100%;
+    width: 100%;
+}
+
+.file .preview-wrapper img {
+    position: relative !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    height: auto !important;
+    width: 100% !important;
+    object-fit: contain !important;
+}
+
+.file .preview-wrapper video {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+@media (max-width: 1024px) {
+    .file {
+        height: 100%;
+        width: 100%;
+    }
+}

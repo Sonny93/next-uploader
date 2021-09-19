@@ -1,6 +1,8 @@
-import { useRouter } from "next/dist/client/router";
-import { useEffect, useState } from "react";
-import FilePreview from "../../components/FilePreview";
+import { useRouter } from 'next/dist/client/router';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+
+import FilePreview from '../../components/FilePreview';
 
 export default function File() {
     const [file, setFile] = useState(null);
@@ -18,7 +20,7 @@ export default function File() {
                 const data = await request.json();
                 if (!data?.ok)
                     return setError(data?.error || `Une erreur est survenue lors de la récupération des données du ficher ${fid}`);
-                else 
+                else
                     setFile(data?.file);
             } catch (error) {
                 console.error(error);
@@ -29,20 +31,35 @@ export default function File() {
 
     if (error) {
         return (<p>
+            <Link href='/'>
+                <a>revenir à la page d'accueil</a>
+            </Link>
             {error}
         </p>);
     } else if (file === null) {
         return (<p>
+            <Link href='/'>
+                <a>revenir à la page d'accueil</a>
+            </Link>
             Chargement du fichier {fid} en cours
         </p>);
     } else if (file === undefined) {
         return (<p>
+            <Link href='/'>
+                <a>revenir à la page d'accueil</a>
+            </Link>
             Impossible de charger le fichier {fid}
         </p>);
-    } else {
-        return (<pre>
-            <FilePreview file={file} />
-            {JSON.stringify(file, null, 2)}
-        </pre>);
     }
+
+    return (
+        <div className='App'>
+            <div className='file'>
+                <Link href='/'>
+                    <a className='home-link'>revenir à la page d'accueil</a>
+                </Link>
+                <FilePreview file={file} />
+            </div>
+        </div>
+    );
 }

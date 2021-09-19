@@ -23,11 +23,23 @@
 	padding: 10px;
 	display: flex;
 	align-items: center;
-    transition: .15s;
+    transition: .05s;
 }
 
 .filelist .file:hover {
-	/* box-shadow: #444444 0 0 1px 1px; */
+	box-shadow: #fff 0 0 5px 0px;
+}
+
+.filelist .file > a {
+	height: 100%;
+	width: 100%;
+	color: #fff;
+	border: none;
+	display: flex;
+}
+
+.filelist .file > a:hover {
+	border: none;
 }
 
 .filelist .icon-btn {
