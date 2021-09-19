@@ -10,20 +10,28 @@ export default function File({ fid, file, error }) {
     function Meta() {
         return <>
             <Head>
+                <meta property='og:author' content='Sonny#0005' />
+                <meta property='og:site_name' content='🟣 >_ Uploader.sonnydata.fr' />
                 <meta charset='UTF-8' />
                 <meta name='viewport' content='initial-scale=1.0, width=device-width' />
                 <meta name='theme-color' content='#fff' />
+
+                <meta property='og:url' content='/file/20210227_062940.jpg/' />
+                <meta property='og:type' content='website' />
+
                 <title>
                     Uploader {`• ${file ? file.name : fid}`}
                 </title>
-                <meta property='og:author' content='Sonny#0005' />
-                <meta property='og:site_name' content='🟣 >_ Uploader.sonnydata.fr' />
+
                 {!file ? <>
+                    <title>Uploader • {fid}</title>
                     <meta property='og:title' content={`Uploader • ${fid}`} />
                     <meta property='og:description' content='Uploader sonnydata.fr • Fichier introuvable' />
                 </> : <>
+                    <title>Uploader • {file.name}</title>
                     <meta property='og:title' content={`Uploader • ${file.name}`} />
                     <meta property='og:description' content='Uploader sonnydata.fr' />
+                    <meta property='og:image' content={file.url} />
                 </>}
             </Head>
         </>;
