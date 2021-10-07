@@ -6,11 +6,8 @@ import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
 
 import Loader from './Loader';
-import { calculSize } from '../utils';
 
-export default function FilesList({ files, setFiles }) {
-    const [globalSize, setGlobalSize] = useState(0);
-
+export default function FilesList({ files, setFiles, globalSize, setGlobalSize }) {
     useEffect(() => {
         async function getFiles() {
             const request = await fetch('/api/files');
@@ -35,20 +32,17 @@ export default function FilesList({ files, setFiles }) {
 
     console.log('files', files);
     if (files === null) {
-        return <div>
-            <Loader label='Chargement des fichiers' />
+        return <div className='no-files'>
+            <Loader label='Chargement des fichiers' top={false} />
         </div>
     } else if (files?.length < 1 || files === undefined) {
-        return <div>
-            Aucun fichier {files === undefined}
+        return <div className='no-files'>
+            <p>Aucun fichier</p>
         </div>
     }
 
     return <>
         <ul className='filelist'>
-            <p>
-                {`${calculSize(globalSize)} pour ${files.length} fichier${files.length > 1 ? 's' : ''}`}
-            </p>
             {files.map((file, key) => {
                 const { type, name, fileName, size, extension } = file;
                 let icon = null;
