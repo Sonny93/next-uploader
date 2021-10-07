@@ -37,10 +37,19 @@ export default function File({ fid, file, error }) {
         </>;
     }
 
+    function Navbar() {
+        return <div className='navbar' style={{ justifyContent: 'center' }}>
+            <Link href='/'>
+                <a className='home-link'>revenir à la page d'accueil</a>
+            </Link>
+        </div>
+    }
+
     if (!file) {
         return (
             <div className='App'>
                 <Meta />
+                <Navbar />
                 <div className='file'>
                     Impossible de charge le fichier {fid}
                 </div>
@@ -50,10 +59,8 @@ export default function File({ fid, file, error }) {
         return (
             <div className='App'>
                 <Meta />
+                <Navbar />
                 <div className='file'>
-                    <Link href='/'>
-                        <a className='home-link'>revenir à la page d'accueil</a>
-                    </Link>
                     {error
                         ? JSON.stringify(error) : !file
                             ? `Impossible de charger le fichier ${fid}` :
