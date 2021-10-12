@@ -1,12 +1,17 @@
 import { useSession, signIn, signOut } from 'next-auth/client';
-import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 import FilesList from '../components/FilesList';
 import Loader from '../components/Loader';
-import Upload from '../components/upload/Upload';
+
+import Navbar from '../components/Navbar';
+import Meta from '../components/Meta';
 
 export default function Home() {
+    const router = useRouter();
+    const [pageLoading, setPageLoading] = useState(false);
+
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
 
@@ -33,32 +38,20 @@ export default function Home() {
 		return () => setFiles(null);
 	}, [setFiles]);
 
-	function Meta() {
-		return <>
-			<Head>
-				<title>Uploader</title>
-				<meta charSet='UTF-8' />
-				<meta name='viewport' content='initial-scale=1.0, width=device-width' />
-				<meta property='og:site_name' content='🟣 >_ Uploader.sonnydata.fr' />
-				<meta property='og:title' content='Uploader' />
-				<meta property='og:description' content='Uploader sonnydata.fr créé & développé par Sonny#0005. Site privé.' />
-				<meta property='og:author' content='Sonny#0005' />
-				<meta name='theme-color' content='#fff' />
-			</Head>
-		</>;
-	}
+	useEffect(() => {
+        const handleStart = (url) => (url !== router.asPath) && setPageLoading(true);
+        const handleComplete = (url) => (url === router.asPath) && setPageLoading(false);
 
-	function Navbar() {
-		return <div className='navbar'>
-			{session ? <>
-				<button onClick={() => signOut()}>Se déconnecter</button>
-				<Upload setFiles={setFiles} />
-			</> : <>
-				Vous n'êtes pas connecté
-				<button onClick={() => signIn()}>Se connecter</button>
-			</>}
-		</div>;
-	}
+        router.events.on('routeChangeStart', handleStart);
+        router.events.on('routeChangeComplete', handleComplete);
+        router.events.on('routeChangeError', handleComplete);
+
+        return () => {
+            router.events.off('routeChangeStart', handleStart);
+            router.events.off('routeChangeComplete', handleComplete);
+            router.events.off('routeChangeError', handleComplete);
+        }
+    });
 
 	if (isLoadingSession && !session) {
 		return (
@@ -73,17 +66,18 @@ export default function Home() {
 	return (
 		<div className='App'>
 			<Meta />
-			<Navbar />
-			{files === null ?
-				<div className='no-files'>
-					<Loader label='Chargement des fichiers' top={false} />
-				</div> : files?.length < 1 || files === undefined ?
+			<Navbar session={session} signIn={signIn} signOut={signOut} />
+			{pageLoading ? 
+				<Loader label={'Chargement de la page en cours'} top={true} backdrop={true} /> :
+				files === null ?
 					<div className='no-files'>
-						<p>Aucun fichier</p>
-					</div> :
-					<FilesList
-						files={files}
-						globalSize={globalSize} />}
+						<Loader label='Chargement des fichiers' top={false} />
+					</div> : 
+					files?.length < 1 || files === undefined ?
+						<div className='no-files'>
+							<p>Aucun fichier</p>
+						</div> :
+						<FilesList files={files} globalSize={globalSize} />}
 		</div>
 	);
 }
