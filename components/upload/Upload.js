@@ -16,7 +16,7 @@ function FileInput({ refInput, setFilesUpload }) {
         ref={refInput} />
 }
 
-export default function Upload({ setFiles, isBrowser }) {
+export default function Upload({ setFiles }) {
 	const [filesUpload, setFilesUpload] = useState(null);
     const refInputFile = useRef();
 
@@ -37,8 +37,7 @@ export default function Upload({ setFiles, isBrowser }) {
             && <ModalUpload 
                 filesUpload={filesUpload} 
                 setFilesUpload={setFilesUpload} 
-                successUpload={successUpload} 
-                isBrowser={isBrowser} 
+                successUpload={successUpload}
             />}
         <button
             className='icon-btn'

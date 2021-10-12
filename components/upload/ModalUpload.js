@@ -20,7 +20,7 @@ async function upload(filesUpload, setFilesUpload, successUpload) {
 
             const formData = new FormData();
             formData.append('file', file);
-            
+
             const { data } = await axios.request({
                 method: 'post',
                 url: '/api/upload',
@@ -29,7 +29,7 @@ async function upload(filesUpload, setFilesUpload, successUpload) {
                     setFilesUpload((filesPrev) => {
                         const files = [...filesPrev];
                         files[fileIndex].progress = progress;
-                        
+
                         return files;
                     });
                 }
@@ -37,7 +37,7 @@ async function upload(filesUpload, setFilesUpload, successUpload) {
 
             if (!data?.file)
                 toastr.warning(`Veuillez rafraîchir la page pour avoir le fichier uploadé`);
-            else 
+            else
                 filesUploaded.push(data.file);
         }
 
@@ -62,7 +62,7 @@ async function upload(filesUpload, setFilesUpload, successUpload) {
     }
 }
 
-export default function ModalUpload({ filesUpload, setFilesUpload, isBrowser, successUpload }) {
+export default function ModalUpload({ filesUpload, setFilesUpload, successUpload }) {
     async function cancelUpload() {
         setFilesUpload(null);
         if (refInputFile?.current)
@@ -72,8 +72,7 @@ export default function ModalUpload({ filesUpload, setFilesUpload, isBrowser, su
     return (
         <Modal
             isOpen={true}
-            contentLabel="File list"
-            appElement={isBrowser ? document.getElementById("__next") : document.body}
+            contentLabel='File list'
             className='modal-container'>
             <button onClick={() => setFilesUpload(null)} className='close'>
                 fermer
@@ -86,21 +85,25 @@ export default function ModalUpload({ filesUpload, setFilesUpload, isBrowser, su
                     if (parseInt(percent, 10) === 100)
                         return null;
 
-                    return <li className='file-upload' key={key} style={{ width: '100%', marginBottom: '10px' }}>
-                        <div className='name'>
-                            {name}
-                        </div>
-                        <div className='progression'>
-                            <span style={{ display: 'flex' }}>
-                                <progress min={0} max={100} value={percent} style={{ width: '100%' }} />
-                                <span style={{ wordBreak: 'normal' }}>{percent}%</span>
-                            </span>
-                            <div>
-                                {calculSize(progress?.loaded || 0)} sur {calculSize(progress?.total || size)}
+                    return (
+                        <li className='file-upload' key={key} style={{ width: '100%', marginBottom: '10px' }}>
+                            <div className='name'>
+                                {name}
                             </div>
-                        </div>
-                    </li>
+                            <div className='progression'>
+                                <span style={{ display: 'flex' }}>
+                                    <progress min={0} max={100} value={percent} style={{ width: '100%' }} />
+                                    <span style={{ wordBreak: 'normal' }}>{percent}%</span>
+                                </span>
+                                <div>
+                                    {calculSize(progress?.loaded || 0)} sur {calculSize(progress?.total || size)}
+                                </div>
+                            </div>
+                        </li>
+                    )
                 })}
+            </div>
+            <div className='modal-bottom'>
                 <button onClick={() => upload(filesUpload, setFilesUpload, successUpload)} disabled={false}>
                     Envoyer ({filesUpload.length} fichier{filesUpload.length > 1 ? 's' : ''})
                 </button>
