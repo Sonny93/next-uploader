@@ -58,6 +58,7 @@
     flex-direction: column;
     overflow: auto;
     word-break: break-all;
+    flex: 1;
 }
 
 .ReactModal__Overlay .modal-container .modal-content .preview-wrapper {
