@@ -1,23 +1,28 @@
-import React from 'react';
-import ReactPlayer from 'react-player/lazy';
+import React, { useEffect, useRef, useState } from 'react';
+// import ReactPlayer from 'react-player/lazy';
 import { BiFile } from 'react-icons/bi';
+import Loader from './Loader';
 
 export default function FilePreview({ file }) {
     const { type, url, name, extension, size } = file;
-    let preview = null;
+    const contentRef = useRef();
+    const [loadingContent, setLoading] = useState(false);
 
-    if (type === 'image') {
-        preview = <img src={url} alt={`${name} image`} />;
-    } else if (type === 'video') {
-        preview = <ReactPlayer url={url} playing />;
-    } else if (type === 'audio') {
-        preview = <audio src={url} controls />;
-    } else {
-        preview = <BiFile />;
-    }
+    useEffect(() => {
+        if (!contentRef.current) return;
+        contentRef.current.addEventListener('load', (event))
+    }, [setLoading]);
+
     return <>
         <div className='preview-wrapper'>
-            {preview}
+            {type === 'image' ?
+                <img ref={contentRef} src={url} alt={`${name} image`} /> :
+             type === 'video' ?
+                <video ref={contentRef} src={url} autoPlay controls /> :
+             type === 'audio ?' ?
+                <audio ref={contentRef} src={url} controls /> :
+                <BiFile style={{ fontSize: '8em' }} />}
+            {loadingContent && <Loader top={true} backdrop={true} />}
         </div>
         <ul>
             <li>
