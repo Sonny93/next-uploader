@@ -11,6 +11,7 @@ import Meta from '../components/Meta';
 export default function Home() {
     const router = useRouter();
     const [pageLoading, setPageLoading] = useState(false);
+    const [showFilter, setShowFilter] = useState(false);
 
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
@@ -53,11 +54,10 @@ export default function Home() {
         }
     });
 
-	if (isLoadingSession && !session) {
+	if (isLoadingSession && !session || false) {
 		return (
 			<div className='App'>
 				<Meta />
-				<Navbar />
 				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
 			</div>
 		);
@@ -66,7 +66,7 @@ export default function Home() {
 	return (
 		<div className='App'>
 			<Meta />
-			<Navbar session={session} signIn={signIn} signOut={signOut} />
+			<Navbar setShowFilter={setShowFilter} session={session} signIn={signIn} signOut={signOut} />
 			{pageLoading ? 
 				<Loader label={'Chargement de la page en cours'} top={true} backdrop={true} /> :
 				files === null ?
@@ -77,7 +77,7 @@ export default function Home() {
 						<div className='no-files'>
 							<p>Aucun fichier</p>
 						</div> :
-						<FilesList files={files} globalSize={globalSize} />}
+						<FilesList showFilter={showFilter} files={files} globalSize={globalSize} />}
 		</div>
 	);
 }

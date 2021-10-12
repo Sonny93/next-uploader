@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { AiOutlineFileImage, AiOutlineVideoCamera } from 'react-icons/ai';
 import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
 
-import Loader from './Loader';
 import { calculSize } from '../utils';
 
-export default function FilesList({ files, globalSize }) {
+export default function FilesList({ files, showFilter, globalSize }) {
     const [inputContent, setInputContent] = useState('');
     const [filesFilter, setFilesFilter] = useState(files);
 
     return (<>
-        <div className='filter'>
+        {showFilter && <div className='filter'>
             <label htmlFor='input_search'>Rechercher • {globalSize && calculSize(globalSize)}</label>
             <input
                 name='input_search'
@@ -24,13 +23,12 @@ export default function FilesList({ files, globalSize }) {
                     if (!files || files?.length < 1) return;
 
                     const filesFiltered = files.filter((file) => {
-                        console.log(file, file.name, file.name.toLowerCase(), target.value.toLowerCase());
                         return file.name.toLowerCase().includes(target.value.toLowerCase()) ? file : false;
                     });
                     setFilesFilter(filesFiltered);
                 }}
                 value={inputContent} />
-        </div>
+        </div>}
         {filesFilter.length < 1 ? <>
             <div className='no-files'>
                 <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>

@@ -1,7 +1,7 @@
 import { AiFillFileAdd } from 'react-icons/ai';
 import Link from 'next/link';
 
-export default function Navbar({ signOut, signIn, session }) {
+export default function Navbar({ signOut, signIn, session, setShowFilter }) {
     return <div className='navbar'>
         {session ? <>
             <button onClick={() => signOut()}>Se déconnecter</button>
@@ -10,9 +10,14 @@ export default function Navbar({ signOut, signIn, session }) {
                     <AiFillFileAdd />
                 </a>
             </Link>
+            <button onClick={() => setShowFilter((prev) => !prev)}>
+                Filtre
+            </button>
         </> : <>
-            Vous n'êtes pas connecté
             <button onClick={() => signIn()}>Se connecter</button>
+            <button onClick={() => setShowFilter((prev) => !prev)}>
+                Filtre
+            </button>
         </>}
     </div>;
 }
