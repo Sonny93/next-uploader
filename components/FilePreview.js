@@ -11,7 +11,7 @@ export default function FilePreview({ file }) {
     } else if (type === 'video') {
         preview = <ReactPlayer url={url} playing />;
     } else if (type === 'audio') {
-        preview = <audio src={url} controls></audio>;
+        preview = <audio src={url} controls />;
     } else {
         preview = <BiFile />;
     }
