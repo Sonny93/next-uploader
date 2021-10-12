@@ -1,17 +1,21 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import mysql from "mysql2/promise";
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
+import mysql from 'mysql2/promise';
 
 export default NextAuth({
     providers: [
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: { label: "Email", type: "email", placeholder: "example@mail.com" },
-                password: { label: "Mot de passe", type: "password", placeholder: "********" }
+                email: { label: 'Email', type: 'email', placeholder: 'example@mail.com' },
+                password: { label: 'Mot de passe', type: 'password', placeholder: '********' }
             },
             async authorize(credentials, req) {
+                return {
+                    name: 'Sonny',
+                    email: 'sonny@example.fr'
+                }
                 const connection = await mysql.createConnection({
                     host: process.env.DB_HOST,
                     user: process.env.DB_USER,
