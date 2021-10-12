@@ -31,17 +31,29 @@ export default function Upload() {
                     id='file-upload'
                     onChange={handleFiles}
                     multiple={true}
-                    ref={refInput} />
+                    ref={refInput} 
+                    className='nostyle' />
             </div>
             <ul className='upload-list'>
             {files ? files.map((file, key) => {
-                const { name, size, progress } = file;
+                const { id, name, size, progress } = file;
                 const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
+
+                function onChangeName(event) {
+                    const value = event.target.value;
+                    files.find(f => f.id === id);
+                    const newFiles = files.map((file) => {
+                        if (file.id !== id) return file; 
+                        file.name = value;
+                        return file;
+                    });
+                    setFiles(newFiles);
+                }
 
                 return (
                     <li className='file-upload' key={key}>
                         <div className='name'>
-                            {name}
+                            <input onChange={onChangeName} value={name} style={{ width: '100%' }} className='nostyle' />
                         </div>
                         <div className='progression'>
                             <LineProgressBar
@@ -55,16 +67,13 @@ export default function Upload() {
                                 <span style={{ color: '#3f88c5' }}>{calculSize(progress?.loaded || 0)}</span> sur <span style={{ color: '#3f88c5' }}>{calculSize(progress?.total || size)}</span> ({percent}%)
                             </div>
                         </div>
-                        <div className='controls'>
-                            <button>changer nom</button>
-                        </div>
                     </li>
                 )
             }) : 'erreur'}
             </ul>
             <div className='controls'>
-                <button onClick={() => UploadFiles(files, setFiles)}>
-                    Envoyer ({files.length} fichier{files.length > 1 ? 's' : ''})
+                <button onClick={() => UploadFiles(files, setFiles, refInput)} disabled={files.length > 1 ? false : true}>
+                    Envoyer {files.length > 0 ? `(${files.length} fichier${files.length > 1 ? 's' : ''})` : null}
                 </button>
                 <button disabled={true}>
                     Annuler
@@ -74,7 +83,8 @@ export default function Upload() {
     </>);
 }
 
-async function UploadFiles(files, setFiles) {
+async function UploadFiles(files, setFiles, refInput) {
+    if (!files || files?.length < 1) return;
     try {
         for await (const file of files) {
             const fileIndex = files.findIndex(f => f.name === file.name);
@@ -101,17 +111,15 @@ async function UploadFiles(files, setFiles) {
                 toastr.warning(`Veuillez rafraîchir la page pour avoir le fichier uploadé`);
         }
 
-        setFiles([]);
         toastr.success(`${files.length} fichier(s) uploadés`);
     } catch (error) {
-        setFiles([]);
         if (error.response) {
             console.error(error.response);
             const dataError = error.response.data?.error;
             if (dataError)
-                toastr.error(dataError, 'Upload error');
+            toastr.error(dataError, 'Upload error');
             else
-                toastr.error('Upload error');
+            toastr.error('Upload error');
         } else if (error.request) {
             toastr.error('Aucune réponse envoyée par le serveur', 'Upload error');
             console.error(error.request);
@@ -119,4 +127,7 @@ async function UploadFiles(files, setFiles) {
             console.error('Error', error.message);
         }
     }
+    setFiles([]);
+    refInput.current.value = null;
+    console.log(refInput.current, refInput.current.files);
 }
