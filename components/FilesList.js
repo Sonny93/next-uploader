@@ -32,44 +32,44 @@ export default function FilesList({ files, globalSize }) {
                 value={inputContent} />
         </div>
         {filesFilter.length < 1 ? <>
-                <div className='no-files'>
-                    <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
-                </div>
-            </> : <>
-                <ul className='filelist'>
-                    {filesFilter.map((file, key) => {
-                        const { type, name, fileName, size, extension } = file;
-                        let icon = null;
+            <div className='no-files'>
+                <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
+            </div>
+        </> : <>
+            <ul className='filelist'>
+                {filesFilter.map((file, key) => {
+                    const { type, name, fileName, size, extension } = file;
+                    let icon = null;
 
-                        if (type === 'image') {
-                            icon = <AiOutlineFileImage />
-                        } else if (type === 'video') {
-                            icon = <AiOutlineVideoCamera />
-                        } else if (type === 'audio') {
-                            icon = <FaRegFileAudio />
-                        } else {
-                            icon = <BiFile />;
-                        }
+                    if (type === 'image') {
+                        icon = <AiOutlineFileImage />
+                    } else if (type === 'video') {
+                        icon = <AiOutlineVideoCamera />
+                    } else if (type === 'audio') {
+                        icon = <FaRegFileAudio />
+                    } else {
+                        icon = <BiFile />;
+                    }
 
-                        return <li className='file' key={key}>
-                            <Link href={`/file/${fileName}`}>
-                                <a>
-                                    <div className='icon-btn'>
-                                        {icon}
-                                    </div>
-                                    <div className='meta'>
-                                        <span className='name'>
-                                            {name}
-                                        </span>
-                                        <span className='details'>
-                                            {size} - fichier {extension}
-                                        </span>
-                                    </div>
-                                </a>
-                            </Link>
-                        </li>
-                    })}
-                </ul>
-            </>}
+                    return <li className='file' key={key}>
+                        <Link href={`/file/${fileName}`}>
+                            <a>
+                                <div className='icon-btn'>
+                                    {icon}
+                                </div>
+                                <div className='meta'>
+                                    <span className='name'>
+                                        {name}
+                                    </span>
+                                    <span className='details'>
+                                        {size} - fichier {extension}
+                                    </span>
+                                </div>
+                            </a>
+                        </Link>
+                    </li>
+                })}
+            </ul>
+        </>}
     </>);
 }
