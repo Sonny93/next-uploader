@@ -12,6 +12,19 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+    & .icon-btn {
+        cursor: pointer;
+        height: 30px;
+        width: fit-content;
+        font-size: 2.5em;
+        display: flex;
+
+        & svg {
+            height: 100%;
+            color: #fff;
+        }
+    }
 }
 
 .filter {
@@ -25,9 +38,9 @@
     flex-direction: column;
     padding: 15px;
     margin-bottom: 10px;
-}
 
-.filter label {
-	margin-bottom: 5px;
-	font-size: 0.85em;
+    & label {
+        margin-bottom: 5px;
+        font-size: 0.85em;
+    }
 }
