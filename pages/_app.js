@@ -5,6 +5,7 @@ import '../styles/globals.scss';
 import '../styles/header.scss';
 import '../styles/filelist.scss';
 import '../styles/file.scss';
+import '../styles/upload.scss';
 
 function MyApp({ Component, pageProps }) {
 	return (

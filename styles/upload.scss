@@ -1,0 +1,61 @@
+.upload {
+    & .input-container {
+        width: 100%;
+        margin-bottom: 10px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(10px);
+        border-radius: 3px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 8px 15px;
+    
+        & input {
+            width: 100%;
+        }
+    }
+    
+    & .upload-list {
+        width: 100%;
+        flex: 1;
+        overflow: auto;
+
+        & .file-upload {
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 3px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 10px;
+
+            & .name, & .progression {
+                margin-bottom: 10px;
+            }
+
+            & .progression .progression-bar {
+                margin-bottom: 5px;
+            }
+
+            & .progression .progression-bar .progress {
+                transition: .15s;
+            }
+        }
+    }
+
+    & .controls {
+        width: 100%;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(10px);
+        border-radius: 3px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 8px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+}
