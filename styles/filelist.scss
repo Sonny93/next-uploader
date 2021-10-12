@@ -1,0 +1,104 @@
+.no-files {
+	width: 100%;
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	& > p {
+		width: 100%;
+		font-size: 1.2em;
+		text-align: center;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+}
+
+.filelist {
+	width: 100%;
+	padding: 2px 20px 2px;
+	display: flex;
+	align-items: center;
+	flex: 1;
+	flex-direction: column;
+	overflow-x: auto;
+
+	&::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: #105b97;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #3f88c5;
+	}
+
+	& .file {
+		user-select: none;
+		cursor: pointer;
+		height: 70px;
+		width: 100%;
+		list-style: none;
+		margin-bottom: 10px;
+		border-radius: 3px;
+		color: #fff;
+		background: rgba(255, 255, 255, 0.1);
+		/* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+		backdrop-filter: blur(25px);
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		padding: 10px;
+		display: flex;
+		align-items: center;
+		transition: .05s;
+	}
+
+	& .file:last-child {
+		margin-bottom: 0;
+	}
+
+	& .file:hover {
+		/* box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.18); */
+		border: 1px solid #fff;
+		transform: scale(1.05);
+	}
+
+	& .file > a {
+		height: 100%;
+		width: 100%;
+		color: #fff;
+		border: none;
+		display: flex;
+	}
+
+	& .file > a:hover {
+		border: none;
+	}
+
+	& .icon-btn {
+		cursor: pointer;
+		height: 48px;
+		width: 60px;
+		font-size: 2em;
+		margin-right: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	& .file .meta {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	& .file .meta .details {
+		font-size: .8em;
+		/* color: grey; */
+		color: #dadce0;
+		font-style: italic;
+	}
+}

@@ -39,14 +39,15 @@ a {
 	border-bottom: 1px solid transparent;
 	text-decoration: none;
 	transition: .15s;
+
+	&:hover,
+	&:focus {
+		color: #105b97;
+		border-bottom: 1px solid #105b97;
+	}
 }
 
-a:hover, a:focus {
-	color: #105b97;
-	border-bottom: 1px solid #105b97;
-}
-
-button, label.btn {
+button, .btn {
 	cursor: pointer;
 	height: fit-content;
 	min-height: 30px;
@@ -58,16 +59,16 @@ button, label.btn {
 	border: 1px solid #3f88c5;
 	border-radius: 3px;
 	transition: 0.15s;
-}
 
-button:disabled {
-	cursor: default;
-	opacity: .5;
-}
+	&:disabled {
+		cursor: default;
+		opacity: .5;
+	}
 
-button:not(:disabled):hover {
-	box-shadow: #105b97 0 0 3px 1px;
-	background: #105b97;
+	&:not(:disabled):hover {
+		box-shadow: #105b97 0 0 3px 1px;
+		background: #105b97;
+	}
 }
 
 input {
@@ -77,10 +78,10 @@ input {
 	border: 1px solid #dadce0;
 	border-bottom: 3px solid #dadce0;
 	transition: 0.15s;
-}
 
-input:focus {
-	border-bottom: 3px solid #3f88c5;
+	&:focus {
+		border-bottom: 3px solid #3f88c5;
+	}
 }
 
 #__next {
@@ -114,33 +115,33 @@ input:focus {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-}
 
-/* .loader > div.label {
-	background: rgba(0, 0, 0, .25);
-	padding: 10px;
-	border: 1px solid #fff;
-	border-radius: 3px;
-} */
+	// & > div.label {
+	// 	background: rgba(0, 0, 0, .25);
+	// 	padding: 10px;
+	// 	border: 1px solid #fff;
+	// 	border-radius: 3px;
+	// }
 
-.loader.top {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-}
+	&.top {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+	}
 
-.loader.backdrop {
-	backdrop-filter: blur(20px);
-}
+	&.backdrop {
+		backdrop-filter: blur(20px);
+	}
 
-.loader > svg {
-	margin: 0 !important;
-}
+	& > svg {
+		margin: 0 !important;
 
-.loader > svg > rect {
-	fill: #fff;
+		& > rect {
+			fill: #fff;
+		}
+	}
 }
 
 @media (max-width: 1024px) {
