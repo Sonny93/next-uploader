@@ -6,75 +6,70 @@ import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
 
 import Loader from './Loader';
+import { calculSize } from '../utils';
 
-export default function FilesList({ files, setFiles, globalSize, setGlobalSize }) {
-    useEffect(() => {
-        async function getFiles() {
-            const request = await fetch('/api/files');
-            if (!request.ok)
-                return console.error(request);
+export default function FilesList({ files, globalSize }) {
+    const [inputContent, setInputContent] = useState('');
+    const [filesFilter, setFilesFilter] = useState(files);
 
-            const data = await request.json();
+    return (<>
+        <div className='filter'>
+            <label htmlFor='input_search'>Rechercher • {globalSize && calculSize(globalSize)}</label>
+            <input
+                name='input_search'
+                id='input_search'
+                placeholder={`Rechercher parmis ${files?.length || 0} fichier${files?.length > 1 ? 's' : ''}`}
+                onChange={({ target }) => {
+                    setInputContent(target.value);
+                    if (!files || files?.length < 1) return;
 
-            if (!data?.files) 
-                return setFiles([]);
-    
-            let somme = 0;
-            data.files.map((file) => somme += parseInt(file?.brutSize, 10));
-
-            setFiles(data.files);
-            setGlobalSize(somme);
-        }
-
-        getFiles();
-        return () => setFiles(null);
-    }, [setFiles]);
-
-    console.log('files', files);
-    if (files === null) {
-        return <div className='no-files'>
-            <Loader label='Chargement des fichiers' top={false} />
+                    const filesFiltered = files.filter((file) => {
+                        console.log(file, file.name, file.name.toLowerCase(), target.value.toLowerCase());
+                        return file.name.toLowerCase().includes(target.value.toLowerCase()) ? file : false;
+                    });
+                    setFilesFilter(filesFiltered);
+                }}
+                value={inputContent} />
         </div>
-    } else if (files?.length < 1 || files === undefined) {
-        return <div className='no-files'>
-            <p>Aucun fichier</p>
-        </div>
-    }
+        {filesFilter.length < 1 ? <>
+                <div className='no-files'>
+                    <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
+                </div>
+            </> : <>
+                <ul className='filelist'>
+                    {filesFilter.map((file, key) => {
+                        const { type, name, fileName, size, extension } = file;
+                        let icon = null;
 
-    return <>
-        <ul className='filelist'>
-            {files.map((file, key) => {
-                const { type, name, fileName, size, extension } = file;
-                let icon = null;
+                        if (type === 'image') {
+                            icon = <AiOutlineFileImage />
+                        } else if (type === 'video') {
+                            icon = <AiOutlineVideoCamera />
+                        } else if (type === 'audio') {
+                            icon = <FaRegFileAudio />
+                        } else {
+                            icon = <BiFile />;
+                        }
 
-                if (type === 'image') {
-                    icon = <AiOutlineFileImage />
-                } else if (type === 'video') {
-                    icon = <AiOutlineVideoCamera />
-                } else if (type === 'audio') {
-                    icon = <FaRegFileAudio />
-                } else {
-                    icon = <BiFile />;
-                }
-
-                return <li className='file' key={key}>
-                    <Link href={`/file/${fileName}`}>
-                        <a>
-                            <div className='icon-btn'>
-                                {icon}
-                            </div>
-                            <div className='meta'>
-                                <span className='name'>
-                                    {name}    
-                                </span>
-                                <span className='details'>
-                                    {size} - fichier {extension}
-                                </span>
-                            </div>
-                        </a>
-                    </Link>
-                </li>
-            })}
-        </ul>
-    </>
+                        return <li className='file' key={key}>
+                            <Link href={`/file/${fileName}`}>
+                                <a>
+                                    <div className='icon-btn'>
+                                        {icon}
+                                    </div>
+                                    <div className='meta'>
+                                        <span className='name'>
+                                            {name}
+                                        </span>
+                                        <span className='details'>
+                                            {size} - fichier {extension}
+                                        </span>
+                                    </div>
+                                </a>
+                            </Link>
+                        </li>
+                    })}
+                </ul>
+            </>}
+    </>);
 }
