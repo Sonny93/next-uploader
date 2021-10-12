@@ -70,6 +70,19 @@ button:not(:disabled):hover {
 	background: #105b97;
 }
 
+input {
+	color: #333;
+	background: #fff;
+	padding: 10px;
+	border: 1px solid #dadce0;
+	border-bottom: 3px solid #dadce0;
+	transition: 0.15s;
+}
+
+input:focus {
+	border-bottom: 3px solid #3f88c5;
+}
+
 #__next {
 	height: 100%;
 	width: 100%;
@@ -89,18 +102,6 @@ button:not(:disabled):hover {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-}
-
-.no-files {
-	display: flex;
-	flex: 1;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-}
-
-.no-files > p {
-	font-size: 1.2em;
 }
 
 .loader {

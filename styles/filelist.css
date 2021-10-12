@@ -1,6 +1,24 @@
+.no-files {
+	width: 100%;
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.no-files > p {
+	width: 100%;
+	font-size: 1.2em;
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 .filelist {
 	width: 100%;
-	padding: 20px;
+	padding: 2px 20px 2px;
 	display: flex;
 	align-items: center;
 	flex: 1;
@@ -10,20 +28,20 @@
 }
 
 .filelist::-webkit-scrollbar {
-    width: 10px;
+	width: 10px;
 }
 
 .filelist::-webkit-scrollbar-track {
-    background: #105b97;
+	background: #105b97;
 }
 
 .filelist::-webkit-scrollbar-thumb {
-    background: #3f88c5;
+	background: #3f88c5;
 }
 
 .filelist .file {
-    user-select: none;
-    cursor: pointer;
+	user-select: none;
+	cursor: pointer;
 	height: 70px;
 	width: 100%;
 	list-style: none;
@@ -37,7 +55,7 @@
 	padding: 10px;
 	display: flex;
 	align-items: center;
-    transition: .05s;
+	transition: .05s;
 }
 
 .filelist .file:last-child {
@@ -50,7 +68,7 @@
 	transform: scale(1.05);
 }
 
-.filelist .file > a {
+.filelist .file>a {
 	height: 100%;
 	width: 100%;
 	color: #fff;
@@ -58,19 +76,19 @@
 	display: flex;
 }
 
-.filelist .file > a:hover {
+.filelist .file>a:hover {
 	border: none;
 }
 
 .filelist .icon-btn {
-    cursor: pointer;
+	cursor: pointer;
 	height: 48px;
 	width: 60px;
-    font-size: 2em;
-    margin-right: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	font-size: 2em;
+	margin-right: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .filelist .file .meta {
