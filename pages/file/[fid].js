@@ -40,7 +40,7 @@ export default function File({ fid, file, error }) {
     function Navbar() {
         return <div className='navbar' style={{ justifyContent: 'center' }}>
             <Link href='/'>
-                <a className='home-link'>revenir à la page d'accueil</a>
+                <a className='home-link'>Revenir à la page d'accueil</a>
             </Link>
         </div>
     }

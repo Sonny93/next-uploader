@@ -144,11 +144,12 @@ input {
 	}
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 600px) {
 	.App {
 		width: 100%;
-	}
-	.App .filelist {
-		width: 100%;
+
+		& .filelist {
+			width: 100%;
+		}
 	}
 }

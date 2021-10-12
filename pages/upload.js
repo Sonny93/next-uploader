@@ -1,11 +1,13 @@
+import { useRef, useState } from 'react';
+import Link from 'next/link';
+
 import axios from 'axios';
 import toastr from 'toastr';
 import { LineProgressBar } from '@frogress/line';
 
 import { calculSize } from '../utils';
-import { useRef, useState } from 'react';
 
-export default function upload() {
+export default function Upload() {
     const refInput = useRef();
     const [files, setFiles] = useState([]);
 
@@ -19,47 +21,48 @@ export default function upload() {
     }
 
     return (<>
-        <div className='App'>
-            <input
-                type='file'
-                id='file-upload'
-                onChange={handleFiles}
-                multiple={true}
-                ref={refInput} />
-            <div className='upload-list'>
-                <ul>
-                {files ? files.map((file, key) => {
-                    console.log(file);
-                    const { name, size, progress } = file;
-                    const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
+        <div className='App upload'>
+            <div className='input-container'>
+                <Link href='/'>
+                    <a className='home-link'>Revenir à la page d'accueil</a>
+                </Link>
+                <input
+                    type='file'
+                    id='file-upload'
+                    onChange={handleFiles}
+                    multiple={true}
+                    ref={refInput} />
+            </div>
+            <ul className='upload-list'>
+            {files ? files.map((file, key) => {
+                const { name, size, progress } = file;
+                const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
 
-                    return (
-                        <li className='file-upload' key={key} style={{ width: '100%', marginBottom: '10px' }}>
-                            <div className='name'>
-                                {name}
+                return (
+                    <li className='file-upload' key={key}>
+                        <div className='name'>
+                            {name}
+                        </div>
+                        <div className='progression'>
+                            <LineProgressBar
+                                progressColor={percent < 100 ? 'linear-gradient(to right, #78abe9, #74dad8, #ec7cac)' : 'green'}
+                                percent={percent}
+                                rounded={2}
+                                height={25}
+                                className='progression-bar'
+                            />
+                            <div>
+                                <span style={{ color: '#3f88c5' }}>{calculSize(progress?.loaded || 0)}</span> sur <span style={{ color: '#3f88c5' }}>{calculSize(progress?.total || size)}</span> ({percent}%)
                             </div>
-                            <div className='progression'>
-                                <span style={{ display: 'flex' }}>
-                                    <LineProgressBar
-                                        progressColor={percent < 100 ? 'linear-gradient(to right, #78abe9, #74dad8, #ec7cac)' : 'green'}
-                                        style={{ position: 'relative' }}
-                                        percent={percent}
-                                        rounded={5}
-                                        height={25}
-                                    />
-                                    <span style={{ wordBreak: 'normal' }}>{percent}%</span>
-                                </span>
-                                <div>
-                                    {calculSize(progress?.loaded || 0)} sur {calculSize(progress?.total || size)}
-                                </div>
-                            </div>
-                            <div className='controls'>
-                                <button>changer nom</button>
-                            </div>
-                        </li>
-                    )
-                }) : 'erreur'}
-                </ul>
+                        </div>
+                        <div className='controls'>
+                            <button>changer nom</button>
+                        </div>
+                    </li>
+                )
+            }) : 'erreur'}
+            </ul>
+            <div className='controls'>
                 <button onClick={() => UploadFiles(files, setFiles)}>
                     Envoyer ({files.length} fichier{files.length > 1 ? 's' : ''})
                 </button>
@@ -99,7 +102,7 @@ async function UploadFiles(files, setFiles) {
         }
 
         setFiles([]);
-        toastr.success(`${filesUploaded.length} fichier(s) uploadés`);
+        toastr.success(`${files.length} fichier(s) uploadés`);
     } catch (error) {
         setFiles([]);
         if (error.response) {
