@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model File {
+  id String @id @default(uuid())
+  name String
+  extension String
+  type String
+  fileName String
+  brutSize BigInt
+  size String
+  uploadUrl String
+  uploadPath String
+}

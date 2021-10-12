@@ -1,4 +1,5 @@
 import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 function calculSize(size) {
 	if (size === 0)
@@ -29,9 +30,10 @@ function fileType(extension) {
 }
 
 class File {
-    constructor({ fileName, size, url }) {
+    constructor({ id, fileName, size, url }) {
         const extension = (path.extname(fileName)).substring(1);
 
+		this.id = id || uuidv4();
         this.name = fileName.substring(0, fileName.length - extension.length - 1);
         this.extension = extension;
         this.type = fileType(extension);

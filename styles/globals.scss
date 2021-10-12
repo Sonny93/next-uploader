@@ -47,7 +47,7 @@ a {
 	}
 }
 
-button, .btn {
+button:not(.nostyle), .btn {
 	cursor: pointer;
 	height: fit-content;
 	min-height: 30px;
@@ -71,7 +71,7 @@ button, .btn {
 	}
 }
 
-input {
+input:not(.nostyle) {
 	color: #333;
 	background: #fff;
 	padding: 10px;
