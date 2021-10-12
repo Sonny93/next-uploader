@@ -20,8 +20,8 @@ export default async function File(req, res) {
         if (!file)
             return res.status(400).json({ error: `Impossible de trouver le fichier ${fid}`, ok: true });
         else 
-            res.status(200).json({ file, ok: true });
+            res.status(200).json({ file, ok: false });
     } catch (error) {
-        return res.status(400).json({ error: `Impossible de trouver le fichier ${fid}`, ok: true });
+        return res.status(400).json({ error: `Impossible de trouver le fichier ${fid}`, ok: false });
     }
 }
