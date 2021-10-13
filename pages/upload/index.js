@@ -5,7 +5,7 @@ import axios from 'axios';
 import toastr from 'toastr';
 import { LineProgressBar } from '@frogress/line';
 
-import { calculSize } from '../utils';
+import { calculSize } from '../../utils';
 
 export default function Upload() {
     const refInput = useRef();
@@ -72,7 +72,8 @@ export default function Upload() {
             }) : 'erreur'}
             </ul>
             <div className='controls'>
-                <button onClick={() => UploadFiles(files, setFiles, refInput)} disabled={files.length > 1 ? false : true}>
+                {/* <button onClick={() => UploadFiles(files, setFiles, refInput)} disabled={files.length > 0 ? false : true}> */}
+                <button onClick={() => UploadFiles(files, setFiles, refInput)}>
                     Envoyer {files.length > 0 ? `(${files.length} fichier${files.length > 1 ? 's' : ''})` : null}
                 </button>
                 <button disabled={true}>
@@ -84,7 +85,9 @@ export default function Upload() {
 }
 
 async function UploadFiles(files, setFiles, refInput) {
-    if (!files || files?.length < 1) return;
+    // if (!files || files?.length < 1) return;
+    console.log(files);
+    return
     try {
         for await (const file of files) {
             const fileIndex = files.findIndex(f => f.name === file.name);

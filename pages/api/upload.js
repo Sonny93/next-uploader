@@ -9,6 +9,7 @@ const upload = multer({
     storage: multer.diskStorage({
         destination: process.env.UPLOAD_DIR,
         filename: (req, file, cb) => {
+            // faire les verifs ici avant d'upload
             console.log('là', file);
             cb(null, file?.originalname);
         }
@@ -24,7 +25,7 @@ const apiRoute = nextConnect({
     },
 });
 
-apiRoute.use(async (req, res, next) => {
+apiRoute.use(async (req, res, next) => { // Middleware auth
     const session = await getSession({ req });
     if (!session)
         return res.status(403).send({ error: 'Vous devez être connecté' });
@@ -32,18 +33,10 @@ apiRoute.use(async (req, res, next) => {
         next();
 });
 
+// Check for upload
 apiRoute.use(upload.single('file'));
 
-apiRoute.use(async (req, res, next) => { // Middleware request db / check
-    const fileReq = req?.file;
-    if (!fileReq)
-        return res.status(400).json({ error: 'Aucun fichier reçu' });
-
-    console.log('file name set by user', fileReq?.nameByUser);
-    // Trouver comment set un nom custom pour les fichiers reçus par l'api
-    next();
-});
-
+// Post file upload
 apiRoute.post(async (req, res) => {
     const fileReq = req?.file;
     const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fileReq?.originalname}`));
