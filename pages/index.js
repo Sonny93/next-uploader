@@ -54,7 +54,7 @@ export default function Home() {
         }
     });
 
-	if (isLoadingSession && !session || false) {
+	if (isLoadingSession && !session) {
 		return (
 			<div className='App'>
 				<Meta />
