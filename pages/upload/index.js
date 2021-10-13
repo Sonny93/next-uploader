@@ -85,9 +85,7 @@ export default function Upload() {
 }
 
 async function UploadFiles(files, setFiles, refInput) {
-    // if (!files || files?.length < 1) return;
-    console.log(files);
-    return
+    if (!files || files?.length < 1) return;
     try {
         for await (const file of files) {
             const fileIndex = files.findIndex(f => f.name === file.name);
