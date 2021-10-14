@@ -15,6 +15,8 @@ export default function Upload() {
     function handleFiles(event) {
         const filesInput = event.target.files;
         const files = (Array.from(filesInput)).map((file) => {
+            file.newName = ''; // rename it
+            file.password = '';
             file.progress = null;
             return file;
         });
@@ -29,41 +31,54 @@ export default function Upload() {
                 </Link>
             </div>
             <ul className='upload-list'>
-            {files ? files.map((file, key) => {
-                const { id, name, size, progress } = file;
-                const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
+                {files && files.length > 0 ? files.map((file, key) => {
+                    const { id, name, newName, password, size, progress } = file;
+                    const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
 
-                function onChangeName(event) {
-                    const value = event.target.value;
-                    files.find(f => f.id === id);
-                    const newFiles = files.map((file) => {
-                        if (file.id !== id) return file; 
-                        file.name = value;
-                        return file;
-                    });
-                    setFiles(newFiles);
-                }
+                    function onChange(event) {
+                        setFiles((prevFiles) => {
+                            const newFiles = prevFiles.map((file) => {
+                                console.log(file.id !== id, file.id, id);
+                                if (file.id !== id) return file;
+                                console.log(file);
+                                file[event.target.id] = event.target.value;
+                                
+                                return file;
+                            });
+                            return newFiles;
+                        });
+                    }
 
-                if (progress > 100) return;
+                    console.log(percent);
+                    if (parseInt(percent, 10) === 100) return;
 
-                return (
-                    <li className='file-upload' key={key}>
-                        <div className='name'>
-                            <input onChange={onChangeName} value={name} style={{ width: '100%' }} className='nostyle input-name' />
-                        </div>
-                        <div className='progression'>
-                            <LineProgressBar
-                                progressColor={percent < 100 ? 'linear-gradient(to right, #78abe9, #74dad8, #ec7cac)' : 'lightgreen'}
-                                percent={percent}
-                                className='progression-bar'
-                            />
-                            <div className='div-center'>
-                                <span style={{ color: '#3f88c5' }}>{calculSize(progress?.loaded || 0)}</span> sur <span style={{ color: '#3f88c5' }}>{calculSize(progress?.total || size)}</span> ({percent}%)
+                    return (
+                        <li className='file-upload' key={key}>
+                            <div className='name'>
+                                <label htmlFor='name'>
+                                    Nom du fichier
+                                </label>
+                                <input onChange={(e) => onChange(e)} defaultValue={name} value={newName} style={{ width: '100%' }} id='newName' className='input-name' />
                             </div>
-                        </div>
-                    </li>
-                )
-            }) : 'erreur'}
+                            <div className='password'>
+                                <label htmlFor='password'>
+                                    Mot de passe (optionel)
+                                </label>
+                                <input onChange={(e) => onChange(e)} value={password} style={{ width: '100%' }} id='password' className='input-password' />
+                            </div>
+                            <div className='progression'>
+                                <LineProgressBar
+                                    progressColor={percent < 100 ? 'linear-gradient(to right, #78abe9, #74dad8, #ec7cac)' : 'lightgreen'}
+                                    percent={percent}
+                                    className='progression-bar'
+                                />
+                                <div className='div-center'>
+                                    <span style={{ color: '#3f88c5' }}>{calculSize(progress?.loaded || 0)}</span> sur <span style={{ color: '#3f88c5' }}>{calculSize(progress?.total || size)}</span> ({percent}%)
+                                </div>
+                            </div>
+                        </li>
+                    )
+                }) : 'Aucun fichier'}
             </ul>
             <div className='controls'>
                 <input
