@@ -45,6 +45,8 @@ export default function File({ fid, file, error }) {
         </div>
     }
 
+    console.log(file);
+
     if (!file) {
         return (
             <div className='App'>
