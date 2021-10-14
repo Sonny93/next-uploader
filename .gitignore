@@ -75,5 +75,5 @@ typings/
 # FuseBox cache
 .fusebox/
 
-public/static/uploads/*
+uploads/*
 .env.local
