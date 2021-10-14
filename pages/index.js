@@ -8,6 +8,19 @@ import Loader from '../components/Loader';
 import Navbar from '../components/Navbar';
 import Meta from '../components/Meta';
 
+// import PrismaClient from 'prisma';
+
+// export async function getStaticProps() {
+//     const prisma = new PrismaClient();
+//     try {
+// 		const files = await prisma.files.findMany();
+//     	console.log(files);
+// 	} catch(error) {
+// 		console.error(error);
+// 	}
+//     return {};
+// }
+
 export default function Home() {
     const router = useRouter();
     const [pageLoading, setPageLoading] = useState(false);

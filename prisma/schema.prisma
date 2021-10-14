@@ -13,9 +13,11 @@ generator client {
 model File {
   id String @id @default(uuid())
   name String
-  extension String
-  type String
+  password String
+  isPasswordSet Boolean
+  fileExtension String
   fileName String
+  fileType String
   brutSize BigInt
   size String
   uploadUrl String
