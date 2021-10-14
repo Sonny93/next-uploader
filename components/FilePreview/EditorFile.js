@@ -13,7 +13,7 @@ export default function EditorFile({ file }) {
     }, []);
 
     if (content) {
-        return <Editor defaultLanguage='javascript' defaultValue={content} />
+        return <Editor defaultLanguage='javascript' theme='vs-dark' defaultValue={content} className='code-editor' />
     } else {
         return <>
             Chargement du fichier en cours
