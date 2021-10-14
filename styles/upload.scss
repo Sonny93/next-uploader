@@ -35,14 +35,22 @@
             //     margin-bottom: 10px;
             // }
 
-            & .input-name {
-                width: 100%;
-                border: 0;
-                border-radius: 2px 2px 0 0;
-                padding: 7px 10px;
+            & label {
+                font-size: .9em;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            & .name {
+                margin-bottom: 15px;
+            }
+            
+            & .password .input-password {
+                border-radius: 3px 3px 0 0;
             }
 
             & .progression {
+                user-select: none;
                 position: relative;
             }
 
@@ -50,7 +58,7 @@
                 height: 25px;
                 margin-bottom: 5px;
                 background: #fff;
-                border-radius: 0 0 2px 2px;
+                border-radius: 0 0 3px 3px;
                 border-top: 1px solid #dadce0;
             }
 
