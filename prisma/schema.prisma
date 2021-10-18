@@ -2,24 +2,41 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-model File {
-  id String @id @default(uuid())
-  name String
+model User {
+  id Int @id @default(autoincrement())
+  user_id String @default(uuid())
+  username String
+  email String @unique
   password String
-  isPasswordSet Boolean
-  fileExtension String
-  fileName String
-  fileType String
-  brutSize BigInt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model File {
+  id Int @id @default(autoincrement())
+  file_id String @unique @default(uuid())
+
+  name String
+  fullname String @unique
+  password String
+  passwordSet Boolean
+  
   size String
   uploadUrl String
   uploadPath String
+
+  fileBrutSize BigInt
+  fileExtension String
+  fileKind String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
