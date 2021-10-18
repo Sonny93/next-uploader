@@ -6,6 +6,9 @@ import Head from 'next/head';
 
 import FilePreview from '../../components/FilePreview';
 
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
 export default function File({ fid, file, error }) {
     function Meta() {
         return <>
@@ -75,6 +78,20 @@ export default function File({ fid, file, error }) {
 
 export async function getServerSideProps({ query }) {
     const { fid } = query;
+    console.log('fid', fid);
+    
+    const file = await prisma.file.findUnique({
+        where: {
+            file_id: fid
+        }
+    });
+    console.log('file', file);
+    if (file) { // fichier trouvé
+
+    } else { // fichier non trouvé
+        
+    }
+    
     try {
         const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fid}`));
         const file = new FileClass({ fileName: fid, size: fileStat.size, url: process.env.UPLOAD_URL });
