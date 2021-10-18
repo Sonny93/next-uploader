@@ -13,23 +13,40 @@ export default function FilePreview({ file }) {
 
     useEffect(() => {
         (async () => {
-            if (type === 'image') {
-                setContent(<img ref={contentRef} src={url} alt={`${name} image`} />);
-            } else if (type === 'video') {
-                setContent(<video ref={contentRef} src={url} autoPlay controls />);
-            } else if (type === 'audio') {
-                setContent(<audio ref={contentRef} src={url} controls />);
-            } else {
-                setContent(<EditorFile file={file} />);
+            switch (type) {
+                case 'image':
+                    setContent(<img ref={contentRef} src={url} alt={`${name} image`} />);
+                    break;
+
+                case 'video':
+                    setContent(<video ref={contentRef} src={url} autoPlay controls />);
+                    break;
+
+                case 'audio':
+                    setContent(<audio ref={contentRef} src={url} controls />);
+                    break;
+                default:
+                    if (extension === 'js' || extension === 'cs') {
+                        setContent(<EditorFile beforeMount={handleEditorWillMount} file={file} />);
+                    } else {
+                        setContent(<BiFile style={{ fontSize: '8em' }} />);
+                    }
+                    break;
             }
+
             console.log(contentRef);
             if (!contentRef.current) return;
             // contentRef.current.addEventListener('load', () => { });
         })();
     }, [setLoading, contentRef]);
 
-    console.log(content);
+    function handleEditorWillMount(monaco) {
+        // here is the monaco instance
+        // do something before editor is mounted
+        console.log('monaco.languages', monaco.languages);
+    }
 
+    console.log(content);
     return <>
         <div className='preview-wrapper'>
             {loadingContent && <Loader top={true} backdrop={true} />}
