@@ -1,41 +1,32 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
-import mysql from 'mysql2/promise';
+
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export default NextAuth({
     providers: [
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: { label: 'Email', type: 'email', placeholder: 'example@mail.com' },
+                email: { label: 'Email', type: 'email', placeholder: 'user@example.com' },
                 password: { label: 'Mot de passe', type: 'password', placeholder: '********' }
             },
             async authorize(credentials, req) {
-                return {
-                    name: 'Sonny',
-                    email: 'sonny@example.fr'
-                }
-                const connection = await mysql.createConnection({
-                    host: process.env.DB_HOST,
-                    user: process.env.DB_USER,
-                    password: process.env.DB_PASS,
-                    database: process.env.DB_DB
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.email
+                    }
                 });
-
-                const [rows] = await connection.execute('SELECT * FROM `users` WHERE `email` = ?', [credentials?.['email']]);
-
-                if (!rows || rows.length < 1)
-                    return null;
-
-                const userDB = rows[0];
-                const match = await bcrypt.compare(credentials?.['password'], userDB.password);
-                if (!match)
+                
+                const passwordMatch = await bcrypt.compare(credentials?.password, user.password);
+                if (!passwordMatch)
                     return null;
 
                 return {
-                    name: userDB.username,
-                    email: userDB.email
+                    name: user.username,
+                    email: user.email
                 }
             }
         })
