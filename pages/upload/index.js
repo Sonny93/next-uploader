@@ -5,7 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import toastr from 'toastr';
 
-import UploadList from './UploadList';
+import UploadList from '../../components/Upload/UploadList';
 
 export default function Upload() {
     const refInput = useRef();
