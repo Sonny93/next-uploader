@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { AiOutlineFileImage, AiOutlineVideoCamera } from 'react-icons/ai';
 import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
+import { DiJavascript1, DiCss3, DiHtml5 } from 'react-icons/di';
 
 import { calculSize } from '../utils';
 
@@ -11,6 +12,7 @@ export default function FilesList({ files, showFilter, globalSize }) {
     const [inputContent, setInputContent] = useState('');
     const [filesFilter, setFilesFilter] = useState(files);
 
+    console.log(filesFilter);
     return (<>
         {showFilter && <div className='filter'>
             <label htmlFor='input_search'>Rechercher • {globalSize && calculSize(globalSize)}</label>
@@ -22,9 +24,7 @@ export default function FilesList({ files, showFilter, globalSize }) {
                     setInputContent(target.value);
                     if (!files || files?.length < 1) return;
 
-                    const filesFiltered = files.filter((file) => {
-                        return file.name.toLowerCase().includes(target.value.toLowerCase()) ? file : false;
-                    });
+                    const filesFiltered = files.filter((file) => file.name.toLowerCase().includes(target.value.toLowerCase()) ? file : false);
                     setFilesFilter(filesFiltered);
                 }}
                 value={inputContent} />
@@ -36,21 +36,30 @@ export default function FilesList({ files, showFilter, globalSize }) {
         </> : <>
             <ul className='filelist'>
                 {filesFilter.map((file, key) => {
-                    const { type, name, fileName, size, extension } = file;
-                    let icon = null;
+                    const { file_id, name, size, fileMimeType } = file;
+                    const mime = fileMimeType.split('/');
 
-                    if (type === 'image') {
+                    let icon = null;
+                    if (mime[0] === 'image') {
                         icon = <AiOutlineFileImage />
-                    } else if (type === 'video') {
+                    } else if (mime[0] === 'video') {
                         icon = <AiOutlineVideoCamera />
-                    } else if (type === 'audio') {
+                    } else if (mime[0] === 'audio') {
                         icon = <FaRegFileAudio />
                     } else {
-                        icon = <BiFile />;
+                        if (mime[1] === 'javascript') {
+                            icon = <DiJavascript1 />;
+                        } else if (mime[1] === 'html') {
+                            icon = <DiHtml5 />;
+                        } else if (mime[1] === 'css') {
+                            icon = <DiCss3 />;
+                        } else {
+                            icon = <BiFile />;
+                        }
                     }
 
                     return <li className='file' key={key}>
-                        <Link href={`/file/${fileName}`}>
+                        <Link href={`/file/${file_id}`}>
                             <a>
                                 <div className='icon-btn'>
                                     {icon}
@@ -60,7 +69,7 @@ export default function FilesList({ files, showFilter, globalSize }) {
                                         {name}
                                     </span>
                                     <span className='details'>
-                                        {size} - fichier {extension}
+                                        {size} - fichier
                                     </span>
                                 </div>
                             </a>

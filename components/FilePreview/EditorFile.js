@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Editor from '@monaco-editor/react';
+import Editor, { useMonaco } from '@monaco-editor/react';
 
-export default function EditorFile({ file, beforeMount }) {
-    const { url, extension } = file;
+export default function EditorFile({ file, language }) {
+    const { url } = file;
     const [content, setContent] = useState(null);
+    const monaco = useMonaco();
 
     useEffect(() => {
         (async () => {
@@ -11,35 +12,15 @@ export default function EditorFile({ file, beforeMount }) {
             setContent(contentRequest);
         })();
     }, []);
-
-    let language;
-    switch (extension) {
-        case 'js':
-            language = 'javascript';
-            break;
-
-        case 'html':
-            language = 'html';
-            break;
-
-        case 'css':
-            language = 'css';
-            break;
-
-        case 'txt':
-            language = '';
-            break;
-
-        case 'csharp' || 'cs':
-            language = 'csharp';
-            break;
     
-        default:
-            break;
-    }
+    useEffect(() => {
+        if (monaco) {
+            console.log('here is the monaco isntance:', monaco);
+        }
+    }, [monaco]);
 
     if (content) {
-        return <Editor beforeMount={beforeMount} defaultLanguage={language} theme='vs-dark' defaultValue={content} className='code-editor' />
+        return <Editor defaultLanguage={language} theme='vs-dark' defaultValue={content} className='code-editor' />
     } else {
         return <>
             Chargement du fichier en cours
