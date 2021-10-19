@@ -6,14 +6,16 @@ import Loader from '../Loader';
 import EditorFile from './EditorFile';
 
 export default function FilePreview({ file }) {
-    const { type, url, name, extension, size } = file;
+    const { url, name, size, fileMimeType } = file;
     const contentRef = useRef();
     const [content, setContent] = useState(null);
     const [loadingContent, setLoading] = useState(false);
-
+    
+    const mime = fileMimeType.split('/');
+    console.log('file preview', file, mime);
     useEffect(() => {
         (async () => {
-            switch (type) {
+            switch (mime[0]) {
                 case 'image':
                     setContent(<img ref={contentRef} src={url} alt={`${name} image`} />);
                     break;
@@ -25,12 +27,13 @@ export default function FilePreview({ file }) {
                 case 'audio':
                     setContent(<audio ref={contentRef} src={url} controls />);
                     break;
+
+                case 'text':
+                    setContent(<EditorFile language={mime[1]} file={file} />);
+                    break;
+
                 default:
-                    if (extension === 'js' || extension === 'cs') {
-                        setContent(<EditorFile beforeMount={handleEditorWillMount} file={file} />);
-                    } else {
-                        setContent(<BiFile style={{ fontSize: '8em' }} />);
-                    }
+                    setContent(<BiFile style={{ fontSize: '8em' }} />);
                     break;
             }
 
@@ -40,12 +43,6 @@ export default function FilePreview({ file }) {
         })();
     }, [setLoading, contentRef]);
 
-    function handleEditorWillMount(monaco) {
-        // here is the monaco instance
-        // do something before editor is mounted
-        console.log('monaco.languages', monaco.languages);
-    }
-
     console.log(content);
     return <>
         <div className='preview-wrapper'>
@@ -53,15 +50,9 @@ export default function FilePreview({ file }) {
             {content}
         </div>
         <ul>
-            <li>
-                {name}
-            </li>
-            <li>
-                Type: {type}/{extension}
-            </li>
-            <li>
-                Taille: {size}
-            </li>
+            <li style={{ marginBottom: '2px' }}>Nom: {name}</li>
+            <li style={{ marginBottom: '2px' }}>Type: {mime.join(' - ')}</li>
+            <li style={{ marginBottom: '2px' }}>Taille: {size}</li>
         </ul>
     </>;
 }
