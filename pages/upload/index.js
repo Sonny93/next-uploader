@@ -92,9 +92,9 @@ async function UploadFiles(files, setFiles, refInput) {
             console.error(error.response);
             const dataError = error.response.data?.error;
             if (dataError)
-            toastr.error(dataError, 'Upload error');
+                toastr.error(dataError, 'Upload error');
             else
-            toastr.error('Upload error');
+                toastr.error('Upload error');
         } else if (error.request) {
             toastr.error('Aucune réponse envoyée par le serveur', 'Upload error');
             console.error(error.request);
