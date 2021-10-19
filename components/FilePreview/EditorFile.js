@@ -19,6 +19,7 @@ export default function EditorFile({ file, language }) {
         }
     }, [monaco]);
 
+    console.log('language', language);
     if (content) {
         return <Editor defaultLanguage={language} theme='vs-dark' defaultValue={content} className='code-editor' />
     } else {

@@ -6,7 +6,7 @@ import Loader from '../Loader';
 import EditorFile from './EditorFile';
 
 export default function FilePreview({ file }) {
-    const { url, name, size, fileMimeType } = file;
+    const { url, name, size, fileExtension, fileMimeType } = file;
     const contentRef = useRef();
     const [content, setContent] = useState(null);
     const [loadingContent, setLoading] = useState(false);
@@ -15,26 +15,19 @@ export default function FilePreview({ file }) {
     console.log('file preview', file, mime);
     useEffect(() => {
         (async () => {
-            switch (mime[0]) {
-                case 'image':
-                    setContent(<img ref={contentRef} src={url} alt={`${name} image`} />);
-                    break;
-
-                case 'video':
-                    setContent(<video ref={contentRef} src={url} autoPlay controls />);
-                    break;
-
-                case 'audio':
-                    setContent(<audio ref={contentRef} src={url} controls />);
-                    break;
-
-                case 'text':
-                    setContent(<EditorFile language={mime[1]} file={file} />);
-                    break;
-
-                default:
+            if (mime[0] === 'image') {
+                setContent(<img ref={contentRef} src={url} alt={`${name} image`} />);
+            } else if (mime[0] === 'video') {
+                setContent(<video ref={contentRef} src={url} autoPlay controls />);
+            } else if (mime[0] === 'audio') {
+                setContent(<audio ref={contentRef} src={url} controls />);
+            } else {
+                const languageFinded = languages.find(l => l.key === fileExtension);
+                if (languageFinded) {
+                    setContent(<EditorFile language={languageFinded.value} file={file} />);
+                } else {
                     setContent(<BiFile style={{ fontSize: '8em' }} />);
-                    break;
+                }
             }
 
             console.log(contentRef);
@@ -51,8 +44,37 @@ export default function FilePreview({ file }) {
         </div>
         <ul>
             <li style={{ marginBottom: '2px' }}>Nom: {name}</li>
-            <li style={{ marginBottom: '2px' }}>Type: {mime.join(' - ')}</li>
+            <li style={{ marginBottom: '2px' }}>Type: {mime.join(' - ')} ({fileExtension})</li>
             <li style={{ marginBottom: '2px' }}>Taille: {size}</li>
         </ul>
     </>;
 }
+
+const languages = [{
+    key: 'cs',
+    value: 'csharp'
+}, {
+    key: 'json',
+    value: 'json'
+}, {
+    key: 'plain',
+    value: 'plain'
+}, {
+    key: 'js',
+    value: 'javascript'
+}, {
+    key: 'html',
+    value: 'html'
+}, {
+    key: 'css',
+    value: 'css'
+}, {
+    key: 'txt',
+    value: 'plain'
+}, {
+    key: 'md',
+    value: 'markdown'
+}, {
+    key: 'xml',
+    value: 'xml'
+}];
