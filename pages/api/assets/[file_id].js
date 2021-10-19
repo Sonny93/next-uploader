@@ -1,27 +1,29 @@
-import { readFile, stat } from 'fs/promises';
 import { createReadStream } from 'fs';
-import { File as FileClass } from '../../../utils';
+
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export default async function File(req, res) {
     const { file_id } = req.query;
+    const file = await prisma.file.findUnique({
+        where: { file_id }
+    });
 
-    try {
-        const filePath = `${process.env.UPLOAD_DIR}/${file_id}`;
-        const fileStat = await (await stat(filePath));
-        const file = new FileClass({ fileName: file_id, size: fileStat.size, url: process.env.UPLOAD_URL });
-        if (!file)
-            return res.status(400).json({ error: `Impossible de trouver le fichier ${file_id}`, ok: false });
+    const filePath = `${process.env.UPLOAD_DIR}/${file.fileSaveAs}`;
+    console.log('là', filePath);
 
-        res.writeHead(200, {
-            'Content-Type': `${file.type}/${file.extension}`,
-            'Content-Length': file.brutSize
-        });
-        const readStream = createReadStream(filePath);
-        await new Promise((resolve) => {
-            readStream.pipe(res);
-            readStream.on('end', resolve)
-        });
-    } catch (error) {
-        return res.status(400).json({ error: `Impossible de trouver le fichier ${file_id}`, ok: false });
-    }
+    delete file.password;
+    delete file.id;
+    delete file.fileSaveAs;
+    file.url = `${process.env.UPLOAD_URL}/${file.file_id}`;
+
+    res.writeHead(200, {
+        'Content-Type': file.fileMimeType,
+        'Content-Length': file.brutSize
+    });
+    const readStream = createReadStream(filePath);
+    await new Promise((resolve) => {
+        readStream.pipe(res);
+        readStream.on('end', resolve);
+    });
 }

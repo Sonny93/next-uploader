@@ -1,17 +1,20 @@
 import { stat } from 'fs/promises';
 import { File as FileClass } from '../../../utils';
 
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
+BigInt.prototype.toJSON = function () { return this.toString() }
+
 export default async function File(req, res) {
     const { fid } = req.query;
+    const file = await prisma.file.findUnique({
+        where: { file_id: fid }
+    });
 
-    try {
-        const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fid}`));
-        const file = new FileClass({ fileName: fid, size: fileStat.size, url: process.env.UPLOAD_URL });
-        if (!file)
-            return res.status(400).json({ error: `Impossible de trouver le fichier ${fid}`, ok: true });
-        else 
-            res.status(200).json({ file, ok: false });
-    } catch (error) {
-        return res.status(400).json({ error: `Impossible de trouver le fichier ${fid}`, ok: false });
+    if (!file) {
+        res.status(400).json({ error: `Impossible de trouver le fichier ${fid}`, ok: false });
+    } else {
+        res.status(200).json({ file, ok: true });
     }
 }
