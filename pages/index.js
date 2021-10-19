@@ -83,7 +83,9 @@ export default function Home() {
 				</header>
 				<li className='item'>
 					<Link href='#'>
-						<a onClick={() => setShowFilter((prev) => !prev)}>Créer un fichier</a>
+						{!isMenuOpen ?
+							<a onClick={() => setShowFilter(true)}>Afficher les filtres</a> :
+							<a onClick={() => setShowFilter(false)}>Afficher les filtres</a>}
 					</Link>
 				</li>
 				{session ? <>
@@ -93,8 +95,13 @@ export default function Home() {
 						</Link>
 					</li>
 					<li className='item'>
+						<Link href='/upload'>
+							<a><AiFillFileAdd /> Uploader un fichier</a>
+						</Link>
+					</li>
+					<li className='item'>
 						<Link href='#'>
-							<a onClick={() => signOut()}><AiFillFileAdd /> Uploader un fichier</a>
+							<a onClick={() => signOut()}>Se déconnecter</a>
 						</Link>
 					</li>
 				</> : <>
