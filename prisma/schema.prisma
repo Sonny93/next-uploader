@@ -25,17 +25,15 @@ model File {
   file_id String @unique @default(uuid())
 
   name String
-  fullname String @unique
   password String
   passwordSet Boolean
   
   size String
-  uploadUrl String
-  uploadPath String
-
-  fileBrutSize BigInt
+  brutSize BigInt
+  
+  fileSaveAs String @unique
   fileExtension String
-  fileKind String
+  fileMimeType String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
