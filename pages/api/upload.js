@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 import multer from 'multer';
 import path from 'path';
 
-import { calculSize } from '../../utils';
+import { rename } from 'fs/promises';
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -41,18 +41,19 @@ apiRoute.use(async (req, res) => {
     const extension = path.extname(req.file.originalname).substr(1);
 
     try {
+        const saveAs = `${Date.now()}-${extension}-${file.size}`;
         const fileDB = await prisma.file.create({
             data: {
                 name: customName,
                 password: password,
                 passwordSet: password ? true : false,
-                size: calculSize(file.size),
-                brutSize: file.size,
-                fileSaveAs: file.originalname,
+                fileBrutSize: file.size,
+                fileSaveAs: saveAs.toString(),
                 fileExtension: extension,
                 fileMimeType: file.mimetype
             }
         });
+        await rename(`${process.env.UPLOAD_DIR}/${file.originalname}`, `${process.env.UPLOAD_DIR}/${saveAs}`);
         console.log(fileDB);
         res.status(200).send({ status: 'OK' });
     } catch (error) {
