@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Head from 'next/head';
 
-import { calculSize } from '../../utils';
+import { calculSize, fileSafeProps } from '../../utils';
 import FilePreview from '../../components/FilePreview';
 
 import { PrismaClient } from '@prisma/client';
@@ -40,40 +40,26 @@ export default function File({ fid, file, error }) {
         </>;
     }
 
-    function Navbar() {
-        return <div className='navbar' style={{ justifyContent: 'center' }}>
-            <Link href='/'>
-                <a className='home-link'>Revenir à la page d'accueil</a>
-            </Link>
-        </div>
-    }
-
     console.log(file);
-
-    if (!file) {
-        return (
-            <div className='App'>
-                <Meta />
-                <Navbar />
-                <div className='file'>
-                    Impossible de charge le fichier {fid}
-                </div>
+    return (
+        <div className='App'>
+            <Meta />
+            <header style={{ justifyContent: 'center' }}>
+                <Link href='/'>
+                    <a className='home-link'>Revenir à la page d'accueil</a>
+                </Link>
+            </header>
+            <div className='file'>
+                {!file ? <>
+                    <div className='file'>
+                        Impossible de charge le fichier {fid}
+                    </div>
+                </> : <>
+                    {error ? JSON.stringify(error) : <FilePreview file={file} />}
+                </>}
             </div>
-        );
-    } else {
-        return (
-            <div className='App'>
-                <Meta />
-                <Navbar />
-                <div className='file'>
-                    {error
-                        ? JSON.stringify(error) : !file
-                            ? `Impossible de charger le fichier ${fid}` :
-                            <FilePreview file={file} />}
-                </div>
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export async function getServerSideProps({ query }) {
@@ -83,18 +69,11 @@ export async function getServerSideProps({ query }) {
     const file = await prisma.file.findUnique({
         where: { file_id: fid }
     });
+    const fileSafe = fileSafeProps(file);
 
-    file.size = calculSize(file.fileBrutSize);
-    file.url = `${process.env.UPLOAD_URL}/${file.file_id}`;
-    delete file.password;
-    delete file.id;
-    delete file.fileBrutSize;
-    delete file.fileSaveAs;
-
-    console.log(file);
     let props;
     if (file) { // fichier trouvé
-        props = { file: JSON.parse(JSON.stringify(file)), fid };
+        props = { file: JSON.parse(JSON.stringify(fileSafe)), fid };
     } else { // fichier non trouvé
         props = { file: null, fid, error: `Impossible de trouver le fichier ${fid}` };
     }

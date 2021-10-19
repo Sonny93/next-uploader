@@ -68,6 +68,7 @@ button:not(.nostyle), .btn {
 	&:not(:disabled):hover {
 		box-shadow: #105b97 0 0 3px 1px;
 		background: #105b97;
+		color: #fff;
 	}
 }
 
