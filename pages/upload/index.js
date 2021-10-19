@@ -24,11 +24,11 @@ export default function Upload() {
 
     return (<>
         <div className='App upload'>
-            <div className='input-container'>
+            <header>
                 <Link href='/'>
                     <a className='home-link'>Revenir à la page d'accueil</a>
                 </Link>
-            </div>
+            </header>
             {files && files.length > 0 ? <>
                 <UploadList files={files} setFiles={setFiles} />
             </> : <>

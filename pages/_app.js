@@ -6,6 +6,7 @@ import '../styles/header.scss';
 import '../styles/filelist.scss';
 import '../styles/file.scss';
 import '../styles/upload.scss';
+import '../styles/burger-menu.scss';
 
 function MyApp({ Component, pageProps }) {
 	return (
