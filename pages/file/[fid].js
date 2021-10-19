@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Head from 'next/head';
 
+import { calculSize } from '../../utils';
 import FilePreview from '../../components/FilePreview';
 
 import { PrismaClient } from '@prisma/client';
@@ -83,9 +84,12 @@ export async function getServerSideProps({ query }) {
         where: { file_id: fid }
     });
 
+    file.size = calculSize(file.fileBrutSize);
+    file.url = `${process.env.UPLOAD_URL}/${file.file_id}`;
     delete file.password;
     delete file.id;
-    file.url = `${process.env.UPLOAD_URL}/${file.file_id}`;
+    delete file.fileBrutSize;
+    delete file.fileSaveAs;
 
     console.log(file);
     let props;
