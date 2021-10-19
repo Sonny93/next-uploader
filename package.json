@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "npx prisma migrate dev --name migration"
+    "migrate": "npx prisma migrate dev"
   },
   "dependencies": {
     "@frogress/line": "^1.0.1",
