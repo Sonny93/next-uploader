@@ -28,9 +28,7 @@ model File {
   password String
   passwordSet Boolean
   
-  size String
-  brutSize BigInt
-  
+  fileBrutSize BigInt
   fileSaveAs String @unique
   fileExtension String
   fileMimeType String
