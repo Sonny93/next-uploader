@@ -1,16 +1,17 @@
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
-function calculSize(size) {
-	if (size === 0)
-		return '0 o'
-	const units = ['Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo'];
-	let toReturn;
+function calculSize(value = 0, decimals = 2) {
+    const octets = Number(value);
+	if (octets === 0) return '0 Octet';
 
-	for (let mul = 0, approx = size / 1024; approx > 1; approx /= 1024, mul++)
-		toReturn = `${approx.toFixed(3)} ${units[mul]}`;
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo'];
 
-	return toReturn;
+    const i = Math.floor(Math.log(octets) / Math.log(k));
+
+    return parseFloat((octets / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
 function fileType(extension) {
