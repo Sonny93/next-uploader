@@ -1,8 +1,7 @@
-import { readdir, stat } from 'fs/promises';
-import { File } from '../../utils';
-
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+
+BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default async function handler(req, res) {
     try {
