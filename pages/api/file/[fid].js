@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
+import { fileSafeProps } from '../../../utils';
+
 BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default async function File(req, res) {
@@ -9,9 +11,8 @@ export default async function File(req, res) {
         where: { file_id: fid }
     });
 
-    if (!file) {
+    if (!file)
         res.status(400).json({ error: `Impossible de trouver le fichier ${fid}`, ok: false });
-    } else {
-        res.status(200).json({ file, ok: true });
-    }
+    else
+        res.status(200).json({ file: fileSafeProps(file), ok: true });
 }

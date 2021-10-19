@@ -6,6 +6,7 @@ import path from 'path';
 import { rename } from 'fs/promises';
 
 import { PrismaClient } from '@prisma/client';
+import { fileSafeProps } from '../../utils';
 const prisma = new PrismaClient();
 
 const upload = multer({ 
@@ -30,9 +31,7 @@ apiRoute.use(async (req, res, next) => { // Middleware auth
 
 apiRoute.use(upload.single('file'));
 apiRoute.use(async (req, res) => {
-    console.log('là', req.file);
     const file = req.file;
-
     const customName = req.body?.customName;
     if (!customName)    
         return res.status(403).send({ error: 'Vous devez préciser un nom pour le fichier' });
@@ -40,9 +39,10 @@ apiRoute.use(async (req, res) => {
     const password = req.body?.password;
     const extension = path.extname(req.file.originalname).substr(1);
 
+    let fileDB;
     try {
         const saveAs = `${Date.now()}-${extension}-${file.size}`;
-        const fileDB = await prisma.file.create({
+        fileDB = await prisma.file.create({
             data: {
                 name: customName,
                 password: password,
@@ -53,12 +53,17 @@ apiRoute.use(async (req, res) => {
                 fileMimeType: file.mimetype
             }
         });
-        await rename(`${process.env.UPLOAD_DIR}/${file.originalname}`, `${process.env.UPLOAD_DIR}/${saveAs}`);
-        console.log(fileDB);
-        res.status(200).send({ status: 'OK' });
     } catch (error) {
         console.error(error);
-        res.status(403).send({ error: 'Une erreur est survenue' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'ajout du fichier dans la base de donnée' });
+    }
+
+    try {
+        await rename(`${process.env.UPLOAD_DIR}/${file.originalname}`, `${process.env.UPLOAD_DIR}/${saveAs}`);
+        res.status(200).send({ status: 'OK', file: fileSafeProps(fileDB) });
+    } catch (error) {
+        console.error(error);
+        res.status(400).send({ error: 'Une erreur est survenue lors de la création du fichier' });
     }
 });
 
