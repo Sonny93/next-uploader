@@ -1,7 +1,7 @@
 module.exports = {
 	reactStrictMode: true,
 	images: {
-		domains: ['localhost'],
+		domains: ['localhost', '192.168.200.242:3000'],
 	},
 	webpack(config) {
 		config.module.rules.push({
