@@ -31,27 +31,26 @@ apiRoute.use(async (req, res, next) => { // Middleware auth
 apiRoute.use(upload.single('file'));
 apiRoute.use(async (req, res) => {
     console.log('là', req.file);
-    const customName = req.body?.customName;
-    const password = req.body?.password;
-    
     const file = req.file;
 
-    const extension = path.extname(req.file.originalname);
-    const fileName = (customName || file.originalname);
+    const customName = req.body?.customName;
+    if (!customName)    
+        return res.status(403).send({ error: 'Vous devez préciser un nom pour le fichier' });
+        
+    const password = req.body?.password;
+    const extension = path.extname(req.file.originalname).substr(1);
 
     try {
         const fileDB = await prisma.file.create({
             data: {
                 name: customName,
-                fullname: fileName + extension,
                 password: password,
                 passwordSet: password ? true : false,
                 size: calculSize(file.size),
-                uploadUrl: `${process.env.UPLOAD_URL}/${file.filename}`,
-                uploadPath: file.path,
-                fileBrutSize: file.size,
+                brutSize: file.size,
+                fileSaveAs: file.originalname,
                 fileExtension: extension,
-                fileKind: file.mimetype
+                fileMimeType: file.mimetype
             }
         });
         console.log(fileDB);

@@ -1,6 +1,3 @@
-import { stat } from 'fs/promises';
-import { File as FileClass } from '../../utils';
-
 import Link from 'next/link';
 import Head from 'next/head';
 
@@ -8,6 +5,8 @@ import FilePreview from '../../components/FilePreview';
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+
+BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default function File({ fid, file, error }) {
     function Meta() {
@@ -81,44 +80,20 @@ export async function getServerSideProps({ query }) {
     console.log('fid', fid);
     
     const file = await prisma.file.findUnique({
-        where: {
-            file_id: fid
-        }
+        where: { file_id: fid }
     });
-    console.log('file', file);
-    if (file) { // fichier trouvé
 
+    delete file.password;
+    delete file.id;
+    file.url = `${process.env.UPLOAD_URL}/${file.file_id}`;
+
+    console.log(file);
+    let props;
+    if (file) { // fichier trouvé
+        props = { file: JSON.parse(JSON.stringify(file)), fid };
     } else { // fichier non trouvé
-        
+        props = { file: null, fid, error: `Impossible de trouver le fichier ${fid}` };
     }
-    
-    try {
-        const fileStat = await (await stat(`${process.env.UPLOAD_DIR}/${fid}`));
-        const file = new FileClass({ fileName: fid, size: fileStat.size, url: process.env.UPLOAD_URL });
-        if (!file) {
-            return {
-                props: {
-                    file: null,
-                    fid,
-                    error: `Impossible de trouver le fichier ${fid}`
-                }
-            }
-        } else {
-            return {
-                props: {
-                    file: JSON.parse(JSON.stringify(file)),
-                    fid
-                }
-            }
-        }
-    } catch (error) {
-        console.error(error);
-        return {
-            props: {
-                file: null,
-                fid,
-                error: `Impossible de trouver le fichier ${fid} catch`
-            }
-        }
-    }
+
+    return { props };
 }
