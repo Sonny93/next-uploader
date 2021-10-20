@@ -4,7 +4,7 @@ export default function Meta({
     title = 'Uploader', 
     description = 'Uploader sonnydata.fr créé & développé par Sonny#0005. Site privé.',
     pageUrl = null,
-    assetUrl = null
+    children
 }) {
     return (
         <Head>
@@ -21,7 +21,7 @@ export default function Meta({
             <meta property='og:description' content={description} />
 
             {pageUrl && <meta property='og:url' content={pageUrl} />}
-            {assetUrl && <meta property='og:image' content={assetUrl} />}
+            {children ? children : null}
 
             <meta name='theme-color' content='#fff' />
         </Head>
