@@ -35,7 +35,7 @@ export default function File({ fid, file, error }) {
                     pageUrl={`${process.env.NEXTAUTH_URL}/file/${file.file_id}`} 
                     assetUrl={file.url}
                 >
-                    {type === 'image' || type === 'video' ? <meta property={`og:${type}`} content={assetUrl} /> : null}
+                    {type === 'image' || type === 'video' ? <meta property={`og:${type}`} content={file.url} /> : null}
                 </Meta>
                 <header style={{ justifyContent: 'center' }}>
                     <Link href='/'>
