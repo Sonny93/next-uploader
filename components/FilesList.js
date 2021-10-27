@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import dayjs from 'dayjs';
 
 import { AiOutlineFileImage, AiOutlineVideoCamera } from 'react-icons/ai';
 import { BiFile } from 'react-icons/bi';
@@ -36,7 +37,7 @@ export default function FilesList({ files, showFilter, globalSize }) {
         </> : <>
             <ul className='filelist'>
                 {filesFilter.map((file, key) => {
-                    const { file_id, name, size, fileMimeType } = file;
+                    const { file_id, name, size, fileMimeType, createdAt } = file;
                     const mime = fileMimeType.split('/');
 
                     let icon = null;
@@ -69,7 +70,7 @@ export default function FilesList({ files, showFilter, globalSize }) {
                                         {name}
                                     </span>
                                     <span className='details'>
-                                        {size} - fichier
+                                        {size} - {dayjs(createdAt).format('D MMMM YYYY à HH:mm')}
                                     </span>
                                 </div>
                             </a>
