@@ -5,7 +5,7 @@ export default function UploadList({ files, setFiles }) {
     return (
         <ul className='upload-list'>
             {files.map((file, key) => {
-                const { id, customName, password, size, progress } = file;
+                const { id, customName, name, password, size, progress } = file;
                 const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
 
                 function onChange(event) {
@@ -26,7 +26,7 @@ export default function UploadList({ files, setFiles }) {
                     <li className='file-upload' key={key}>
                         <div className='name'>
                             <label htmlFor='name'>
-                                Nom du fichier
+                                Nom du fichier • <span style={{ color: 'gray' }}>{name}</span>
                             </label>
                             <input 
                                 onChange={(e) => onChange(e)} 
@@ -34,7 +34,7 @@ export default function UploadList({ files, setFiles }) {
                                 style={{ width: '100%' }} 
                                 id='customName' 
                                 className='input-name' 
-                                placeholder={customName || 'nom de fichier'}
+                                placeholder={`Nom original "${name}""`}
                                 />
                         </div>
                         <div className='password'>

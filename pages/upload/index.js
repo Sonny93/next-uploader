@@ -29,13 +29,11 @@ export default function Upload() {
                     <a className='home-link'>Revenir à la page d'accueil</a>
                 </Link>
             </header>
-            {files && files.length > 0 ? <>
-                <UploadList files={files} setFiles={setFiles} />
-            </> : <>
+            {files && files.length > 0 ?
+                <UploadList files={files} setFiles={setFiles} /> : 
                 <div className='no-files'>
                     <p>Aucun fichier</p>
-                </div>
-            </>}
+                </div>}
             
             <div className='controls'>
                 <input
@@ -44,7 +42,8 @@ export default function Upload() {
                     onChange={handleFiles}
                     multiple={true}
                     ref={refInput} 
-                    className='nostyle input-upload' />
+                    className='nostyle input-upload' 
+                />
                 <button onClick={() => UploadFiles(files, setFiles, refInput)} disabled={files.length < 1 || !refInput?.current ? true : false}>
                     Envoyer {files.length > 0 ? `(${files.length} fichier${files.length > 1 ? 's' : ''})` : null}
                 </button>
