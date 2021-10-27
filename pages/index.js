@@ -5,6 +5,11 @@ import { useState, useEffect } from 'react';
 import { AiFillFileAdd } from 'react-icons/ai';
 import Link from 'next/link';
 
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr';
+dayjs.extend(require('dayjs/plugin/relativeTime'))
+dayjs.locale('fr');
+
 import FilesList from '../components/FilesList';
 import Loader from '../components/Loader';
 import Meta from '../components/Meta';
@@ -83,31 +88,43 @@ export default function Home() {
 				</header>
 				<li className='item'>
 					<Link href='#'>
-						{!isMenuOpen ?
-							<a onClick={() => setShowFilter(true)}>Afficher les filtres</a> :
-							<a onClick={() => setShowFilter(false)}>Afficher les filtres</a>}
+						{!showFilter ?
+							<a onClick={() => {
+								setShowFilter(true);
+								setMenuOpen(false);
+							}}>Afficher les filtres de recherche</a> :
+							<a onClick={() => {
+								setShowFilter(false);
+								setMenuOpen(false);
+							}}>Masquer les filtres de recherche</a>}
 					</Link>
 				</li>
 				{session ? <>
 					<li className='item'>
-						<Link href='/upload'>
-							<a>Créer un fichier</a>
+						<Link href='/#'>
+							<a onClick={() => setMenuOpen(false)}>Créer un fichier</a>
 						</Link>
 					</li>
 					<li className='item'>
 						<Link href='/upload'>
-							<a><AiFillFileAdd /> Uploader un fichier</a>
+							<a onClick={() => setMenuOpen(false)}><AiFillFileAdd /> Uploader un fichier</a>
 						</Link>
 					</li>
 					<li className='item'>
 						<Link href='#'>
-							<a onClick={() => signOut()}>Se déconnecter</a>
+							<a onClick={() => {
+								signOut();
+								setMenuOpen(false);
+							}} style={{ background: 'crimson', textTransform: 'uppercase' }}>Se déconnecter</a>
 						</Link>
 					</li>
 				</> : <>
 					<li className='item'>
 						<Link href='#'>
-							<a onClick={() => signIn()}>Se connecter</a>
+							<a onClick={() => {
+								signIn();
+								setMenuOpen(false);
+							}}>Se connecter</a>
 						</Link>
 					</li>
 				</>}
