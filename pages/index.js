@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut, signin } from 'next-auth/client';
+import { useSession, signIn, signOut } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
@@ -12,7 +12,7 @@ dayjs.locale('fr');
 
 import FilesList from '../components/FilesList';
 import Loader from '../components/Loader';
-import Meta from '../components/Meta';
+import Meta from '../components/Meta/Meta';
 
 export default function Home() {
     const router = useRouter();
