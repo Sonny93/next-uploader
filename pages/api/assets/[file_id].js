@@ -16,6 +16,7 @@ export default async function File(req, res) {
     await new Promise((resolve) => {
         readStream.pipe(res);
         readStream.once('end', () => {
+            console.log('asset fileMimeType', file.fileMimeType);
             res.writeHead(200, {
                 'Content-Type': file.fileMimeType,
                 'Content-Length': file.fileBrutSize
@@ -24,7 +25,15 @@ export default async function File(req, res) {
         });
         readStream.once('error', (error) => {
             console.error(error);
-            res.status(403).send('Une erreur est survenue lors de la lecture du fichier ' + file_id);
+            // res.status(403).send('Une erreur est survenue lors de la lecture du fichier ' + file_id);
         });
     });
+}
+
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '20mb'
+        }
+    }
 }

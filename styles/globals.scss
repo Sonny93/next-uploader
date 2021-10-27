@@ -48,6 +48,7 @@ a {
 }
 
 button:not(.nostyle), .btn {
+	user-select: none;
 	cursor: pointer;
 	height: fit-content;
 	min-height: 30px;
@@ -101,6 +102,7 @@ input:not(.nostyle) {
 	color: #fff;
 	background: rgba(16 18 27 / 40%);
 	backdrop-filter: blur(20px);
+	overflow: auto;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -116,13 +118,6 @@ input:not(.nostyle) {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-
-	// & > div.label {
-	// 	background: rgba(0, 0, 0, .25);
-	// 	padding: 10px;
-	// 	border: 1px solid #fff;
-	// 	border-radius: 3px;
-	// }
 
 	&.top {
 		position: absolute;

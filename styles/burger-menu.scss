@@ -16,14 +16,30 @@
     transition: .15s;
 
     & > li {
-        width: 200px;
-        margin-bottom: 5px;
+        width: 100%;
+        margin-bottom: 7.5px;
 
         & > * {
             width: 100%;
-            display: block;
             font-size: .85em;
             text-align: center;
+            color: #fff;
+            padding: 10px;
+            background: #3f88c5;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .1s;
+
+            & > svg {
+                font-size: 1.135em;
+            }
+        }
+
+        & > *:hover, & > *:focus {
+            border: 1px solid #fff;
         }
     }
 }
