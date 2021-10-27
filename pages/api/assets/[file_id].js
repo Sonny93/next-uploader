@@ -13,20 +13,16 @@ export default async function File(req, res) {
     
     const filePath = `${process.env.UPLOAD_DIR}/${file.fileSaveAs}`;
     const readStream = createReadStream(filePath);
-    await new Promise((resolve) => {
-        readStream.pipe(res);
-        readStream.once('end', () => {
-            console.log('asset fileMimeType', file.fileMimeType);
-            res.writeHead(200, {
-                'Content-Type': file.fileMimeType,
-                'Content-Length': file.fileBrutSize
-            });
-            resolve();
-        });
-        readStream.once('error', (error) => {
-            console.error(error);
-            // res.status(403).send('Une erreur est survenue lors de la lecture du fichier ' + file_id);
-        });
+
+    res.writeHead(200, {
+        'Content-Type': file.fileMimeType,
+        'Content-Length': file.fileBrutSize
+    });
+
+    readStream.pipe(res);
+    readStream.once('error', (error) => {
+        console.error('error', error);
+        res.status(403).send('Une erreur est survenue lors de la lecture du fichier ' + file_id);
     });
 }
 
