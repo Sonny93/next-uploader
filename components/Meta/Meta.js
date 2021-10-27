@@ -8,8 +8,8 @@ export default function Meta({
 }) {
     return (
         <Head>
-            <title>{title}</title>
             <meta charSet='UTF-8' />
+            <title>{title}</title>
             <meta name='viewport' content='initial-scale=1.0, width=device-width' />
             
             {/* Open Graph */}
