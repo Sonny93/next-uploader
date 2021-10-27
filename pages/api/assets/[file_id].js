@@ -4,12 +4,10 @@ const prisma = new PrismaClient();
 
 export default async function File(req, res) {
     const { file_id } = req.query;
-    const file = await prisma.file.findUnique({
-        where: { file_id }
-    });
+    const file = await prisma.file.findUnique({ where: { file_id } });
 
     if (!file)
-        return res.status(403).send('Unable to find file ' + file_id);
+        return res.status(403).send(`Unable to find file ${file_id}`);
     
     const filePath = `${process.env.UPLOAD_DIR}/${file.fileSaveAs}`;
     const readStream = createReadStream(filePath);
@@ -22,14 +20,11 @@ export default async function File(req, res) {
     readStream.pipe(res);
     readStream.once('error', (error) => {
         console.error('error', error);
-        res.status(403).send('Une erreur est survenue lors de la lecture du fichier ' + file_id);
+        if (!res.headersSend)
+            res.status(403).send(`Une erreur est survenue lors de la lecture du fichier ${file_id}`);
     });
 }
 
 export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '20mb'
-        }
-    }
+    api: { bodyParser: { sizeLimit: '20mb' } }
 }
