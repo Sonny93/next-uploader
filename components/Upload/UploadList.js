@@ -20,7 +20,7 @@ export default function UploadList({ files, setFiles }) {
                     });
                 }
 
-                if (parseInt(percent, 10) === 100) return;
+                // if (parseInt(percent, 10) === 100) return;
 
                 return (
                     <li className='file-upload' key={key}>
