@@ -1,17 +1,19 @@
-import { createReadStream } from 'fs';
+import fs, { createReadStream } from 'fs';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-export default async function File(req, res) {
+export default async function FileAssets(req, res) {
     const { file_id } = req.query;
     const file = await prisma.file.findUnique({ where: { file_id } });
 
     if (!file)
-        return res.status(403).send(`Unable to find file ${file_id}`);
-    
+        return res.status(403).send(`Impossible de trouver le fichier ${file_id}`);
+        
     const filePath = `${process.env.UPLOAD_DIR}/${file.fileSaveAs}`;
-    const readStream = createReadStream(filePath);
+    if (!fs.existsSync(filePath)) 
+        return res.status(403).send(`Impossible de récupérer le fichier correspondant à ${file_id}`);
 
+    const readStream = createReadStream(filePath);
     res.writeHead(200, {
         'Content-Type': file.fileMimeType,
         'Content-Length': file.fileBrutSize
