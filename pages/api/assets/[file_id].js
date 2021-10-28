@@ -1,11 +1,23 @@
 import fs, { createReadStream } from 'fs';
 import { PrismaClient } from '@prisma/client';
+import nextConnect from 'next-connect';
+
 const prisma = new PrismaClient();
 
-export default async function FileAssets(req, res) {
+const apiRoute = nextConnect({
+    onError: (error, req, res) => res.status(501).json({ error: `Une erreur est survenue! ${error.message}` }),
+    onNoMatch: (req, res) => res.status(405).json({ error: `La méthode '${req.method}' n'est pas autorisée` })
+});
+
+apiRoute.use((req, res, next) => {
+    const { file_id } = req.query;
+    console.log('REQUEST', file_id, 'METHOD', req.method);
+    next();
+});
+
+apiRoute.get(async (req, res) => {
     const { file_id } = req.query;
     const file = await prisma.file.findUnique({ where: { file_id } });
-
     if (!file)
         return res.status(403).send(`Impossible de trouver le fichier ${file_id}`);
         
@@ -25,8 +37,14 @@ export default async function FileAssets(req, res) {
         if (!res.headersSend)
             res.status(403).send(`Une erreur est survenue lors de la lecture du fichier ${file_id}`);
     });
-}
+});
 
+apiRoute.put(async (req, res) => {
+    const { file_id } = req.query;
+    console.log('PUT', file_id, 'BODY', req.body, JSON.parse(req.body), req.body?.name);
+});
+
+export default apiRoute;
 export const config = {
     api: { bodyParser: { sizeLimit: '20mb' } }
 }
