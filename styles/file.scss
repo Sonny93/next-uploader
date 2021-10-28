@@ -51,6 +51,21 @@
         width: auto;
         height: auto;
     }
+
+    & li.field:not(:last-child) {
+        margin-bottom: 5px;
+    }
+
+    & li.field > span:first-child {
+        user-select: none;
+        color: #3f88c5;
+    }
+
+    & > p.no_music {
+        user-select: none;
+        margin: 0;
+        padding: 20px;
+    }
 }
 
 @media (max-width: 1024px) {

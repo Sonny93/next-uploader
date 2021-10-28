@@ -36,7 +36,7 @@ export default function FilePreview({ file, music_recognition }) {
             if (!contentRef.current) return;
             // else contentRef.current.addEventListener('load', () => { });
         })();
-    }, [setLoading, contentRef]);
+    }, [setLoading, contentRef, file, fileExtension, mime, name, url]);
 
     return <>
         <div className='preview-wrapper'>
@@ -46,7 +46,7 @@ export default function FilePreview({ file, music_recognition }) {
         <Details file={file} mime={mime} />
         {music_recognition ? 
             <SongRecognition music_recognition={music_recognition} /> :
-            <p>Aucune musique n'a été détectée</p>}
+            <p className='no_music'>Aucune musique n'a été détectée</p>}
     </>;
 }
 
