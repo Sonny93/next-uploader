@@ -13,7 +13,6 @@ export default function FilesList({ files, showFilter, globalSize }) {
     const [inputContent, setInputContent] = useState('');
     const [filesFilter, setFilesFilter] = useState(files);
 
-    console.log(filesFilter);
     return (<>
         {showFilter && <div className='filter'>
             <label htmlFor='input_search'>Rechercher • {globalSize && calculSize(globalSize)}</label>
@@ -30,54 +29,50 @@ export default function FilesList({ files, showFilter, globalSize }) {
                 }}
                 value={inputContent} />
         </div>}
-        {filesFilter.length < 1 ? <>
-            <div className='no-files'>
-                <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
-            </div>
-        </> : <>
-            <ul className='filelist'>
-                {filesFilter.map((file, key) => {
-                    const { file_id, name, size, fileMimeType, createdAt } = file;
-                    const mime = fileMimeType.split('/');
+        {filesFilter.length < 1 ? <div className='no-files'>
+            <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
+        </div> : <ul className='filelist'>
+            {filesFilter.map((file, key) => {
+                const { file_id, name, size, fileMimeType, createdAt } = file;
+                const mime = fileMimeType.split('/');
 
-                    let icon = null;
-                    if (mime[0] === 'image') {
-                        icon = <AiOutlineFileImage />
-                    } else if (mime[0] === 'video') {
-                        icon = <AiOutlineVideoCamera />
-                    } else if (mime[0] === 'audio') {
-                        icon = <FaRegFileAudio />
+                let icon = null;
+                if (mime[0] === 'image') {
+                    icon = <AiOutlineFileImage />
+                } else if (mime[0] === 'video') {
+                    icon = <AiOutlineVideoCamera />
+                } else if (mime[0] === 'audio') {
+                    icon = <FaRegFileAudio />
+                } else {
+                    if (mime[1] === 'javascript') {
+                        icon = <DiJavascript1 />;
+                    } else if (mime[1] === 'html') {
+                        icon = <DiHtml5 />;
+                    } else if (mime[1] === 'css') {
+                        icon = <DiCss3 />;
                     } else {
-                        if (mime[1] === 'javascript') {
-                            icon = <DiJavascript1 />;
-                        } else if (mime[1] === 'html') {
-                            icon = <DiHtml5 />;
-                        } else if (mime[1] === 'css') {
-                            icon = <DiCss3 />;
-                        } else {
-                            icon = <BiFile />;
-                        }
+                        icon = <BiFile />;
                     }
+                }
 
-                    return <li className='file' key={key}>
-                        <Link href={`/file/${file_id}`}>
-                            <a>
-                                <div className='icon-btn'>
-                                    {icon}
-                                </div>
-                                <div className='meta'>
-                                    <span className='name'>
-                                        {name}
-                                    </span>
-                                    <span className='details'>
-                                        {size} - {dayjs(createdAt).format('D MMMM YYYY à HH:mm')}
-                                    </span>
-                                </div>
-                            </a>
-                        </Link>
-                    </li>
-                })}
-            </ul>
-        </>}
+                return <li className='file' key={key}>
+                    <Link href={`/file/${file_id}`}>
+                        <a>
+                            <div className='icon-btn'>
+                                {icon}
+                            </div>
+                            <div className='meta'>
+                                <span className='name'>
+                                    {name}
+                                </span>
+                                <span className='details'>
+                                    <span style={{ color: '#3f88c5', fontWeight: '600' }}>{size}</span> - <span style={{ color: 'grey' }}>{dayjs(createdAt).format('D MMMM YYYY à HH:mm')}</span>
+                                </span>
+                            </div>
+                        </a>
+                    </Link>
+                </li>
+            })}
+        </ul>}
     </>);
 }
