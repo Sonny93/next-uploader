@@ -42,7 +42,7 @@ apiRoute.use(async (req, res) => {
     let fileDB;
     let saveAs;
     try {
-        saveAs = `${Date.now()}-${extension}-${file.size}`;
+        saveAs = `${Date.now()}-${file.size}-${extension}`;
         fileDB = await prisma.file.create({
             data: {
                 name: customName,
