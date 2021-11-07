@@ -10,7 +10,7 @@ import 'dayjs/locale/fr';
 dayjs.extend(require('dayjs/plugin/relativeTime'))
 dayjs.locale('fr');
 
-import FilesList from '../components/FilesList';
+import FilesList from '../components/FilesList/FilesList';
 import Loader from '../components/Loader';
 import Meta from '../components/Meta/Meta';
 

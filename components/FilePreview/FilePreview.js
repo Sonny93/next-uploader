@@ -14,8 +14,8 @@ export default function FilePreview({ file, music_recognition }) {
     const contentRef = useRef();
     const [content, setContent] = useState(null);
     const [loadingContent, setLoading] = useState(false);
-    
     const mime = fileMimeType.split('/');
+    
     useEffect(() => {
         (async () => {
             if (mime[0] === 'image') {
@@ -36,7 +36,7 @@ export default function FilePreview({ file, music_recognition }) {
             if (!contentRef.current) return;
             // else contentRef.current.addEventListener('load', () => { });
         })();
-    }, [setLoading, contentRef, file, fileExtension, mime, name, url]);
+    }, [setLoading, contentRef, file, fileExtension, name, url]);
 
     return <>
         <div className='preview-wrapper'>
