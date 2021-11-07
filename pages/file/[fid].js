@@ -22,7 +22,9 @@ export default function File({ fid, file, music_recognition, error }) {
                     </Link>
                 </header>
                 <div className='file'>
-                    <div className='file'>Impossible de charge le fichier {fid}</div>
+                    <div className='file'>
+                        <p>Le fichier <code>{fid}</code> est introuvable</p>
+                    </div>
                 </div>
             </div>
         );
@@ -50,7 +52,7 @@ export default function File({ fid, file, music_recognition, error }) {
                     </Link>
                 </header>
                 <div className='file'>
-                    {error ? JSON.stringify(error) : <FilePreview file={file} music_recognition={music_recognition} />}
+                    {error ? <p>{error}</p> : <FilePreview file={file} music_recognition={music_recognition} />}
                 </div>
             </div>
         );
@@ -59,17 +61,14 @@ export default function File({ fid, file, music_recognition, error }) {
 
 export async function getServerSideProps({ query }) {
     const { fid } = query;
-    
     const file = await prisma.file.findUnique({
         where: { file_id: fid }
     });
-    const fileSafe = fileSafeProps(file);
 
     let props;
     if (file) {
+        const fileSafe = fileSafeProps(file);
         try {
-            const url = `${process.env.NEXTAUTH_URL}/file/${file.file_id}`;
-            console.log(fileSafe.url, url);
             const { data } = await axios.request({
                 method: 'post',
                 url: 'https://api.audd.io/',
@@ -93,9 +92,8 @@ export async function getServerSideProps({ query }) {
             props = { file: JSON.parse(JSON.stringify(fileSafe)), fid };
         }
     } else {
-        props = { file: null, fid, error: `Impossible de trouver le fichier ${fid}` };
+        props = { file: null, fid, error: `Le fichier ${fid} est introuvable` };
     }
 
-    console.log('props', props);
     return { props };
 }
