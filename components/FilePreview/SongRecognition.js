@@ -19,13 +19,12 @@ export default function SongRecognition({ music_recognition }) {
         </li>
         {spotify && <>
             <li className='field'>
-                <span>Lien : </span>
+                <span style={{ color: 'white' }}>Lien vers </span>
                 <span>
                     <a href={spotify.external_urls?.['spotify']}>Spotify</a>
                 </span>
             </li>
             <li style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ color: '#3f88c5' }}>Preview Spotify</span>
                 <span>
                     <audio src={spotify.preview_url} controls></audio>    
                 </span>
