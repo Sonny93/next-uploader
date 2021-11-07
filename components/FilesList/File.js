@@ -43,13 +43,13 @@ export default function File({ file, index }) {
     }, [setIcon]);
 
     return (
-        <Transition in={!!icon} timeout={0} key={index}>
+        <Transition in={!!icon} timeout={0}>
             {state => (<>
                 <li className='file' style={{ 
                     opacity: 0,
                     transition: `opacity ${index * 75}ms ease-in-out`,
                     ...transitionStyles[state]
-                 }} key={index}>
+                 }}>
                     <Link href={`/file/${file_id}`}>
                         <a>
                             <div className='icon-btn'>
