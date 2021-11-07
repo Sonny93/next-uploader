@@ -27,7 +27,7 @@ export default function FilesList({ files, showFilter, globalSize }) {
                 <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
             </div> : 
             <ul className='filelist'>
-                {filesFilter.map((file, key) => <File file={file} index={key} />)}
+                {filesFilter.map((file, key) => <File file={file} key={key} />)}
             </ul>}
     </>);
 }
