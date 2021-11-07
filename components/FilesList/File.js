@@ -47,7 +47,7 @@ export default function File({ file, index }) {
             {state => (<>
                 <li className='file' style={{ 
                     opacity: 0,
-                    transition: `opacity ${index * 75}ms ease-in-out`,
+                    transition: `${index * 75}ms, transform .05s, box-shadow .05s`,
                     ...transitionStyles[state]
                  }}>
                     <Link href={`/file/${file_id}`}>
