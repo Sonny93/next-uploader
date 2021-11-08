@@ -1,0 +1,35 @@
+.error-page {
+    user-select: none;
+    justify-content: center;
+
+    & > h1,
+    & > h2 {
+        border: 0;
+    }
+
+    & > details {
+        width: 100%;
+        white-space: pre;
+        font-size: 1.1em;
+    }
+
+    & summary {
+        height: fit-content;
+        width: 100%;
+        font-size: 1.1em;
+        border-left: 3px solid #3F88C5;
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    & > p {
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        & > span:first-child {
+            font-size: 2em;
+        }
+    }
+}
