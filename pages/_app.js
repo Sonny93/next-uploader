@@ -10,8 +10,21 @@ import '../styles/burger-menu.scss';
 import '../styles/error-page.scss';
 
 import ErrorBoundary from '../components/ErrorBoundary';
+import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }) {
+	useEffect(() => {
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).then((registration) => {
+					console.log('SW registered: ', registration)
+				}).catch(function (registrationError) {
+					console.log('SW registration failed: ', registrationError)
+				});
+			})
+		}
+	});
+
 	return (
 		<ErrorBoundary>
 			<Provider session={pageProps.session} >
