@@ -1,7 +1,10 @@
-module.exports = {
-	reactStrictMode: true,
+const withPWA = require('next-pwa');
+const withOffline = require('next-offline');
+
+module.exports = withOffline({
+	// reactStrictMode: true,
 	images: {
-		domains: ['localhost', '192.168.200.242:3000'],
+		domains: ['localhost']
 	},
 	webpack(config) {
 		config.module.rules.push({
@@ -10,5 +13,6 @@ module.exports = {
 		});
 
 		return config;
-	}
-}
+	},
+	dontAutoRegisterSw: true
+});
