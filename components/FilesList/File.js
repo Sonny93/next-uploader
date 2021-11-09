@@ -60,7 +60,7 @@ export default function File({ file, index }) {
                                     {name}
                                 </span>
                                 <span className='details'>
-                                    <span style={{ color: '#3f88c5', fontWeight: '600' }}>{size}</span> - <span style={{ color: 'grey' }}>{dayjs(createdAt).format('D MMMM YYYY à HH:mm')}</span>
+                                    <span style={{ color: '#3f88c5', fontWeight: '600' }}>{size}</span> - <span style={{ color: '#b3b3b3' }}>{dayjs(createdAt).format('D MMMM YYYY à HH:mm')}</span>
                                 </span>
                             </div>
                         </a>
