@@ -4961,7 +4961,7 @@
   "resolved" "https://registry.npmjs.org/progress/-/progress-2.0.3.tgz"
   "version" "2.0.3"
 
-"prop-types@^15.6.2", "prop-types@^15.7.2":
+"prop-types@^15.6.1", "prop-types@^15.6.2", "prop-types@^15.7.2":
   "integrity" "sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   "version" "15.7.2"
@@ -5139,6 +5139,13 @@
     "monaco-editor" "^0.27.0"
     "prop-types" "^15.7.2"
 
+"react-paginate@^8.0.0":
+  "integrity" "sha512-l5uNYWqVIhFBljQoyLuMnZ8ykCdoTz6aYfg9+fUdtWy/H9rELBgVBPEA99jVpTsBxqAxXKBZ/sdDrdN4b0hsvg=="
+  "resolved" "https://registry.npmjs.org/react-paginate/-/react-paginate-8.0.0.tgz"
+  "version" "8.0.0"
+  dependencies:
+    "prop-types" "^15.6.1"
+
 "react-player@^2.9.0":
   "integrity" "sha512-jNUkTfMmUhwPPAktAdIqiBcVUKsFKrVGH6Ocutj6535CNfM91yrvWxHg6fvIX8Y/fjYUPoejddwh7qboNV9vGA=="
   "resolved" "https://registry.npmjs.org/react-player/-/react-player-2.9.0.tgz"
@@ -5165,7 +5172,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16 || ^17", "react@^16.13.1 || ^17", "react@^16.8.0 || ^17.0.0", "react@^17.0.2", "react@^17.x", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || 18.x.x", "react@>=16.6.0", "react@17.0.2":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16 || ^17", "react@^16 || ^17", "react@^16.13.1 || ^17", "react@^16.8.0 || ^17.0.0", "react@^17.0.2", "react@^17.x", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || 18.x.x", "react@>=16.6.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"

@@ -89,3 +89,27 @@
 		font-style: italic;
 	}
 }
+
+.controls-page {
+	width: 100%;
+	padding-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+
+	& > li > a {
+		user-select: none;
+		cursor: pointer;
+		color: white;
+		border: 0;
+	}
+
+	& > li > a:hover {
+		border: 0;
+	}
+
+	& > .reset {
+		width: fit-content;
+		text-align: center;
+	}
+}
