@@ -27,7 +27,7 @@ export default function FilePreview({ file, music_recognition }) {
             } else {
                 const languageFinded = languages.find(lg => lg.key === fileExtension);
                 if (languageFinded) {
-                    setContent(<EditorFile language={languageFinded.value} file={file} />);
+                    setContent(<EditorFile language={languageFinded?.value || languageFinded.key} file={file} />);
                 } else {
                     setContent(<BiFile style={{ fontSize: '8em' }} />);
                 }
@@ -52,12 +52,13 @@ export default function FilePreview({ file, music_recognition }) {
 
 const languages = [
     { key: 'cs', value: 'csharp' }, 
-    { key: 'json', value: 'json' }, 
-    { key: 'plain', value: 'plain' }, 
+    { key: 'json' }, 
+    { key: 'plain' }, 
     { key: 'js', value: 'javascript' }, 
-    { key: 'html', value: 'html' }, 
-    { key: 'css', value: 'css' }, 
+    { key: 'html' }, 
+    { key: 'css' }, 
     { key: 'txt', value: 'plain' }, 
     { key: 'md', value: 'markdown' }, 
-    { key: 'xml', value: 'xml'}
+    { key: 'xml' }, 
+    { key: 'lock' }
 ];
