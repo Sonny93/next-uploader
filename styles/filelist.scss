@@ -25,18 +25,6 @@
 	flex-direction: column;
 	overflow-x: auto;
 
-	&::-webkit-scrollbar {
-		width: 10px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: #105b97;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background: #3f88c5;
-	}
-
 	& .file {
 		user-select: none;
 		cursor: pointer;
@@ -46,8 +34,8 @@
 		margin-bottom: 10px;
 		border-radius: 3px;
 		color: #fff;
-		background: rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(25px);
+		// background: rgba(255, 255, 255, 0.1);
+		// backdrop-filter: blur(25px);
 		border: 1px solid rgba(255, 255, 255, 0.25);
 		padding: 10px;
 		display: flex;
