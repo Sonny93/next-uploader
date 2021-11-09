@@ -111,6 +111,15 @@ export default function Home() {
 						</Link>
 					</li>
 					<li className='item'>
+						<Link href='/admin/'>
+							<a 
+								onClick={() => setMenuOpen(false)} 
+								style={{ background: '#FFF', color: '#3F88C5' }}>
+								Administration
+							</a>
+						</Link>
+					</li>
+					<li className='item'>
 						<Link href='#'>
 							<a onClick={() => {
 								signOut();
