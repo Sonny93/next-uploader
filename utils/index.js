@@ -23,4 +23,11 @@ function fileSafeProps(file) {
     return file;
 }
 
-export { calculSize, fileSafeProps };
+function userSafeProps(user) {    
+    delete user.id;
+    delete user.password;
+    
+    return user;
+}
+
+export { calculSize, fileSafeProps, userSafeProps };
