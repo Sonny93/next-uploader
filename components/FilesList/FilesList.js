@@ -15,22 +15,32 @@ export default function FilesList({ files, showFilter, globalSize }) {
     // following the API or data you're working with.
     const [itemOffset, setItemOffset] = useState(0);
 
-    useEffect(() => {
-        // Fetch items from another resources.
+    const [contextMenu, setContextMenu] = useState(null);
+
+    function loadItems() {
         const endOffset = itemOffset + itemsPerPage;
         console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+
         setCurrentItems(filesFilter.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(filesFilter.length / itemsPerPage));
-    }, [itemOffset, itemsPerPage]);
+    }
 
-    // Invoke when user click to request another page.
+    useEffect(loadItems, [itemOffset, itemsPerPage]);
+
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % filesFilter.length;
-        console.log(
-            `User requested page number ${event.selected}, which is offset ${newOffset}`
-        );
+        console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
         setItemOffset(newOffset);
     };
+
+    function handleRemoveFile(file) {
+        if (!file) 
+            return console.error('file missing', file);
+
+        const arr = files.filter((f) => f.file_id === file.file_id ? null : f);
+        setFilesFilter(arr);
+        loadItems();
+    }
 
     return (<>
         {showFilter &&
@@ -47,7 +57,15 @@ export default function FilesList({ files, showFilter, globalSize }) {
                 <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
             </div> : <>
                 <ul className='filelist'>
-                    {currentItems.map((file, key) => <File file={file} key={key} index={key} />)}
+                    {currentItems.map((file, key) => (
+                        <File 
+                            file={file} 
+                            key={key} 
+                            index={key} 
+                            contextMenu={file.file_id === contextMenu} 
+                            setContextMenu={setContextMenu}
+                            removeFile={handleRemoveFile} />
+                    ))}
                 </ul>
                 <ReactPaginate
                     onPageChange={handlePageClick}

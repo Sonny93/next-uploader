@@ -29,6 +29,7 @@
 		user-select: none;
 		cursor: pointer;
 		height: 70px;
+		min-height: 70px;
 		width: 100%;
 		list-style: none;
 		margin-bottom: 10px;
@@ -40,6 +41,7 @@
 		padding: 10px;
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		transition: .05s;
 	}
 
