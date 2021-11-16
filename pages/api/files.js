@@ -1,10 +1,24 @@
 import { PrismaClient } from '@prisma/client';
-import { calculSize, fileSafeProps } from '../../utils';
+import { fileSafeProps } from '../../utils';
+import requestip from 'request-ip';
 const prisma = new PrismaClient();
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default async function handler(req, res) {
+    try {
+        const ip = requestip.getClientIp(req);
+        const logs = await prisma.log_http.create({ 
+            data: {
+                method: req.method,
+                url: req.url,
+                ip
+            } 
+        });
+    } catch (error) {
+        console.error('Unable to create http_log', error);
+    }
+
     try {
         const files = await prisma.file.findMany();
         files.map(file => fileSafeProps(file));

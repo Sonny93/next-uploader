@@ -1,6 +1,7 @@
 import fs, { createReadStream } from 'fs';
 import { PrismaClient } from '@prisma/client';
 import nextConnect from 'next-connect';
+import requestip from 'request-ip';
 
 const prisma = new PrismaClient();
 
@@ -9,9 +10,22 @@ const apiRoute = nextConnect({
     onNoMatch: (req, res) => res.status(405).json({ error: `La méthode '${req.method}' n'est pas autorisée` })
 });
 
-apiRoute.use((req, res, next) => {
+apiRoute.use(async (req, res, next) => {
+    const ip = requestip.getClientIp(req);
     const { file_id } = req.query;
+
     console.log('REQUEST', file_id, 'METHOD', req.method);
+    try {
+        const logs = await prisma.log_http.create({ 
+            data: {
+                method: req.method,
+                url: req.url,
+                ip
+            } 
+        });
+    } catch (error) {
+        console.error('Unable to create http_log', error);
+    }
     next();
 });
 
