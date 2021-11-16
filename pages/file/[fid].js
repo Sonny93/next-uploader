@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import axios from 'axios';
+import requestip from 'request-ip';
 import { PrismaClient } from '@prisma/client';
 
 import { fileSafeProps } from '../../utils';
@@ -59,7 +60,20 @@ export default function File({ fid, file, music_recognition, error }) {
     }
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, query }) {
+    try {
+        const ip = requestip.getClientIp(req);
+        const logs = await prisma.log_http.create({ 
+            data: {
+                method: req.method,
+                url: req.url,
+                ip
+            } 
+        });
+    } catch (error) {
+        console.error('Unable to create http_log', error);
+    }
+
     const { fid } = query;
     const file = await prisma.file.findUnique({
         where: { file_id: fid }
