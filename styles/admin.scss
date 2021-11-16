@@ -1,0 +1,52 @@
+.admin {
+    & > .logs {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        & > .log {
+            height: auto;
+            width: 100%;
+            color: #fff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 3px;
+
+            & > div {
+                margin-bottom: 3px;
+                display: flex;
+                align-items: center;
+
+                & > :first-child {
+                    user-select: none;
+                    min-width: 100px;
+                    color: #fff;
+                    background: #3f88c5;
+                    padding: 5px;
+                    margin-right: 10px;
+                    border-radius: 3px;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                & > :last-child {
+                    height: auto;
+                    letter-spacing: 0.05em;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+
+                & > :last-child.success {
+                    color: #00ff00;
+                }
+
+                & > :last-child.error {
+                    color: red;
+                }
+            }
+        }
+    }
+}

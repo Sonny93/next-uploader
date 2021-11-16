@@ -8,6 +8,7 @@ import '../styles/file.scss';
 import '../styles/upload.scss';
 import '../styles/burger-menu.scss';
 import '../styles/error-page.scss';
+import '../styles/admin.scss';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 import { useEffect } from 'react';
