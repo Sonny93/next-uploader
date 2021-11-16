@@ -10,7 +10,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
+model user {
   id Int @id @default(autoincrement())
   user_id String @default(uuid())
   username String
@@ -20,7 +20,7 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model File {
+model file {
   id Int @id @default(autoincrement())
   file_id String @unique @default(uuid())
 
@@ -36,6 +36,39 @@ model File {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model log_http {
+  id Int @id @default(autoincrement())
+
+  url String
+  method String
+  ip String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model log_connection {
+  id Int @id @default(autoincrement())
+
+  email_used String
+  ip String
+  success Boolean
+  message String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// model log_upload {
+//   id Int @id @default(autoincrement())
+
+//   account_id String
+//   ip String
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 // model FileType {
 //   id Int @id @default(autoincrement())
