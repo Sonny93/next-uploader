@@ -34,7 +34,7 @@ export default function FilesList({ files, showFilter, globalSize }) {
     };
 
     function handleRemoveFile(file) {
-        if (!file) 
+        if (!file)
             return console.error('file missing', file);
 
         const arr = files.filter((f) => f.file_id === file.file_id ? null : f);
@@ -58,28 +58,30 @@ export default function FilesList({ files, showFilter, globalSize }) {
             </div> : <>
                 <ul className='filelist'>
                     {currentItems.map((file, key) => (
-                        <File 
-                            file={file} 
-                            key={key} 
-                            index={key} 
-                            contextMenu={file.file_id === contextMenu} 
+                        <File
+                            file={file}
+                            key={key}
+                            index={key}
+                            contextMenu={file.file_id === contextMenu}
                             setContextMenu={setContextMenu}
                             removeFile={handleRemoveFile} />
                     ))}
                 </ul>
-                <ReactPaginate
-                    onPageChange={handlePageClick}
-                    pageRangeDisplayed={5}
-                    pageCount={pageCount}
-                    breakLabel='...'
-                    nextLabel='Suivant'
-                    previousLabel='Précédent'
-                    renderOnZeroPageCount={null}
-                    containerClassName='controls-page'
-                    nextClassName='reset btn'
-                    previousClassName='reset btn'
-                    activeClassName='reset btn'
-                />
+                <footer>
+                    <ReactPaginate
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount}
+                        breakLabel='...'
+                        nextLabel='Suivant'
+                        previousLabel='Précédent'
+                        renderOnZeroPageCount={null}
+                        containerClassName='controls-page'
+                        nextClassName='reset next btn'
+                        previousClassName='reset prev btn'
+                        activeClassName='reset active btn'
+                    />
+                </footer>
             </>}
     </>);
 }
