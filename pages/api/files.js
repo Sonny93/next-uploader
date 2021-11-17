@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const files = await prisma.file.findMany();
+        const files = await (await prisma.file.findMany()).reverse();
         files.map(file => fileSafeProps(file));
 
         res.status(200).json({ files });
