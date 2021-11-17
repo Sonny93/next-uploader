@@ -5,9 +5,9 @@ export default function UploadList({ files, setFiles }) {
         <ul className='upload-list'>
             {files.map((file, key) => {
                 function onChange(event) {
-                    setFiles((prevFiles) => {
+                    setFiles((prevFiles, file_id) => {
                         const newFiles = prevFiles.map((file) => {
-                            if (file.id !== id) return file;
+                            if (file.id !== file_id) return file;
                             file[event.target.id] = event.target.value;
                             
                             return file;
