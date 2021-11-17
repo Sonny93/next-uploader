@@ -9,6 +9,8 @@ import { PrismaClient } from '@prisma/client';
 import { fileSafeProps } from '../../utils';
 const prisma = new PrismaClient();
 
+BigInt.prototype.toJSON = function () { return this.toString() }
+
 const upload = multer({ 
     storage: multer.diskStorage({
         destination: process.env.UPLOAD_DIR,
