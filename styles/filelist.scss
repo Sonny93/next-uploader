@@ -94,15 +94,15 @@
 
 .controls-page {
 	width: 100%;
-	padding-top: 10px;
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: space-between;
 
 	& > li > a {
 		user-select: none;
 		cursor: pointer;
 		color: white;
+		font-size: .85em;
 		border: 0;
 	}
 
@@ -110,8 +110,16 @@
 		border: 0;
 	}
 
-	& > .reset {
-		width: fit-content;
+	& > .reset.active {
 		text-align: center;
+		min-height: unset;
+		width: unset;
+	}
+
+	& > .reset.next,
+	& > .reset.prev {
+		text-align: center;
+		min-height: unset;
+		width: 150px;
 	}
 }
