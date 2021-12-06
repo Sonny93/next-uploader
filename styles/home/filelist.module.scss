@@ -96,10 +96,16 @@
 	justify-content: space-between;
 
 	& > li {
-		padding: 5px 10px;
+		height: 28px;
+		width: 28px;
 		border-radius: 2px;
 		color: #dadce0;
 		// border: 1px solid blue;
+		transition: .15s;
+	}
+
+	& > li:hover {
+		background: rgba(0, 0, 0, 0.25);
 	}
 
 	& > li.reset.active {
@@ -108,7 +114,6 @@
 
 	& > li.reset.next,
 	& > li.reset.prev {
-		width: fit-content;
 		padding: 5px;
 		display: flex;
 		align-items: center;
@@ -118,9 +123,14 @@
 	& > li > a {
 		user-select: none;
 		cursor: pointer;
+		height: 100%;
+		width: 100%;
 		color: white;
 		font-size: .85em;
 		border: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	& > li > a:hover {
@@ -131,9 +141,9 @@
 .filter {
     background: rgba(0, 0, 0, 0.25);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(10px);
+    // backdrop-filter: blur(10px);
     border-radius: 3px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    // border: 1px solid rgba(255, 255, 255, 0.18);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -144,4 +154,12 @@
         margin-bottom: 5px;
         font-size: 0.85em;
     }
+
+	& input {
+		color: #fff;
+		background: rgba(0, 0, 0, .25);
+		padding: 10px;
+		border: 1px solid rgba(255, 255, 255, .25);
+		border-bottom: 3px solid rgba(255, 255, 255, .25);
+	}
 }

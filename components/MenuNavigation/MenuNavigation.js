@@ -12,6 +12,11 @@ export default function NavigationMenu({ session }) {
                 <h3>Bonjour {session?.user?.name}</h3>
                 <ul className={styles['menu']}>
                     <li className={styles['item']}>
+                        <Link href='/'>
+                            <a>Liste des fichiers</a>
+                        </Link>
+                    </li>
+                    <li className={styles['item']}>
                         <Link href='/#'>
                             <a>Créer un fichier</a>
                         </Link>
