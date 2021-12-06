@@ -1,0 +1,43 @@
+.menu-wrapper h3 {
+    border: 0;
+    margin-bottom: 10px;
+}
+
+.menu {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    transition: 0.15s;
+
+    & .item {
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 7.5px;
+
+        & > * {
+            width: 100%;
+            font-size: 0.85em;
+            text-align: left;
+            color: #fff;
+            padding: 10px;
+            background: #3f88c5;
+            padding: 10px;
+            border-bottom: 2px solid transparent;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            transition: 0.1s;
+
+            & > svg {
+                font-size: 1.135em;
+            }
+        }
+
+        & > *:hover,
+        & > *:focus {
+            border-bottom: 2px solid #dadce0;
+        }
+    }
+}
