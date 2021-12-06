@@ -1,4 +1,4 @@
-import File from './File';
+import FileItem from './FileItem';
 
 export default function UploadList({ files, setFiles }) {
     return (
@@ -17,7 +17,7 @@ export default function UploadList({ files, setFiles }) {
                 }
             
                 if (file)
-                    return <File file={file} key={key} onChange={onChange} />
+                    return <FileItem file={file} key={key} onChange={onChange} />
             })}
         </ul>
     );

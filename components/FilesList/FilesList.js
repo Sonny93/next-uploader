@@ -4,7 +4,10 @@ import ReactPaginate from 'react-paginate';
 import File from './File';
 import Filter from './Filter';
 
+import styles from '../../styles/home/filelist.module.scss';
+
 export default function FilesList({ files, showFilter, globalSize }) {
+    console.log(styles);
     const itemsPerPage = 20;
     const [inputContent, setInputContent] = useState('');
     const [filesFilter, setFilesFilter] = useState(files);
@@ -53,10 +56,10 @@ export default function FilesList({ files, showFilter, globalSize }) {
                 setFilesFilter={setFilesFilter}
             />}
         {filesFilter.length < 1 ?
-            <div className='no-files'>
+            <div className={styles['no-files']}>
                 <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
             </div> : <>
-                <ul className='filelist'>
+                <ul className={styles['filelist']}>
                     {currentItems.map((file, key) => (
                         <File
                             file={file}
@@ -76,10 +79,10 @@ export default function FilesList({ files, showFilter, globalSize }) {
                         nextLabel='Suivant'
                         previousLabel='Précédent'
                         renderOnZeroPageCount={null}
-                        containerClassName='controls-page'
-                        nextClassName='reset next btn'
-                        previousClassName='reset prev btn'
-                        activeClassName='reset active btn'
+                        containerClassName={styles['controls-page']}
+                        nextClassName={`${styles['reset']} ${styles['next']} btn`}
+                        previousClassName={`${styles['reset']} ${styles['prev']} btn`}
+                        activeClassName={`${styles['reset']} ${styles['active']} btn`}
                     />
                 </footer>
             </>}
