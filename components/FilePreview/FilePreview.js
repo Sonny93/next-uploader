@@ -9,6 +9,8 @@ import EditorFile from './EditorFile';
 import SongRecognition from './SongRecognition';
 import Details from './Details';
 
+import styles from '../../styles/file-preview/file-preview.module.scss';
+
 export default function FilePreview({ file, music_recognition }) {
     const { url, name, fileExtension, fileMimeType, createdAt } = file;
     const contentRef = useRef();
@@ -32,21 +34,18 @@ export default function FilePreview({ file, music_recognition }) {
                     setContent(<BiFile style={{ fontSize: '8em' }} />);
                 }
             }
-
-            if (!contentRef.current) return;
-            // else contentRef.current.addEventListener('load', () => { });
         })();
     }, [setLoading, contentRef, file, fileExtension, name, url]);
 
     return <>
-        <div className='preview-wrapper'>
+        <div className={styles['preview-wrapper']}>
             {loadingContent && <Loader top={true} backdrop={true} />}
             {content}
         </div>
         <Details file={file} mime={mime} />
         {music_recognition ? 
             <SongRecognition music_recognition={music_recognition} /> :
-            <p className='no_music'>Aucune musique n'a été détectée</p>}
+            <p className={styles['no_music']}>Aucune musique n'a été détectée</p>}
     </>;
 }
 

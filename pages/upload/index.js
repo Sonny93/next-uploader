@@ -8,7 +8,10 @@ import toastr from 'toastr';
 
 import UploadList from '../../components/Upload/UploadList';
 
+import styles from '../../styles/upload.module.scss';
+
 export default function Upload() {
+    console.log(styles);
     const refInput = useRef();
     const [files, setFiles] = useState([]);
 
@@ -26,25 +29,25 @@ export default function Upload() {
     }
 
     return (<>
-        <div className='App upload'>
+        <div className={styles['upload']}>
             <header>
                 <Link href='/'>
-                    <a className='home-link'>Revenir à la page d'accueil</a>
+                    <a className={styles['home-link']}>Revenir à la page d'accueil</a>
                 </Link>
             </header>
             {files && files.length > 0 ?
                 <UploadList files={files} setFiles={setFiles} /> :
-                <div className='no-files'>
+                <div className={styles['no-file']}>
                     <p>Aucun fichier</p>
                 </div>}
-            <div className='controls'>
+            <div className={styles['controls']}>
                 <input
                     type='file'
                     id='file-upload'
                     onChange={handleFiles}
                     multiple={true}
                     ref={refInput}
-                    className='nostyle input-upload'
+                    className={`nostyle ${styles['input-upload']}`}
                 />
                 <button
                     onClick={() => UploadFiles(files, setFiles, refInput)}
@@ -52,7 +55,7 @@ export default function Upload() {
                 >
                     Envoyer {files.length > 0 ? `(${files.length} fichier${files.length > 1 ? 's' : ''})` : null}
                 </button>
-                <button className='icon-btn btn' onClick={() => refInput?.current?.click()}>
+                <button className={`${styles['icon-btn']} btn`} onClick={() => refInput?.current?.click()}>
                     <AiFillFileAdd />
                 </button>
             </div>
