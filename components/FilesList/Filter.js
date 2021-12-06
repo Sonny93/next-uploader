@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { calculSize } from '../../utils';
 
+import { FcSearch } from 'react-icons/fc';
+
 import styles from '../../styles/home/filelist.module.scss';
 
-export default function Filter({ globalSize, files, filesFilter, inputContent, setFilesFilter, setInputContent }) {
+export default function Filter({ globalSize, files, filesFilter, inputContent, setFilesFilter, setInputContent, loadItems }) {
     const [filteredSize, setFilteredSize] = useState(0);
 
     useEffect(() => {
@@ -15,12 +17,13 @@ export default function Filter({ globalSize, files, filesFilter, inputContent, s
             .reduce((prev, next) => prev + next);
             
         setFilteredSize(size);
+        loadItems();
     }, [filesFilter, setFilesFilter]);
 
     return (
         <div className={styles['filter']}>
             <label htmlFor='input_search'>Rechercher • {calculSize(filteredSize)} / {globalSize && calculSize(globalSize)}</label>
-            <input
+            <FcSearch /><input
                 name='input_search'
                 id='input_search'
                 placeholder={`Rechercher parmis ${files?.length || 0} fichier${files?.length > 1 ? 's' : ''}`}

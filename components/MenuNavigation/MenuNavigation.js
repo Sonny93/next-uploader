@@ -1,36 +1,16 @@
 import { signIn, signOut } from 'next-auth/client';
 import { AiFillFileAdd } from 'react-icons/ai';
+import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import Link from 'next/link';
 
 import styles from '../../styles/menu.module.scss';
 
-function FilterControls({ showFilter, setShowFilter, setMenuOpen }) {
-    if (showFilter) {
-        return (
-            <a onClick={() => setShowFilter(false)}>
-                Masquer les filtres de recherche
-            </a>
-        );
-    } else {
-        return (
-            <a onClick={() => setShowFilter(true)}>
-                Afficher les filtres de recherche
-            </a>
-        );
-    }
-}
-
-export default function NavigationMenu({ session, showFilter, setShowFilter }) {
+export default function NavigationMenu({ session }) {
     if (session) {
         return (
             <aside className={styles['menu-wrapper']}>
                 <h3>Bonjour {session?.user?.name}</h3>
                 <ul className={styles['menu']}>
-                    <li className={styles['item']}>
-                        <FilterControls 
-                            showFilter={showFilter} 
-                            setShowFilter={setShowFilter} />
-                    </li>
                     <li className={styles['item']}>
                         <Link href='/#'>
                             <a>Créer un fichier</a>
@@ -43,18 +23,14 @@ export default function NavigationMenu({ session, showFilter, setShowFilter }) {
                     </li>
                     <li className={styles['item']}>
                         <Link href='/admin/'>
-                            <a
-                                style={{ background: '#FFF', color: '#3F88C5' }}>
-                                Administration
-                            </a>
+                            <a><MdOutlineAdminPanelSettings /> Administration</a>
                         </Link>
                     </li>
                     <li className={styles['item']}>
                         <Link href='#'>
-                            <a onClick={() => {
-                                signOut();
-                                setMenuOpen(false);
-                            }} style={{ background: 'crimson', textTransform: 'uppercase' }}>Se déconnecter</a>
+                            <a onClick={() => signOut()} style={{ background: 'crimson', textTransform: 'uppercase' }}>
+                                Se déconnecter
+                            </a>
                         </Link>
                     </li>
                 </ul>
@@ -65,11 +41,6 @@ export default function NavigationMenu({ session, showFilter, setShowFilter }) {
             <aside className={styles['menu-wrapper']}>
                 <h3>Bonjour</h3>
                 <ul className='menu'>
-                    <li className={styles['item']}>
-                        <FilterControls 
-                            showFilter={showFilter} 
-                            setShowFilter={setShowFilter} />
-                    </li>
                     <li className={styles['item']}>
                         <Link href='#'>
                             <a onClick={() => {
