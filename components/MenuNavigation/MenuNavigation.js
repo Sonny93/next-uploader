@@ -24,7 +24,7 @@ export default function NavigationMenu({ session, showFilter, setShowFilter }) {
     if (session) {
         return (
             <aside className={styles['menu-wrapper']}>
-                <h3>Uploader</h3>
+                <h3>Bonjour {session?.user?.name}</h3>
                 <ul className={styles['menu']}>
                     <li className={styles['item']}>
                         <FilterControls 
@@ -63,7 +63,7 @@ export default function NavigationMenu({ session, showFilter, setShowFilter }) {
     } else {
         return (
             <aside className={styles['menu-wrapper']}>
-                <h3>Uploader</h3>
+                <h3>Bonjour</h3>
                 <ul className='menu'>
                     <li className={styles['item']}>
                         <FilterControls 

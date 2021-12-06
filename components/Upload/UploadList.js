@@ -1,8 +1,10 @@
 import FileItem from './FileItem';
 
+import styles from '../../styles/upload.module.scss';
+
 export default function UploadList({ files, setFiles }) {
     return (
-        <ul className='upload-list'>
+        <ul className={styles['upload-list']}>
             {files.map((file, key) => {
                 function onChange(event) {
                     setFiles((prevFiles, file_id) => {

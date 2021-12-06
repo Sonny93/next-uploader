@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+
 import File from './File';
 import Filter from './Filter';
 
@@ -22,7 +24,6 @@ export default function FilesList({ files, showFilter, globalSize }) {
 
     function loadItems() {
         const endOffset = itemOffset + itemsPerPage;
-        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
 
         setCurrentItems(filesFilter.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(filesFilter.length / itemsPerPage));
@@ -32,7 +33,6 @@ export default function FilesList({ files, showFilter, globalSize }) {
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % filesFilter.length;
-        console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
         setItemOffset(newOffset);
     };
 
@@ -76,13 +76,13 @@ export default function FilesList({ files, showFilter, globalSize }) {
                         pageRangeDisplayed={5}
                         pageCount={pageCount}
                         breakLabel='...'
-                        nextLabel='Suivant'
-                        previousLabel='Précédent'
+                        nextLabel={<IoIosArrowForward />}
+                        previousLabel={<IoIosArrowBack />}
                         renderOnZeroPageCount={null}
                         containerClassName={styles['controls-page']}
-                        nextClassName={`${styles['reset']} ${styles['next']} btn`}
-                        previousClassName={`${styles['reset']} ${styles['prev']} btn`}
-                        activeClassName={`${styles['reset']} ${styles['active']} btn`}
+                        nextClassName={`${styles['reset']} ${styles['next']}`}
+                        previousClassName={`${styles['reset']} ${styles['prev']}`}
+                        activeClassName={`${styles['reset']} ${styles['active']}`}
                     />
                 </footer>
             </>}
