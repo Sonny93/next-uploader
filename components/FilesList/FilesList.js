@@ -8,27 +8,24 @@ import Filter from './Filter';
 
 import styles from '../../styles/home/filelist.module.scss';
 
-export default function FilesList({ files, showFilter, globalSize }) {
-    console.log(styles);
+export default function FilesList({ files, globalSize }) {
     const itemsPerPage = 20;
     const [inputContent, setInputContent] = useState('');
     const [filesFilter, setFilesFilter] = useState(files);
 
     const [currentItems, setCurrentItems] = useState(filesFilter);
     const [pageCount, setPageCount] = useState(0);
-    // Here we use item offsets; we could also use page offsets
-    // following the API or data you're working with.
     const [itemOffset, setItemOffset] = useState(0);
 
     const [contextMenu, setContextMenu] = useState(null);
-
+    
     function loadItems() {
         const endOffset = itemOffset + itemsPerPage;
-
+        
         setCurrentItems(filesFilter.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(filesFilter.length / itemsPerPage));
     }
-
+    
     useEffect(loadItems, [itemOffset, itemsPerPage]);
 
     const handlePageClick = (event) => {
@@ -45,8 +42,8 @@ export default function FilesList({ files, showFilter, globalSize }) {
         loadItems();
     }
 
-    return (<>
-        {showFilter &&
+    if (!filesFilter || filesFilter.length < 1) {
+        return (<>
             <Filter
                 files={files}
                 filesFilter={filesFilter}
@@ -54,37 +51,49 @@ export default function FilesList({ files, showFilter, globalSize }) {
                 inputContent={inputContent}
                 setInputContent={setInputContent}
                 setFilesFilter={setFilesFilter}
-            />}
-        {filesFilter.length < 1 ?
+                loadItems={loadItems}
+            />
             <div className={styles['no-files']}>
                 <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
-            </div> : <>
-                <ul className={styles['filelist']}>
-                    {currentItems.map((file, key) => (
-                        <File
-                            file={file}
-                            key={key}
-                            index={key}
-                            contextMenu={file.file_id === contextMenu}
-                            setContextMenu={setContextMenu}
-                            removeFile={handleRemoveFile} />
-                    ))}
-                </ul>
-                <footer>
-                    <ReactPaginate
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={5}
-                        pageCount={pageCount}
-                        breakLabel='...'
-                        nextLabel={<IoIosArrowForward />}
-                        previousLabel={<IoIosArrowBack />}
-                        renderOnZeroPageCount={null}
-                        containerClassName={styles['controls-page']}
-                        nextClassName={`${styles['reset']} ${styles['next']}`}
-                        previousClassName={`${styles['reset']} ${styles['prev']}`}
-                        activeClassName={`${styles['reset']} ${styles['active']}`}
-                    />
-                </footer>
-            </>}
-    </>);
+            </div>
+        </>);
+    } else {
+        return (<>
+            <Filter
+                files={files}
+                filesFilter={filesFilter}
+                globalSize={globalSize}
+                inputContent={inputContent}
+                setInputContent={setInputContent}
+                setFilesFilter={setFilesFilter}
+                loadItems={loadItems}
+            />
+            <ul className={styles['filelist']}>
+                {currentItems.map((file, key) => (
+                    <File
+                        file={file}
+                        key={key}
+                        index={key}
+                        contextMenu={file.file_id === contextMenu}
+                        setContextMenu={setContextMenu}
+                        removeFile={handleRemoveFile} />
+                ))}
+            </ul>
+            <footer>
+                <ReactPaginate
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    breakLabel='...'
+                    nextLabel={<IoIosArrowForward />}
+                    previousLabel={<IoIosArrowBack />}
+                    renderOnZeroPageCount={null}
+                    containerClassName={styles['controls-page']}
+                    nextClassName={`${styles['reset']} ${styles['next']}`}
+                    previousClassName={`${styles['reset']} ${styles['prev']}`}
+                    activeClassName={`${styles['reset']} ${styles['active']}`}
+                />
+            </footer>
+        </>);
+    }
 }

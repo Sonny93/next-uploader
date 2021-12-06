@@ -20,7 +20,6 @@ import stylesFL from '../styles/home/filelist.module.scss';
 export default function Home() {
 	const router = useRouter();
 	const [pageLoading, setPageLoading] = useState(false);
-	const [showFilter, setShowFilter] = useState(false);
 
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
@@ -75,10 +74,7 @@ export default function Home() {
 	return (
 		<div className={styles['App']}>
 			<Meta />
-			<MenuNavigation 
-				session={session} 
-				showFilter={showFilter} 
-				setShowFilter={setShowFilter} />
+			<MenuNavigation session={session} />
 			<div className={styles['wrapper']}>
 				{pageLoading ?
 					<Loader label={'Chargement de la page en cours'} top={true} backdrop={true} /> :
@@ -90,7 +86,7 @@ export default function Home() {
 							<div className={stylesFL['no-files']}>
 								<p>Aucun fichier</p>
 							</div> :
-							<FilesList showFilter={showFilter} files={files} globalSize={globalSize} />}
+							<FilesList files={files} globalSize={globalSize} />}
 			</div>
 		</div>
 	);
