@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { calculSize } from '../../utils';
 
+import styles from '../../styles/home/filelist.module.scss';
+
 export default function Filter({ globalSize, files, filesFilter, inputContent, setFilesFilter, setInputContent }) {
     const [filteredSize, setFilteredSize] = useState(0);
 
     useEffect(() => {
-        if (filesFilter.length < 1) {
+        if (filesFilter.length < 1)
             return setFilteredSize(0);
-        }
 
         const size = filesFilter
             .map((file) => parseInt(file.fileBrutSize, 10))
@@ -17,7 +18,7 @@ export default function Filter({ globalSize, files, filesFilter, inputContent, s
     }, [filesFilter, setFilesFilter]);
 
     return (
-        <div className='filter'>
+        <div className={styles['filter']}>
             <label htmlFor='input_search'>Rechercher • {calculSize(filteredSize)} / {globalSize && calculSize(globalSize)}</label>
             <input
                 name='input_search'

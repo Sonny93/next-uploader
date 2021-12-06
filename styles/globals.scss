@@ -3,11 +3,12 @@
 	box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
 	height: 100vh;
 	width: 100vw;
 	font-size: 1em;
-	font-family: 'Poppins', sans-serif;
+	font-family: "Poppins", sans-serif;
 	color: #111;
 	background: url(../public/background.jpg);
 	background-repeat: no-repeat;
@@ -21,14 +22,47 @@ html, body {
 	flex-direction: column;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	color: #3F88C5;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #3f88c5;
 	margin: 5px 0 5px;
 	font-weight: 600;
 	border-bottom: 3px solid #dadce0;
 }
 
-ul, li {
+header,
+footer,
+aside {
+	user-select: none;
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	// background: rgba(0, 0, 0, 0.25);
+	border-radius: 3px;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	padding: 8px 15px;
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	// backdrop-filter: blur(10px);
+}
+
+header {
+	margin-bottom: 10px;
+}
+
+footer {
+	margin-top: 10px;
+}
+
+footer {
+	margin-right: 10px;
+}
+
+ul,
+li {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -38,7 +72,7 @@ a {
 	color: #3f88c5;
 	border-bottom: 1px solid transparent;
 	text-decoration: none;
-	transition: .15s;
+	transition: 0.15s;
 
 	&:hover,
 	&:focus {
@@ -47,13 +81,14 @@ a {
 	}
 }
 
-button:not(.nostyle), .btn {
+button:not(.nostyle),
+.btn {
 	user-select: none;
 	cursor: pointer;
 	height: fit-content;
 	min-height: 30px;
 	width: 195px;
-	font-family: 'Poppins', sans-serif;
+	font-family: "Poppins", sans-serif;
 	color: #fff;
 	padding: 5px 7px;
 	background: #3f88c5;
@@ -63,7 +98,7 @@ button:not(.nostyle), .btn {
 
 	&:disabled {
 		cursor: default;
-		opacity: .5;
+		opacity: 0.5;
 	}
 
 	&:not(:disabled):hover {
@@ -107,19 +142,6 @@ input:not(.nostyle) {
 	flex-direction: column;
 }
 
-.App {
-	height: 100%;
-	width: 700px;
-	padding: 10px;
-	color: #fff;
-	background: rgba(16 18 27 / 40%);
-	backdrop-filter: blur(40px);
-	overflow: auto;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-}
-
 .loader {
 	user-select: none;
 	height: 100%;
@@ -148,16 +170,6 @@ input:not(.nostyle) {
 
 		& > rect {
 			fill: #fff;
-		}
-	}
-}
-
-@media (max-width: 800px) {
-	.App {
-		width: 100%;
-
-		& .filelist {
-			width: 100%;
 		}
 	}
 }
