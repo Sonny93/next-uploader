@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import axios from 'axios';
 import requestip from 'request-ip';
@@ -6,7 +7,9 @@ import { PrismaClient } from '@prisma/client';
 import { fileSafeProps } from '../../utils';
 
 import Meta from '../../components/Meta/Meta';
+import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
 import FilePreview from '../../components/FilePreview/FilePreview';
+import Loader from '../../components/Loader/index';
 
 import styles from '../../styles/file-preview/file-preview.module.scss';
 
@@ -15,6 +18,17 @@ const prisma = new PrismaClient();
 BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default function File({ fid, file, music_recognition, error }) {
+	const [session, isLoadingSession] = useSession();
+
+    if (isLoadingSession && !session) { // Chargement session
+		return (
+			<div className={styles['App']}>
+				<Meta />
+				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
+			</div>
+		);
+	}
+
     if (!file) {
         return (
             <div className={styles['App']}>
@@ -44,11 +58,7 @@ export default function File({ fid, file, music_recognition, error }) {
                         <meta property={`og:${type}:type`} content={file.fileMimeType} />
                     </> : null}
                 </Meta>
-                <header>
-                    <Link href='/'>
-                        <a className={styles['home-link']}>Revenir à la page d'accueil</a>
-                    </Link>
-                </header>
+			    <MenuNavigation session={session} />
                 <div className={styles['file']}>
                     {error ? <p>{error}</p> : <FilePreview file={file} music_recognition={music_recognition} />}
                 </div>

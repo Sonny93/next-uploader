@@ -1,11 +1,25 @@
 .App {
     height: 100%;
-    width: 500px;
+    width: 1280px;
+    padding: 10px;
     background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
     backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     & header {
         text-align: center;
+    }
+
+    & aside {
+        height: 100%;
+        width: 350px;
+        min-width: 350px;
+        max-width: 350px;
+        background: rgba(0, 0, 0, 0.25);
+        margin-right: 10px;
     }
 }
 
@@ -27,10 +41,8 @@
         border-radius: 5px;
         padding: 20px;
         background: rgba(0, 0, 0, 0.25);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
         border-radius: 3px;
-        border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
     & > .preview-wrapper {
@@ -42,7 +54,7 @@
         display: flex;
         flex: 1;
         align-items: center;
-        justify-content: center;
+        // justify-content: center;
         flex-direction: column;
     }
 
@@ -80,6 +92,10 @@
 }
 
 @media (max-width: 1024px) {
+    .App {
+        width: 100%;
+    }
+
     .file {
         height: 100%;
         width: 100%;
