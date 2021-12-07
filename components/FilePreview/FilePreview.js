@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 // import 'ace-builds/src-noconflict/mode-javascript';
 
 import { BiFile } from 'react-icons/bi';
-import Loader from '../Loader';
+import Loader from '../Loader/Loader';
 import EditorFile from './EditorFile';
 import SongRecognition from './SongRecognition';
 import Details from './Details';
