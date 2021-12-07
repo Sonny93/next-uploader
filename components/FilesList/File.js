@@ -35,7 +35,7 @@ export default function File({ file, index, contextMenu = false, setContextMenu,
                 setIcon(<BiFile />);
             }
         }
-    }, [setIcon]);
+    }, [setIcon, mime]);
 
     function handleContextMenu(event) {
         event.preventDefault();
