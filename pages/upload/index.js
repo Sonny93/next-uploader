@@ -1,17 +1,17 @@
 import { useRef, useState } from 'react';
-import { getSession } from 'next-auth/client';
+import { getSession, useSession } from 'next-auth/client';
 import { AiFillFileAdd } from 'react-icons/ai';
 
-import Link from 'next/link';
 import axios from 'axios';
 import toastr from 'toastr';
 
 import UploadList from '../../components/Upload/UploadList';
+import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
 
 import styles from '../../styles/upload.module.scss';
 
 export default function Upload() {
-    console.log(styles);
+    const session = useSession();
     const refInput = useRef();
     const [files, setFiles] = useState([]);
 
@@ -30,34 +30,32 @@ export default function Upload() {
 
     return (<>
         <div className={styles['upload']}>
-            <header>
-                <Link href='/'>
-                    <a className={styles['home-link']}>Revenir à la page d'accueil</a>
-                </Link>
-            </header>
-            {files && files.length > 0 ?
-                <UploadList files={files} setFiles={setFiles} /> :
-                <div className={styles['no-file']}>
-                    <p>Aucun fichier</p>
-                </div>}
-            <div className={styles['controls']}>
-                <input
-                    type='file'
-                    id='file-upload'
-                    onChange={handleFiles}
-                    multiple={true}
-                    ref={refInput}
-                    className={`nostyle ${styles['input-upload']}`}
-                />
-                <button
-                    onClick={() => UploadFiles(files, setFiles, refInput)}
-                    disabled={files.length < 1 || !refInput?.current ? true : false}
-                >
-                    Envoyer {files.length > 0 ? `(${files.length} fichier${files.length > 1 ? 's' : ''})` : null}
-                </button>
-                <button className={`${styles['icon-btn']} btn`} onClick={() => refInput?.current?.click()}>
-                    <AiFillFileAdd />
-                </button>
+            <MenuNavigation session={session} />
+            <div className={styles['wrapper']}>
+                {files && files.length > 0 ?
+                    <UploadList files={files} setFiles={setFiles} /> :
+                    <div className={styles['no-file']}>
+                        <p>Aucun fichier</p>
+                    </div>}
+                <div className={styles['controls']}>
+                    <input
+                        type='file'
+                        id='file-upload'
+                        onChange={handleFiles}
+                        multiple={true}
+                        ref={refInput}
+                        className={`nostyle ${styles['input-upload']}`}
+                    />
+                    <button
+                        onClick={() => UploadFiles(files, setFiles, refInput)}
+                        disabled={files.length < 1 || !refInput?.current ? true : false}
+                    >
+                        Envoyer {files.length > 0 ? `(${files.length} fichier${files.length > 1 ? 's' : ''})` : null}
+                    </button>
+                    <button className={`${styles['icon-btn']} btn`} onClick={() => refInput?.current?.click()}>
+                        <AiFillFileAdd />
+                    </button>
+                </div>
             </div>
         </div>
     </>);
