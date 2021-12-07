@@ -6,33 +6,22 @@ import 'dayjs/locale/fr';
 dayjs.extend(require('dayjs/plugin/relativeTime'))
 dayjs.locale('fr');
 
-import Link from 'next/link';
 import Meta from '../../../components/Meta/Meta';
+import MenuNavigationAdmin from '../../../components/MenuNavigation/MenuNavigationAdmin';
+
+import styles from '../../../styles/admin/admin.module.scss';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 const prisma = new PrismaClient();
 
 export default function http({ logs }) {
     return (
-        <div className='App admin'>
+        <div className={styles['admin']}>
             <Meta />
-            <header style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                <Link href='/'>
-                    <a className='home-link'>Accueil</a>
-                </Link>
-                <Link href='/admin'>
-                    <a>Admin</a>
-                </Link>
-                <Link href='/admin/logs_admin/http'>
-                    <a>Logs HTTP</a>
-                </Link>
-                <Link href='/admin/logs_admin/auth'>
-                    <a>Logs Auth</a>
-                </Link>
-            </header>
-            <ul className='logs'>
+            <MenuNavigationAdmin />
+            <ul className={styles['logs']}>
                 {logs.map(({ url, method, ip, createdAt }, key) => (
-                    <li key={key} className='log'>
+                    <li key={key} className={styles['log']}>
                         <div>
                             <div>{method}</div>
                             <div>{url}</div>
@@ -63,7 +52,7 @@ export async function getServerSideProps(context) {
             }
         }
     }
-    
+
     const logs = await prisma.log_http.findMany();
     const logsSafe = logs
         .map((log) => {
@@ -74,7 +63,7 @@ export async function getServerSideProps(context) {
         .reverse();
 
     return {
-        props: { 
+        props: {
             session,
             logs: JSON.parse(JSON.stringify(logsSafe))
         }

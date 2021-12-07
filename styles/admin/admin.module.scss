@@ -1,11 +1,35 @@
 .admin {
-    & > .logs {
+    height: 100%;
+    width: 1280px;
+    padding: 10px;
+    background: rgba(16, 18, 27, 0.4);
+    backdrop-filter: blur(40px);
+    display: flex;
+
+    & aside {
+        height: 100%;
+        width: 350px;
+        min-width: 350px;
+        max-width: 350px;
+        background: rgba(0, 0, 0, 0.25);
+        margin-right: 10px;
+    }
+
+    & .wrapper {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+    }
+
+    & .logs {
         width: 100%;
         display: flex;
         align-items: center;
         flex-direction: column;
 
-        & > .log {
+        & .log {
             height: auto;
             width: 100%;
             color: #fff;

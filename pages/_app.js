@@ -2,7 +2,6 @@ import { Provider } from 'next-auth/client';
 
 import 'toastr/build/toastr.css';
 import '../styles/globals.scss';
-import '../styles/admin/admin.scss';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
