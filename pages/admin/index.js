@@ -1,39 +1,31 @@
 import { getSession } from 'next-auth/client';
 import { PrismaClient } from '@prisma/client';
 
-import Link from 'next/link';
-
 import { userSafeProps } from '../../utils';
+
 import Meta from '../../components/Meta/Meta';
+import MenuNavigationAdmin from '../../components/MenuNavigation/MenuNavigationAdmin';
+
+import styles from '../../styles/admin/admin.module.scss';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 const prisma = new PrismaClient();
 
 export default function Admin({ users }) {
     return (
-        <div className='App admin'>
+        <div className={styles['admin']}>
             <Meta />
-            <header style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                <Link href='/'>
-                    <a className='home-link'>Accueil</a>
-                </Link>
-                <Link href='/admin'>
-                    <a>Admin</a>
-                </Link>
-                <Link href='/admin/logs_admin/http'>
-                    <a>Logs HTTP</a>
-                </Link>
-                <Link href='/admin/logs_admin/auth'>
-                    <a>Logs Auth</a>
-                </Link>
-            </header>
-            <div>
-                <h3>Users</h3>
-                <ul>
-                    {users?.map((user, key) => <li key={key}>
-                        {Object.entries(user).map((values, key2) => <p key={key2}>{values.join(' : ')}</p>)}    
-                    </li>)}
-                </ul>
+            <MenuNavigationAdmin />
+            <div className={styles['wrapper']}>
+                <h1>Users</h1>
+                {users && users?.length > 0 ? <>
+                    <ul>
+                        {users?.map((user, key) => <li key={key}>
+                            {Object.entries(user).map((values, key2) => <p key={key2}>{values.join(' : ')}</p>)}    
+                        </li>)}
+                    </ul>
+                </> : <p>Aucun utilisateur</p>}
+                
             </div>
         </div>
     );

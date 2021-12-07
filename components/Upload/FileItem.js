@@ -11,7 +11,7 @@ export default function File({ file, onChange }) {
         <li className={styles['file-upload']}>
             <div className={styles['name']}>
                 <label htmlFor='name'>
-                    Nom du fichier • <span style={{ color: 'gray' }}>{name}</span>
+                    Nom du fichier • <span style={{ color: '#a0a0a0' }}>{name}</span>
                 </label>
                 <input
                     onChange={(e) => onChange(e, file_id)}

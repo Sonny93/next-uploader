@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 import styles from '../../styles/menu.module.scss';
 
-export default function NavigationMenu({ session }) {
+export default function NavigationMenu({ session, children }) {
     if (session) {
         return (
             <aside className={styles['menu-wrapper']}>
@@ -46,6 +46,10 @@ export default function NavigationMenu({ session }) {
                             </a>
                         </Link>
                     </li>
+                    {children && <>
+                        <hr />
+                        {children}
+                    </>}
                 </ul>
             </aside>
         );

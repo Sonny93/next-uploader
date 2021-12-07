@@ -7,17 +7,9 @@ import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
 import { DiJavascript1, DiCss3, DiHtml5 } from 'react-icons/di';
 
-import { Transition } from 'react-transition-group';
 import { useEffect, useState } from 'react';
 
 import styles from '../../styles/home/filelist.module.scss';
-
-const transitionStyles = {
-    entering: { opacity: 0 },
-    entered: { opacity: 1 },
-    exiting: { opacity: 1 },
-    exited: { opacity: 0 }
-};
 
 export default function File({ file, index, contextMenu = false, setContextMenu, removeFile }) {
     const { file_id, name, size, fileMimeType, createdAt } = file;
