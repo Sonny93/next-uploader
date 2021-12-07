@@ -9,7 +9,7 @@ import { fileSafeProps } from '../../utils';
 import Meta from '../../components/Meta/Meta';
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
 import FilePreview from '../../components/FilePreview/FilePreview';
-import Loader from '../../components/Loader/index';
+import Loader from '../../components/Loader/Loader';
 
 import styles from '../../styles/file-preview/file-preview.module.scss';
 

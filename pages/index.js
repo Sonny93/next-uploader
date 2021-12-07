@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
 import { useMediaQuery } from 'react-responsive';
@@ -10,7 +9,7 @@ dayjs.extend(require('dayjs/plugin/relativeTime'))
 dayjs.locale('fr');
 
 import FilesList from '../components/FilesList/FilesList';
-import Loader from '../components/Loader';
+import Loader from '../components/Loader/Loader';
 import Meta from '../components/Meta/Meta';
 import MenuNavigation from '../components/MenuNavigation/MenuNavigation';
 
@@ -18,8 +17,6 @@ import styles from '../styles/home/home.module.scss';
 import stylesFL from '../styles/home/filelist.module.scss';
 
 export default function Home() {
-	const router = useRouter();
-	const [pageLoading, setPageLoading] = useState(false);
 
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
@@ -47,21 +44,6 @@ export default function Home() {
 		return () => setFiles(null);
 	}, [setFiles]);
 
-	useEffect(() => { // Chargement pages
-		const handleStart = (url) => (url !== router.asPath) && setPageLoading(true);
-		const handleComplete = (url) => (url === router.asPath) && setPageLoading(false);
-
-		router.events.on('routeChangeStart', handleStart);
-		router.events.on('routeChangeComplete', handleComplete);
-		router.events.on('routeChangeError', handleComplete);
-
-		return () => {
-			router.events.off('routeChangeStart', handleStart);
-			router.events.off('routeChangeComplete', handleComplete);
-			router.events.off('routeChangeError', handleComplete);
-		}
-	});
-
 	if (isLoadingSession && !session) { // Chargement session
 		return (
 			<div className={styles['App']}>
@@ -76,17 +58,15 @@ export default function Home() {
 			<Meta />
 			<MenuNavigation session={session} />
 			<div className={styles['wrapper']}>
-				{pageLoading ?
-					<Loader label={'Chargement de la page en cours'} top={true} backdrop={true} /> :
-					files === null ?
+				{files === null ?
+					<div className={stylesFL['no-files']}>
+						<Loader label='Chargement des fichiers' top={false} />
+					</div> :
+					files?.length < 1 || files === undefined ?
 						<div className={stylesFL['no-files']}>
-							<Loader label='Chargement des fichiers' top={false} />
+							<p>Aucun fichier</p>
 						</div> :
-						files?.length < 1 || files === undefined ?
-							<div className={stylesFL['no-files']}>
-								<p>Aucun fichier</p>
-							</div> :
-							<FilesList files={files} globalSize={globalSize} />}
+						<FilesList files={files} globalSize={globalSize} />}
 			</div>
 		</div>
 	);
