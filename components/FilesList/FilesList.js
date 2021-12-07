@@ -26,7 +26,7 @@ export default function FilesList({ files, globalSize }) {
         setPageCount(Math.ceil(filesFilter.length / itemsPerPage));
     }
     
-    useEffect(loadItems, [itemOffset, itemsPerPage, filesFilter]);
+    useEffect(loadItems, [itemOffset, itemsPerPage]);
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % filesFilter.length;
