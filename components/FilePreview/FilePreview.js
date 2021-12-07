@@ -35,7 +35,7 @@ export default function FilePreview({ file, music_recognition }) {
                 }
             }
         })();
-    }, [setLoading, contentRef, file, fileExtension, name, url, mime]);
+    }, [setLoading, contentRef, file, fileExtension, name, url]);
 
     if (music_recognition && (mime[0] === 'video' || mime[0] === 'audio')) {
         return (<>
