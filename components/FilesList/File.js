@@ -7,15 +7,9 @@ import { BiFile } from 'react-icons/bi';
 import { FaRegFileAudio } from 'react-icons/fa';
 import { DiJavascript1, DiCss3, DiHtml5 } from 'react-icons/di';
 
-import { Transition } from 'react-transition-group';
 import { useEffect, useState } from 'react';
 
-const transitionStyles = {
-    entering: { opacity: 0 },
-    entered: { opacity: 1 },
-    exiting: { opacity: 1 },
-    exited: { opacity: 0 }
-};
+import styles from '../../styles/home/filelist.module.scss';
 
 export default function File({ file, index, contextMenu = false, setContextMenu, removeFile }) {
     const { file_id, name, size, fileMimeType, createdAt } = file;
@@ -65,35 +59,26 @@ export default function File({ file, index, contextMenu = false, setContextMenu,
     }
 
     return (
-        <Transition in={!!icon} timeout={0}>
-            {state => (<>
-                <li className='file' style={{ 
-                    opacity: 0,
-                    transition: `${index * 75}ms, transform .05s, box-shadow .05s, border .05s`,
-                    ...transitionStyles[state]
-                 }} onContextMenu={handleContextMenu}>
-                    {contextMenu ? 
-                        <div>
-                            <button onClick={handleRemove}>Supprimer</button>
-                        </div> :
-                        <Link href={`/file/${file_id}`}>
-                            <a>
-                                <div className='icon-btn'>
-                                    {icon}
-                                </div>
-                                <div className='meta'>
-                                    <span className='name'>
-                                        {name}
-                                    </span>
-                                    <span className='details'>
-                                        <span style={{ color: '#3f88c5', fontWeight: '600' }}>{size}</span> - <span style={{ color: '#b3b3b3' }}>{dayjs(createdAt).format('D MMMM YYYY à HH:mm')}</span>
-                                    </span>
-                                </div>
-                            </a>
-                        </Link>}
-                </li>
-            </>)}
-
-        </Transition>
+        <li className={styles['file']} onContextMenu={handleContextMenu}>
+            {contextMenu ? 
+                <div>
+                    <button onClick={handleRemove}>Supprimer</button>
+                </div> :
+                <Link href={`/file/${file_id}`}>
+                    <a>
+                        <div className={styles['icon-btn']}>
+                            {icon}
+                        </div>
+                        <div className={styles['meta']}>
+                            <span className={styles['name']}>
+                                {name}
+                            </span>
+                            <span className={styles['details']}>
+                                <span style={{ color: '#3f88c5', fontWeight: '600' }}>{size}</span> - <span style={{ color: '#b3b3b3' }}>{dayjs(createdAt).format('D MMMM YYYY à HH:mm')}</span>
+                            </span>
+                        </div>
+                    </a>
+                </Link>}
+        </li>
     )
 }

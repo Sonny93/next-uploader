@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import axios from 'axios';
 import requestip from 'request-ip';
@@ -6,53 +7,59 @@ import { PrismaClient } from '@prisma/client';
 import { fileSafeProps } from '../../utils';
 
 import Meta from '../../components/Meta/Meta';
+import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
 import FilePreview from '../../components/FilePreview/FilePreview';
+import Loader from '../../components/Loader/Loader';
+
+import styles from '../../styles/file-preview/file-preview.module.scss';
 
 const prisma = new PrismaClient();
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default function File({ fid, file, music_recognition, error }) {
+	const [session, isLoadingSession] = useSession();
+
+    if (isLoadingSession && !session) { // Chargement session
+		return (
+			<div className={styles['App']}>
+				<Meta />
+				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
+			</div>
+		);
+	}
+
     if (!file) {
         return (
-            <div className='App'>
+            <div className={styles['App']}>
                 <Meta title={`Uploader • ${fid}`} description='• Fichier introuvable' />
-                <header style={{ justifyContent: 'center' }}>
+                <header>
                     <Link href='/'>
-                        <a className='home-link'>Revenir à la page d'accueil</a>
+                        <a className={styles['home-link']}>Revenir à la page d'accueil</a>
                     </Link>
                 </header>
-                <div className='file'>
-                    <div className='file'>
-                        <p>Le fichier <code>{fid}</code> est introuvable</p>
-                    </div>
+                <div className={styles['file']}>
+                    <p>Le fichier <code>{fid}</code> est introuvable</p>
                 </div>
             </div>
         );
     } else {
-        console.log('music_recognition', music_recognition);
-
         const type = file.fileMimeType.split('/')?.[0];
         return (
-            <div className='App'>
+            <div className={styles['App']}>
                 <Meta 
                     title={`Uploader • ${file.name}`} 
                     description={file.name}
                     pageUrl={`${process.env.NEXTAUTH_URL}/file/${file.file_id}`} 
-                    assetUrl={file.url}
-                >
+                    assetUrl={file.url}>
                     {type === 'image' || type === 'video' ? <>
                         <meta property={`og:${type}`} content={file.url} />
                         <meta property={`og:${type}:alt`} content={`${type} content for ${file.name} (${file.file_id})`} />
                         <meta property={`og:${type}:type`} content={file.fileMimeType} />
                     </> : null}
                 </Meta>
-                <header style={{ justifyContent: 'center' }}>
-                    <Link href='/'>
-                        <a className='home-link'>Revenir à la page d'accueil</a>
-                    </Link>
-                </header>
-                <div className='file'>
+			    <MenuNavigation session={session} />
+                <div className={styles['file']}>
                     {error ? <p>{error}</p> : <FilePreview file={file} music_recognition={music_recognition} />}
                 </div>
             </div>
