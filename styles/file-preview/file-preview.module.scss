@@ -31,6 +31,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow: auto;
 
     & > a.home-link {
         margin-bottom: 5px;

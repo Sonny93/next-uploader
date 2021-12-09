@@ -58,22 +58,30 @@
                 margin-bottom: 0;
             }
 
-            & label {
-                font-size: .9em;
-                display: block;
+            & .name {
                 margin-bottom: 5px;
             }
 
-            & .name {
-                margin-bottom: 15px;
-            }
+            & .name,
+            & .password {
+                display: flex;
+                align-items: center;
 
-            & input {
-                color: #fff;
-                background: rgba(0, 0, 0, .25);
-                padding: 10px;
-                border: 1px solid rgba(255, 255, 255, .25);
-                border-bottom: 3px solid rgba(255, 255, 255, .25);
+                & label {
+                    font-size: .9em;
+                    display: block;
+                    width: 175px;
+                }
+
+                & input {
+                    color: #fff;
+                    background: transparent;
+                    padding: 5px;
+                    flex: 1;
+                    background: rgba(0, 0, 0, .25);
+                    border: 1px solid rgba(255, 255, 255, .25);
+                    border-bottom: 3px solid rgba(255, 255, 255, .25);
+                }
             }
 
             & .progression {

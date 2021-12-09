@@ -4,33 +4,32 @@ import { calculSize } from '../../utils';
 import styles from '../../styles/upload.module.scss';
 
 export default function File({ file, onChange }) {
-    const { file_id, customName, name, password, size, progress, error } = file;
+    const { customName, name, password, size, progress, error } = file;
     const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
-
+    console.log(error, percent);
     return (
         <li className={styles['file-upload']}>
             <div className={styles['name']}>
-                <label htmlFor='name'>
-                    Nom du fichier • <span style={{ color: '#a0a0a0' }}>{name}</span>
+                <label htmlFor='customName'>
+                    Nom du fichier
                 </label>
                 <input
-                    onChange={(e) => onChange(e, file_id)}
+                    onChange={(e) => onChange(e, name, customName)}
                     value={customName}
-                    style={{ width: '100%' }}
-                    id='customName'
+                    data-id='customName'
                     className={styles['input-name']}
-                    placeholder={`Nom original "${name}""`}
+                    placeholder={`Nom original "${name}"`}
                 />
             </div>
             <div className={styles['password']}>
                 <label htmlFor='password'>
-                    Mot de passe (optionel)
+                    Mot de passe (optionnel)
                 </label>
                 <input
-                    onChange={(e) => onChange(e)}
+                    onChange={(e) => onChange(e, name, password)}
                     value={password}
-                    style={{ width: '100%' }}
-                    id='password'
+                    type='password'
+                    data-id='password'
                     className={styles['input-password']}
                     placeholder='********'
                 />
