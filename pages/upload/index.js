@@ -22,7 +22,7 @@ export default function Upload() {
             file.password = '';
             file.progress = null;
             file.uploaded = false;
-            file.errorr = null;
+            file.error = null;
             return file;
         });
         setFiles(files);
