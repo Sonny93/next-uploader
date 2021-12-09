@@ -18,7 +18,7 @@
 
 .filelist {
 	width: 100%;
-	padding: 2px 15px 2px 15px;
+	padding-right: 10px;
 	display: flex;
 	align-items: center;
 	flex: 1;
@@ -35,14 +35,12 @@
 		margin-bottom: 10px;
 		border-radius: 3px;
 		color: #fff;
-		// background: rgba(255, 255, 255, 0.1);
-		// backdrop-filter: blur(25px);
 		border: 1px solid rgba(255, 255, 255, 0.25);
 		padding: 10px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: .05s;
+		transition: .15s;
 	}
 
 	& .file:last-child {
@@ -52,7 +50,6 @@
 	& .file:hover {
 		box-shadow: 0px 0px 20px 1px rgb(255 255 255 / 18%);
 		border: 1px solid #fff;
-		transform: scale(1.04);
 	}
 
 	& .file > a {
@@ -98,28 +95,71 @@
 	align-items: center;
 	justify-content: space-between;
 
+	& > li {
+		height: 28px;
+		width: 28px;
+		border-radius: 2px;
+		color: #dadce0;
+		// border: 1px solid blue;
+		transition: .15s;
+	}
+
+	& > li:hover {
+		background: rgba(0, 0, 0, 0.25);
+	}
+
+	& > li.reset.active {
+		background: #3f88c5;
+	}
+
+	& > li.reset.next,
+	& > li.reset.prev {
+		padding: 5px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	& > li > a {
 		user-select: none;
 		cursor: pointer;
+		height: 100%;
+		width: 100%;
 		color: white;
 		font-size: .85em;
 		border: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	& > li > a:hover {
 		border: 0;
 	}
+}
 
-	& > .reset.active {
-		text-align: center;
-		min-height: unset;
-		width: unset;
-	}
+.filter {
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    // backdrop-filter: blur(10px);
+    border-radius: 3px;
+    // border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    margin-bottom: 10px;
 
-	& > .reset.next,
-	& > .reset.prev {
-		text-align: center;
-		min-height: unset;
-		width: 150px;
+    & label {
+        margin-bottom: 5px;
+        font-size: 0.85em;
+    }
+
+	& input {
+		color: #fff;
+		background: rgba(0, 0, 0, .25);
+		padding: 10px;
+		border: 1px solid rgba(255, 255, 255, .25);
+		border-bottom: 3px solid rgba(255, 255, 255, .25);
 	}
 }

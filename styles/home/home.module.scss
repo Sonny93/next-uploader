@@ -1,0 +1,42 @@
+.App {
+	height: 100%;
+	width: 1280px;
+	padding: 10px;
+	color: #fff;
+	background: rgba(16 18 27 / 40%);
+	backdrop-filter: blur(40px);
+	overflow: auto;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	overflow: hidden;
+
+	& aside {
+		height: 100%;
+		width: 350px;
+		background: rgba(0, 0, 0, 0.25);
+		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+		// backdrop-filter: blur(10px);
+	}
+
+    & .wrapper {
+        height: 100%;
+        width: 100%;
+        padding-left: 10px;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+    }
+
+	& footer {
+		background: rgba(0, 0, 0, 0.25);
+		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+		// backdrop-filter: blur(10px);
+	}
+}
+
+@media (max-width: 1280px) {
+	.App {
+		width: 100%;
+	}
+}

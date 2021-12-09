@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useState } from 'react';
 // import 'ace-builds/src-noconflict/mode-javascript';
 
 import { BiFile } from 'react-icons/bi';
-import Loader from '../Loader';
+import Loader from '../Loader/Loader';
 import EditorFile from './EditorFile';
 import SongRecognition from './SongRecognition';
 import Details from './Details';
+
+import styles from '../../styles/file-preview/file-preview.module.scss';
 
 export default function FilePreview({ file, music_recognition }) {
     const { url, name, fileExtension, fileMimeType, createdAt } = file;
@@ -15,7 +17,7 @@ export default function FilePreview({ file, music_recognition }) {
     const [content, setContent] = useState(null);
     const [loadingContent, setLoading] = useState(false);
     const mime = fileMimeType.split('/');
-    
+
     useEffect(() => {
         (async () => {
             if (mime[0] === 'image') {
@@ -32,33 +34,48 @@ export default function FilePreview({ file, music_recognition }) {
                     setContent(<BiFile style={{ fontSize: '8em' }} />);
                 }
             }
-
-            if (!contentRef.current) return;
-            // else contentRef.current.addEventListener('load', () => { });
         })();
     }, [setLoading, contentRef, file, fileExtension, name, url]);
 
-    return <>
-        <div className='preview-wrapper'>
-            {loadingContent && <Loader top={true} backdrop={true} />}
-            {content}
-        </div>
-        <Details file={file} mime={mime} />
-        {music_recognition ? 
-            <SongRecognition music_recognition={music_recognition} /> :
-            <p className='no_music'>Aucune musique n'a été détectée</p>}
-    </>;
+    if (music_recognition && (mime[0] === 'video' || mime[0] === 'audio')) {
+        return (<>
+            <div className={styles['preview-wrapper']}>
+                {loadingContent && <Loader top={true} backdrop={true} />}
+                {content}
+            </div>
+            <Details file={file} mime={mime} />
+            <SongRecognition music_recognition={music_recognition} />
+        </>);
+    } else if (!music_recognition && (mime[0] === 'video' || mime[0] === 'audio')) {
+        return (<>
+            <div className={styles['preview-wrapper']}>
+                {loadingContent && <Loader top={true} backdrop={true} />}
+                {content}
+            </div>
+            <Details file={file} mime={mime} />
+            <p>Aucune musique détectée</p>
+        </>);
+    } else {
+
+        return (<>
+            <div className={styles['preview-wrapper']}>
+                {loadingContent && <Loader top={true} backdrop={true} />}
+                {content}
+            </div>
+            <Details file={file} mime={mime} />
+        </>);
+    }
 }
 
 const languages = [
-    { key: 'cs', value: 'csharp' }, 
-    { key: 'json' }, 
-    { key: 'plain' }, 
-    { key: 'js', value: 'javascript' }, 
-    { key: 'html' }, 
-    { key: 'css' }, 
-    { key: 'txt', value: 'plain' }, 
-    { key: 'md', value: 'markdown' }, 
-    { key: 'xml' }, 
+    { key: 'cs', value: 'csharp' },
+    { key: 'json' },
+    { key: 'plain' },
+    { key: 'js', value: 'javascript' },
+    { key: 'html' },
+    { key: 'css' },
+    { key: 'txt', value: 'plain' },
+    { key: 'md', value: 'markdown' },
+    { key: 'xml' },
     { key: 'lock' }
 ];

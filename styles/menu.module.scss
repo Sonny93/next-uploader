@@ -1,0 +1,48 @@
+.menu-wrapper h3 {
+    border: 0;
+    margin-bottom: 10px;
+}
+
+.menu {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    transition: 0.15s;
+
+    & .item {
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 7.5px;
+
+        & > * {
+            width: 100%;
+            text-align: left;
+            color: #fff;
+            padding: 10px;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            transition: 0.15s;
+
+            & > svg {
+                margin-right: 10px;
+                font-size: 1.75em;
+            }
+        }
+
+        & > *:hover {
+            background: rgba(0, 0, 0, .25);
+            border-bottom: 2px solid #dadce0;
+        }
+
+        & > *.red:hover {
+            background: rgba(255, 0, 0, 0.25);
+        }
+
+        & > *.blue:hover {
+            background: rgb(63, 136, 197, .25);
+        }
+    }
+}
