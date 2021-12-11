@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function Custom404() {
+export default function Custom500() {
     return (<>
         <div className='App error-page'>
             <p>

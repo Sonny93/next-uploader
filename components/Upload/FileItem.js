@@ -6,7 +6,7 @@ import styles from '../../styles/upload.module.scss';
 export default function File({ file, onChange }) {
     const { customName, name, password, size, progress, error } = file;
     const percent = progress ? ((progress?.loaded / progress?.total) * 100).toFixed(2) : 0;
-    console.log(error, percent);
+    
     return (
         <li className={styles['file-upload']}>
             <div className={styles['name']}>
