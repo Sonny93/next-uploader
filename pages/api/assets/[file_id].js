@@ -1,9 +1,8 @@
 import fs, { createReadStream } from 'fs';
-import { PrismaClient } from '@prisma/client';
 import nextConnect from 'next-connect';
 import requestip from 'request-ip';
 
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma';
 
 const apiRoute = nextConnect({
     onError: (error, req, res) => res.status(501).json({ error: `Une erreur est survenue! ${error.message}` }),

@@ -2,9 +2,9 @@ import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import axios from 'axios';
 import requestip from 'request-ip';
-import { PrismaClient } from '@prisma/client';
 
 import { fileSafeProps } from '../../utils';
+import prisma from '../../lib/prisma';
 
 import Meta from '../../components/Meta/Meta';
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
@@ -12,8 +12,6 @@ import FilePreview from '../../components/FilePreview/FilePreview';
 import Loader from '../../components/Loader/Loader';
 
 import styles from '../../styles/file-preview/file-preview.module.scss';
-
-const prisma = new PrismaClient();
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 

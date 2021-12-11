@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { fileSafeProps } from '../../utils';
 import requestip from 'request-ip';
-const prisma = new PrismaClient();
+
+import prisma from '../../lib/prisma';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
