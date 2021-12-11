@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/client';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prisma';
 
 import { userSafeProps } from '../../utils';
 
@@ -9,7 +9,6 @@ import MenuNavigationAdmin from '../../components/MenuNavigation/MenuNavigationA
 import styles from '../../styles/admin/admin.module.scss';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
-const prisma = new PrismaClient();
 
 export default function Admin({ users }) {
     return (

@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/client';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../../lib/prisma';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
@@ -12,7 +12,6 @@ import MenuNavigationAdmin from '../../../components/MenuNavigation/MenuNavigati
 import styles from '../../../styles/admin/admin.module.scss';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
-const prisma = new PrismaClient();
 
 export default function auth({ logs }) {
     return (

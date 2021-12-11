@@ -2,12 +2,10 @@ import nextConnect from 'next-connect';
 import { getSession } from 'next-auth/client';
 import multer from 'multer';
 import path from 'path';
-
 import { rename } from 'fs/promises';
 
-import { PrismaClient } from '@prisma/client';
 import { fileSafeProps } from '../../utils';
-const prisma = new PrismaClient();
+import prisma from '../../lib/prisma';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 

@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
 import nextConnect from 'next-connect';
 
-const prisma = new PrismaClient();
+import prisma from '../../../lib/prisma';
 
 import { fileSafeProps } from '../../../utils';
 
