@@ -1,23 +1,8 @@
-import { fileSafeProps } from '../../utils';
-import requestip from 'request-ip';
-
-import prisma from '../../lib/prisma';
-
+import { prisma, fileSafeProps, createLogHTTP } from '../../utils';
 BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default async function handler(req, res) {
-    try {
-        const ip = requestip.getClientIp(req);
-        const logs = await prisma.log_http.create({ 
-            data: {
-                method: req.method,
-                url: req.url,
-                ip
-            } 
-        });
-    } catch (error) {
-        console.error('Unable to create http_log', error);
-    }
+    createLogHTTP(req);
 
     try {
         const files = await (await prisma.file.findMany()).reverse();

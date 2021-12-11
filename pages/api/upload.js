@@ -4,8 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import { rename } from 'fs/promises';
 
-import { fileSafeProps } from '../../utils';
-import prisma from '../../lib/prisma';
+import { prisma, fileSafeProps, createLogHTTP } from '../../utils';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
@@ -25,8 +24,9 @@ apiRoute.use(async (req, res, next) => { // Middleware auth
     const session = await getSession({ req });
     if (!session)
         return res.status(403).send({ error: 'Vous devez être connecté' });
-    else
-        next();
+    
+    createLogHTTP(req);
+    next();
 });
 
 apiRoute.use(upload.single('file'));

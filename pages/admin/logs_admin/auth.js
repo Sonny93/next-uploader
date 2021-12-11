@@ -1,15 +1,16 @@
 import { getSession } from 'next-auth/client';
-import prisma from '../../../lib/prisma';
-
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
-dayjs.extend(require('dayjs/plugin/relativeTime'))
-dayjs.locale('fr');
 
 import Meta from '../../../components/Meta/Meta';
 import MenuNavigationAdmin from '../../../components/MenuNavigation/MenuNavigationAdmin';
 
 import styles from '../../../styles/admin/admin.module.scss';
+
+import { prisma } from '../../../utils/index';
+
+dayjs.extend(require('dayjs/plugin/relativeTime'))
+dayjs.locale('fr');
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
@@ -73,7 +74,6 @@ export async function getServerSideProps(context) {
         })
         .reverse();
 
-        console.log(logsSafe);
     return {
         props: { 
             session,
