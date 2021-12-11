@@ -1,8 +1,7 @@
 import fs, { createReadStream } from 'fs';
 import nextConnect from 'next-connect';
-import requestip from 'request-ip';
 
-import prisma from '../../../lib/prisma';
+import { prisma, createLogHTTP } from '../../../utils/index';
 
 const apiRoute = nextConnect({
     onError: (error, req, res) => res.status(501).json({ error: `Une erreur est survenue! ${error.message}` }),
@@ -10,21 +9,7 @@ const apiRoute = nextConnect({
 });
 
 apiRoute.use(async (req, res, next) => {
-    const ip = requestip.getClientIp(req);
-    const { file_id } = req.query;
-
-    console.log('REQUEST', file_id, 'METHOD', req.method);
-    try {
-        const logs = await prisma.log_http.create({ 
-            data: {
-                method: req.method,
-                url: req.url,
-                ip
-            } 
-        });
-    } catch (error) {
-        console.error('Unable to create http_log', error);
-    }
+    createLogHTTP(req);    
     next();
 });
 
@@ -54,7 +39,6 @@ apiRoute.get(async (req, res) => {
 
 apiRoute.put(async (req, res) => {
     const { file_id } = req.query;
-    console.log('PUT', file_id, 'BODY', req.body, JSON.parse(req.body), req.body?.name);
 });
 
 export default apiRoute;

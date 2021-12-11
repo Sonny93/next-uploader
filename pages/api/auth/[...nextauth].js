@@ -1,9 +1,8 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
-import requestip from 'request-ip';
 
-import prisma from '../../../lib/prisma';
+import { prisma, createConnectionLogs } from '../../../utils';
 
 export default NextAuth({
     providers: [
@@ -14,65 +13,34 @@ export default NextAuth({
                 password: { label: 'Mot de passe', type: 'password', placeholder: '********' }
             },
             async authorize(credentials, req) {
-                const ip = requestip.getClientIp(req);
+                const email = credentials?.email;
+                const password = credentials?.password;
+
+                if (!email || !password)
+                    return null;
+
                 let user;
                 try {
                     user = await prisma.user.findUnique({
-                        where: {
-                            email: credentials?.email
-                        }
+                        where: { email }
                     });
                 } catch (error) {
-                    console.error('Unable to get user with credentials:', credentials);
+                    console.error(`Impossible de récupérer l'utilisateur avec les identifiants : ${credentials}`);
                     return null;
                 }
 
                 if (!user) {
-                    try {
-                        const logs = await prisma.log_connection.create({
-                            data: {
-                                email_used: credentials?.email,
-                                ip,
-                                success: false,
-                                message: 'Unable to find user with email: ' + credentials?.email
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Unable to create log_connection', error);
-                    }
+                    createConnectionLogs(req, email, false, `Impossible de trouver l'utilisateur : ${email}`);
                     return null;
-                } 
+                }
                 
                 const passwordMatch = await bcrypt.compare(credentials?.password, user.password);
                 if (!passwordMatch) {
-                    try {
-                        const logs = await prisma.log_connection.create({
-                            data: {
-                                email_used: credentials?.email,
-                                ip,
-                                success: false,
-                                message: 'Password does not match'
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Unable to create log_connection', error);
-                    }
+                    createConnectionLogs(req, email, false, `Mot de passe incorrect`);
                     return null;
                 }
 
-                try {
-                    const logs = await prisma.log_connection.create({
-                        data: {
-                            email_used: credentials?.email,
-                            ip,
-                            success: true,
-                            message: `Successfully connected as "${user.username}" with email "${user.email}"`
-                        }
-                    });
-                } catch (error) {
-                    console.error('Unable to create log_connection', error);
-                }
-
+                createConnectionLogs(req, email, true, `Utilisateur authentifié avec succès : ${email}`);
                 return {
                     name: user.username,
                     email: user.email

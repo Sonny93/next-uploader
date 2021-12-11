@@ -3,8 +3,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import requestip from 'request-ip';
 
-import { fileSafeProps } from '../../utils';
-import prisma from '../../lib/prisma';
+import { prisma, fileSafeProps, createLogHTTP } from '../../utils';
 
 import Meta from '../../components/Meta/Meta';
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
@@ -66,23 +65,12 @@ export default function File({ fid, file, music_recognition, error }) {
 }
 
 export async function getServerSideProps({ req, query }) {
-    try {
-        const ip = requestip.getClientIp(req);
-        const logs = await prisma.log_http.create({ 
-            data: {
-                method: req.method,
-                url: req.url,
-                ip
-            } 
-        });
-    } catch (error) {
-        console.error('Unable to create http_log', error);
-    }
-
     const { fid } = query;
     const file = await prisma.file.findUnique({
         where: { file_id: fid }
     });
+
+    createLogHTTP(req);
 
     let props;
     if (file) {
@@ -97,6 +85,7 @@ export async function getServerSideProps({ req, query }) {
                     api_token: 'd9cedf345ea8b46bcfe7d6da4ff7035e'
                 }
             });
+            console.log(data);
             if (data.status === 'success') {
                 props = { 
                     file: JSON.parse(JSON.stringify(fileSafe)), 

@@ -1,9 +1,6 @@
 import nextConnect from 'next-connect';
 
-import prisma from '../../../lib/prisma';
-
-import { fileSafeProps } from '../../../utils';
-
+import { prisma, fileSafeProps, createLogHTTP } from '../../../utils';
 BigInt.prototype.toJSON = function () { return this.toString() }
 
 const apiRoute = nextConnect({
@@ -11,8 +8,14 @@ const apiRoute = nextConnect({
     onNoMatch: (req, res) => res.status(405).json({ error: `La méthode '${req.method}' n'est pas autorisée` })
 });
 
+apiRoute.use((req, res, next) => {
+    createLogHTTP(req);
+    next();
+});
+
 apiRoute.get(async (req, res) => {
     const { fid } = req.query;
+
     const file = await prisma.file.findUnique({
         where: { file_id: fid }
     });
@@ -25,6 +28,7 @@ apiRoute.get(async (req, res) => {
 
 apiRoute.delete(async (req, res) => {
     const { fid } = req.query;
+
     try {
         const file = await prisma.file.delete({
             where: { file_id: fid }

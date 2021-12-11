@@ -1,7 +1,6 @@
 import { getSession } from 'next-auth/client';
-import prisma from '../../lib/prisma';
 
-import { userSafeProps } from '../../utils';
+import { prisma, userSafeProps } from '../../utils';
 
 import Meta from '../../components/Meta/Meta';
 import MenuNavigationAdmin from '../../components/MenuNavigation/MenuNavigationAdmin';
