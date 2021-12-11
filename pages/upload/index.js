@@ -61,6 +61,13 @@ export default function Upload() {
     </>);
 }
 
+/**
+ * Fonction permettant de gérer l'upload des fichiers
+ * @param {Array} files Liste des fichiers à upload 
+ * @param {Function} setFiles Fonction callback useState
+ * @param {*} refInput Référence à l'input files
+ * @returns {null} Ne retourne rien
+ */
 async function UploadFiles(files, setFiles, refInput) {
     // On vérifie si l'utilisateur a bien sélectionné des fichiers
     if (!files || files?.length < 1) return;
@@ -68,6 +75,7 @@ async function UploadFiles(files, setFiles, refInput) {
         const fileIndex = files.findIndex(f => f.name === file.name);
         if (fileIndex === -1) return;
 
+        // On créer un objet qui sera envoyé et traité par l'api
         const formData = new FormData();
         formData.append('file', file);
         formData.append('customName', file?.customName);
@@ -80,6 +88,7 @@ async function UploadFiles(files, setFiles, refInput) {
                 url: '/api/upload',
                 data: formData,
                 onUploadProgress: (progress) => {
+                    // On récupère la progression de chaque upload
                     setFiles((filesPrev) => {
                         const files = [...filesPrev];
                         files[fileIndex].progress = progress;
@@ -108,7 +117,7 @@ async function UploadFiles(files, setFiles, refInput) {
                 files[fileIndex].progress = null;
                 files[fileIndex].uploaded = false;
 
-                // On affiche un message d'erreur 
+                // On affiche le message d'erreur 
                 if (error.response) {
                     const dataError = error.response.data?.error;
                     if (dataError) {
@@ -118,7 +127,7 @@ async function UploadFiles(files, setFiles, refInput) {
                         toastr.error('Upload error');
                         files[fileIndex].error = 'Une erreur est survenue lors de l\'upload du fichier';
                     }
-                } else if (error.request) {
+                } else if (error.request) { // Aucune erreur n'a été retournée par l'api
                     toastr.error('Aucune réponse envoyée par le serveur', 'Upload error');
                     files[fileIndex].error = 'Aucune réponse envoyée par le serveur';
                     console.error(error.request);
@@ -142,15 +151,14 @@ async function UploadFiles(files, setFiles, refInput) {
     else
         toastr.success(`${uploadedFiles.length} fichier(s) uploadés`);
 
-    // Remove files uploaded
+    // On supprime les fichiers qui ont été upload
     setFiles((filesPrev) => {
         const files = [...filesPrev];
         return files.filter(file => file?.uploaded ? null : file);
     });
 
-    // Clear input content
+    // On supprime les fichiers de l'input files
     refInput.current.value = null;
-    console.log(refInput.current, refInput.current.files);
 }
 
 export async function getServerSideProps(context) {
@@ -166,6 +174,7 @@ export async function getServerSideProps(context) {
         }
     }
 
+    // On retourne un objet qui servira de contexte pour la page
     return {
         props: { session }
     }
