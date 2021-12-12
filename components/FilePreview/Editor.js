@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 
+import Loader from '../Loader/Loader';
+import styles from '../../styles/file-preview/file-preview.module.scss';
+
 export default function EditorFile({ file, language }) {
     const { url } = file;
     const [content, setContent] = useState(null);
@@ -13,10 +16,17 @@ export default function EditorFile({ file, language }) {
         return () => setContent(null);
     }, [url]);
 
-    console.log('language', language);
     if (content) {
-        return <Editor defaultLanguage={language} theme='vs-dark' defaultValue={content} className='code-editor' />
+        return (
+            <div className={styles['preview-wrapper']}>
+                <Editor defaultLanguage={language} theme='vs-dark' defaultValue={content} className='code-editor' />
+            </div>
+        );
     } else {
-        return <p>Chargement du fichier en cours</p>;
+        return (
+            <div className={styles['preview-wrapper']}>
+                <Loader top={true} backdrop={true} />
+            </div>
+        );
     }
 }
