@@ -37,6 +37,6 @@ export default function PageLoader({ setTransitioning }) {
             <Loader label={'Chargement de la page en cours'} top={true} backdrop={true} />
         );
     } else {
-        return (<span></span>);
+        return <></>;
     }
 }
