@@ -6,17 +6,17 @@ export default function SongRecognition({ music_recognition }) {
         return <div>y'a r</div>;
 
     return <ul className={styles['song-details']}>
-        <h4 style={{ border: 0 }}>Musique détectée</h4>
+        <h4>Musique détectée</h4>
         <li className={styles['field']}>
-            <span style={{ color: '#3f88c5' }}>Artiste: </span>
+            <span>Artiste: </span>
             <span>{artist}</span>
         </li>
         <li className={styles['field']}>
-            <span style={{ color: '#3f88c5' }}>Titre: </span>
+            <span>Titre: </span>
             <span>{title}</span>
         </li>
         <li className={styles['field']}>
-            <span style={{ color: '#3f88c5' }}>Date de publication: </span>
+            <span>Date de publication: </span>
             <span>{release_date}</span>
         </li>
         {spotify && <>

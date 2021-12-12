@@ -1,72 +1,60 @@
-import React, { useEffect, useRef, useState } from 'react';
-
-// import ReactPlayer from 'react-player/lazy';
-// import 'ace-builds/src-noconflict/mode-javascript';
-
 import { BiFile } from 'react-icons/bi';
-import Loader from '../Loader/Loader';
-import EditorFile from './EditorFile';
-import SongRecognition from './SongRecognition';
 import Details from './Details';
 
+import EditorFile from './Editor';
+import Image from './Image';
+import Video from './Video';
+import Audio from './Audio';
+
 import styles from '../../styles/file-preview/file-preview.module.scss';
+import PDFViewer from './PDFViewer';
 
 export default function FilePreview({ file, music_recognition }) {
-    const { url, name, fileExtension, fileMimeType, createdAt } = file;
-    const contentRef = useRef();
-    const [content, setContent] = useState(null);
-    const [loadingContent, setLoading] = useState(false);
+    const { url, name, fileExtension, fileMimeType } = file;
     const mime = fileMimeType.split('/');
-
-    useEffect(() => {
-        (async () => {
-            if (mime[0] === 'image') {
-                setContent(<img ref={contentRef} src={url} alt={`${name} image`} />);
-            } else if (mime[0] === 'video') {
-                setContent(<video ref={contentRef} src={url} autoPlay controls />);
-            } else if (mime[0] === 'audio') {
-                setContent(<audio ref={contentRef} src={url} controls />);
-            } else {
-                const languageFinded = languages.find(lg => lg.key === fileExtension);
-                if (languageFinded) {
-                    setContent(<EditorFile language={languageFinded?.value || languageFinded.key} file={file} />);
-                } else {
-                    setContent(<BiFile style={{ fontSize: '8em' }} />);
-                }
-            }
-        })();
-    }, [setLoading, contentRef, file, fileExtension, name, url]);
-
-    if (music_recognition && (mime[0] === 'video' || mime[0] === 'audio')) {
+    console.log(mime);
+    if (mime[0] === 'image') {
         return (<>
-            <div className={styles['preview-wrapper']}>
-                {loadingContent && <Loader top={true} backdrop={true} />}
-                {content}
-            </div>
+            <Image src={url} alt={`Image: ${name}`} />
             <Details file={file} mime={mime} />
-            <SongRecognition music_recognition={music_recognition} />
         </>);
-    } else if (!music_recognition && (mime[0] === 'video' || mime[0] === 'audio')) {
+    } else if (mime[0] === 'video') {
         return (<>
-            <div className={styles['preview-wrapper']}>
-                {loadingContent && <Loader top={true} backdrop={true} />}
-                {content}
-            </div>
+            <Video src={url} music_recognition={music_recognition} />
             <Details file={file} mime={mime} />
-            <p>Aucune musique détectée</p>
+        </>);
+    } else if (mime[0] === 'audio') {
+        return (<>
+            <Audio src={url} music_recognition={music_recognition} />
+            <Details file={file} mime={mime} />
+        </>);
+    } else if (fileExtension === 'pdf') {
+        return (<>
+            <PDFViewer src={url} />
+            <Details file={file} mime={mime} />
         </>);
     } else {
-
-        return (<>
-            <div className={styles['preview-wrapper']}>
-                {loadingContent && <Loader top={true} backdrop={true} />}
-                {content}
-            </div>
-            <Details file={file} mime={mime} />
-        </>);
+        const languageFinded = languages.find(lg => lg.key === fileExtension);
+        if (languageFinded) {
+            return (<>
+                <EditorFile language={languageFinded?.value || languageFinded.key} file={file} />
+                <Details file={file} mime={mime} />
+            </>);
+        } else {
+            return (<>
+                <div className={styles['preview-wrapper']}>
+                    <BiFile style={{ fontSize: '8em' }} />
+                </div>
+                <Details file={file} mime={mime} />
+            </>);
+        }
     }
 }
 
+/**
+ * Liste des langages supportés (avec coloration syntaxique si disponible)
+ * @type {Array}
+ */
 const languages = [
     { key: 'cs', value: 'csharp' },
     { key: 'json' },
