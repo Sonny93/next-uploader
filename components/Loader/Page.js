@@ -3,19 +3,22 @@ import { useRouter } from 'next/router';
 
 import Loader from './Loader';
 
-export default function PageLoader() {
+export default function PageLoader({ setTransitioning }) {
     const router = useRouter();
     const [pageLoading, setPageLoading] = useState(false);
 
     useEffect(() => { // Chargement pages
         const handleStart = (url) => {
             console.log('changement de page');
-            if (url !== router.asPath)
+            if (url !== router.asPath) {
                 setPageLoading(true);
+                setTransitioning(true);
+            }
         };
         const handleComplete = (url) => {
             console.log('changement de page terminé');
             setPageLoading(false);
+            setTransitioning(false);
         };
 
         router.events.on('routeChangeStart', handleStart);

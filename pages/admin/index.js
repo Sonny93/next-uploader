@@ -9,9 +9,9 @@ import styles from '../../styles/admin/admin.module.scss';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
-export default function Admin({ users }) {
+export default function Admin({ users, transitionClass }) {
     return (
-        <div className={styles['admin']}>
+        <div className={`${transitionClass} ${styles['admin']}`}>
             <Meta />
             <MenuNavigationAdmin />
             <div className={styles['wrapper']}>

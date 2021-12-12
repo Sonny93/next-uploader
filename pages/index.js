@@ -16,8 +16,7 @@ import MenuNavigation from '../components/MenuNavigation/MenuNavigation';
 import styles from '../styles/home/home.module.scss';
 import stylesFL from '../styles/home/filelist.module.scss';
 
-export default function Home() {
-
+export default function Home({ transitionClass }) {
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
 
@@ -46,7 +45,7 @@ export default function Home() {
 
 	if (isLoadingSession && !session) { // Chargement session
 		return (
-			<div className={styles['App']}>
+			<div className={`${transitionClass} ${styles['App']}`}>
 				<Meta />
 				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
 			</div>
@@ -54,7 +53,7 @@ export default function Home() {
 	}
 
 	return (
-		<div className={styles['App']}>
+		<div className={`${transitionClass} ${styles['App']}`}>
 			<Meta />
 			<MenuNavigation session={session} />
 			<div className={styles['wrapper']}>
