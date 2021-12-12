@@ -11,6 +11,7 @@ export default function Meta({
             <meta charSet='UTF-8' />
             <title>{title}</title>
             <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+            <meta property='description' content={description} />
             
             {/* Open Graph */}
             <meta property='og:site_name' content='> Uploader.sonnydata.fr' />
