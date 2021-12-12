@@ -14,12 +14,12 @@ import styles from '../../styles/file-preview/file-preview.module.scss';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
-export default function File({ fid, file, music_recognition, error }) {
+export default function File({ fid, file, music_recognition, error, transitionClass }) {
 	const [session, isLoadingSession] = useSession();
 
     if (isLoadingSession && !session) { // Chargement session
 		return (
-			<div className={styles['App']}>
+			<div className={`${transitionClass} ${styles['App']}`}>
 				<Meta />
 				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
 			</div>
@@ -28,7 +28,7 @@ export default function File({ fid, file, music_recognition, error }) {
 
     if (!file) {
         return (
-            <div className={styles['App']}>
+            <div className={`${transitionClass} ${styles['App']}`}>
                 <Meta title={`Uploader • ${fid}`} description='• Fichier introuvable' />
                 <header>
                     <Link href='/'>
@@ -43,7 +43,7 @@ export default function File({ fid, file, music_recognition, error }) {
     } else {
         const type = file.fileMimeType.split('/')?.[0];
         return (
-            <div className={styles['App']}>
+            <div className={`${transitionClass} ${styles['App']}`}>
                 <Meta 
                     title={`Uploader • ${file.name}`} 
                     description={file.name}

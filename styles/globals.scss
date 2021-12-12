@@ -146,6 +146,14 @@ input:not(.nostyle) {
 	flex-direction: column;
 }
 
+.transition-class-in {
+	animation: transclassin 250ms both;
+}
+
+.transition-class-out {
+	animation: transclassout 250ms both;
+}
+
 .loader {
 	user-select: none;
 	z-index: 999;
@@ -176,5 +184,29 @@ input:not(.nostyle) {
 		& > rect {
 			fill: #fff;
 		}
+	}
+}
+
+@keyframes transclassin {
+	0% {
+		opacity: 0;
+		transform: translateX(-30px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0px);
+	}
+}
+
+@keyframes transclassout {
+	0% {
+		opacity: 1;
+		transform: translateX(0px);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateX(30px);
 	}
 }

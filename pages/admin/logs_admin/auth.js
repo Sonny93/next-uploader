@@ -14,9 +14,9 @@ dayjs.locale('fr');
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
-export default function auth({ logs }) {
+export default function auth({ logs, transitionClass }) {
     return (
-        <div className={styles['admin']}>
+        <div className={`${transitionClass} ${styles['admin']}`}>
             <Meta />
             <MenuNavigationAdmin />
             <div className={styles['wrapper']}>

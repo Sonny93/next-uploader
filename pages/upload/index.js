@@ -10,7 +10,7 @@ import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
 
 import styles from '../../styles/upload.module.scss';
 
-export default function Upload() {
+export default function Upload({ transitionClass }) {
     const session = useSession();
     const refInput = useRef();
     const [files, setFiles] = useState([]);
@@ -29,7 +29,7 @@ export default function Upload() {
     }
 
     return (<>
-        <div className={styles['upload']}>
+        <div className={`${transitionClass} ${styles['upload']}`}>
             <MenuNavigation session={session} />
             <div className={styles['wrapper']}>
                 {files && files.length > 0 ?
