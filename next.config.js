@@ -1,8 +1,4 @@
-const withPWA = require('next-pwa');
-const withOffline = require('next-offline');
-
-module.exports = withOffline({
-	// reactStrictMode: true,
+module.exports = {
 	images: {
 		domains: ['localhost']
 	},
@@ -11,8 +7,12 @@ module.exports = withOffline({
 			test: /\.svg$/,
 			use: ["@svgr/webpack"]
 		});
+		config.module.rules.push({
+			test: /\.pdf$/,
+			use: ["file-loader"]
+		});
 
 		return config;
 	},
 	dontAutoRegisterSw: true
-});
+};
