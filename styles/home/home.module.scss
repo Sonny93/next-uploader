@@ -40,3 +40,23 @@
 		width: 100%;
 	}
 }
+
+@media (max-width: 800px) {
+	.App {
+		position: relative;
+		width: 100%;
+		flex-direction: column;
+
+		& aside {
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			background: rgba(0, 0, 0, .90);
+		}
+
+		& .wrapper {
+			padding: 0;
+		}
+	}
+}

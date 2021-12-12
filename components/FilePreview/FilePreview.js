@@ -1,6 +1,6 @@
 import { BiFile } from 'react-icons/bi';
-import Details from './Details';
 
+import Details from './Details';
 import EditorFile from './Editor';
 import Image from './Image';
 import Video from './Video';
@@ -12,7 +12,7 @@ import PDFViewer from './PDFViewer';
 export default function FilePreview({ file, music_recognition }) {
     const { url, name, fileExtension, fileMimeType } = file;
     const mime = fileMimeType.split('/');
-    console.log(mime);
+    
     if (mime[0] === 'image') {
         return (<>
             <Image src={url} alt={`Image: ${name}`} />

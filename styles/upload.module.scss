@@ -135,3 +135,31 @@
         }
     }
 }
+
+@media (max-width: 1280px) {
+	.upload {
+		width: 100%;
+	}
+}
+
+@media (max-width: 800px) {
+	.upload {
+		position: relative;
+		width: 100%;
+		flex-direction: column;
+
+		& aside {
+			position: absolute;
+            z-index: 10;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			min-width: 100%;
+			background: rgba(0, 0, 0, .90);
+		}
+
+		& .wrapper {
+			padding: 0;
+		}
+	}
+}
