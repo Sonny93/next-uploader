@@ -1,8 +1,6 @@
 import { useSession } from 'next-auth/client';
 import { useState, useEffect } from 'react';
 
-import { useMediaQuery } from 'react-responsive';
-
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 dayjs.extend(require('dayjs/plugin/relativeTime'))

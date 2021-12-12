@@ -10,11 +10,31 @@ import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import Link from 'next/link';
 
 import styles from '../../styles/menu.module.scss';
+import { useEffect, useState } from 'react';
 
 export default function NavigationMenu({ session, children }) {
+    const mediaQuery = '(max-width: 800px)';
+    const [isOpen, setOpen] = useState(null);
+    const [isMobile, setMobile] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        setMobile(window.matchMedia(mediaQuery).matches);
+        window.matchMedia(mediaQuery).addEventListener('change', ({ matches }) => setMobile(matches));
+    }, [setMobile]);
+
+    const ButtonControl = () => isMobile && (
+        isOpen ?
+            <button className={styles['button-controls']} onClick={() => setOpen(false)}>Masquer le menu</button> :
+            <button className={styles['button-controls']} onClick={() => setOpen(true)}>Afficher le menu</button>
+    );
+
+    const className = `${styles['menu-wrapper']} ${isOpen === null ? '' : isOpen ? styles['menu-open'] : styles['menu-closed']}`;
     if (session) {
-        return (
-            <aside className={styles['menu-wrapper']}>
+        return (<>
+            <ButtonControl />
+            <aside className={className}>
+                <ButtonControl />
                 <h3>Bonjour {session?.user?.name}</h3>
                 <ul className={styles['menu']}>
                     <li className={styles['item']}>
@@ -52,10 +72,12 @@ export default function NavigationMenu({ session, children }) {
                     </>}
                 </ul>
             </aside>
-        );
+        </>);
     } else {
-        return (
-            <aside className={styles['menu-wrapper']}>
+        return (<>
+            <ButtonControl />
+            <aside className={className}>
+                <ButtonControl />
                 <h3>Bonjour</h3>
                 <ul className={styles['menu']}>
                     <li className={styles['item']}>
@@ -72,6 +94,6 @@ export default function NavigationMenu({ session, children }) {
                     </li>
                 </ul>
             </aside>
-        );
+        </>);
     }
 }

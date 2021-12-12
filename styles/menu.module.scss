@@ -1,3 +1,8 @@
+.button-controls {
+    margin-bottom: 5px;
+    min-width: 100%;
+}
+
 .menu-wrapper h3 {
     border: 0;
     margin-bottom: 10px;
@@ -45,4 +50,39 @@
             background: rgb(63, 136, 197, .25);
         }
     }
+}
+
+@media (max-width: 800px) {
+	.menu-wrapper.menu-open {
+        opacity: 0;
+        animation: popIn .25s both;
+    }
+
+    .menu-wrapper.menu-closed {
+        animation: popOut .25s both;
+    }
+}
+
+@keyframes popIn {
+	0% {
+		left: -100%;
+        opacity: 0;
+	}
+
+	100% {
+		left: 0%;
+        opacity: 1;
+	}
+}
+
+@keyframes popOut {
+	0% {
+		left: 0%;
+        opacity: 1;
+	}
+
+	100% {
+		left: -100%;
+        opacity: 0;
+	}
 }
