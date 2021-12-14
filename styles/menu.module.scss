@@ -16,6 +16,32 @@
     flex-direction: column;
     transition: 0.15s;
 
+    & .group {
+        width: 206px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    & .group.top {
+        flex: 1;
+    }
+
+    & .avatar {
+        background: rgba(255, 255, 255, .05);
+        padding: 8px;
+        margin: 10px 0 20px;
+        border-radius: 50%;
+        display: flex;
+
+        & img {
+            height: 180px;
+            width: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+
     & .item {
         cursor: pointer;
         width: 100%;
