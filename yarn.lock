@@ -3313,6 +3313,11 @@
   "resolved" "https://registry.npmjs.org/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz"
   "version" "2.0.6"
 
+"fast-plist@^0.1.2":
+  "integrity" "sha1-pFr/NFGWAG1AbKbNzQX2kFHvNbg="
+  "resolved" "https://registry.npmjs.org/fast-plist/-/fast-plist-0.1.2.tgz"
+  "version" "0.1.2"
+
 "fastq@^1.6.0":
   "integrity" "sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw=="
   "resolved" "https://registry.npmjs.org/fastq/-/fastq-1.13.0.tgz"
@@ -4718,6 +4723,13 @@
   "integrity" "sha512-rguaEG/zrPQSaKzQB7IfX/PpNa0qxF1FY8ZXRkN4WIl8qZdTQRSRJCtRto7IMcSgrU6H53RXI+fTcywOBC4aVw=="
   "resolved" "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.29.1.tgz"
   "version" "0.29.1"
+
+"monaco-themes@^0.4.0":
+  "integrity" "sha512-AJL7Sk3j1DrQo94RqaYBr+IrGNP/2f5drFkKXKyjNZHYY/j+2Pv+O4+WETYkrTj9m1Zm2K3YRuGP/I3+5rHPxw=="
+  "resolved" "https://registry.npmjs.org/monaco-themes/-/monaco-themes-0.4.0.tgz"
+  "version" "0.4.0"
+  dependencies:
+    "fast-plist" "^0.1.2"
 
 "move-concurrently@^1.0.1":
   "integrity" "sha1-viwAX9oy4LKa8fBdfEszIUxwH5I="
