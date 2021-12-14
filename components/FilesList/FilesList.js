@@ -82,11 +82,12 @@ export default function FilesList({ files, globalSize }) {
             <footer>
                 <ReactPaginate
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={2}
+                    marginPagesDisplayed={2}
                     pageCount={pageCount}
                     breakLabel='...'
-                    nextLabel={<IoIosArrowForward />}
-                    previousLabel={<IoIosArrowBack />}
+                    nextLabel={'Suiv.'}
+                    previousLabel={'Préc.'}
                     renderOnZeroPageCount={null}
                     containerClassName={styles['controls-page']}
                     nextClassName={`${styles['reset']} ${styles['next']}`}

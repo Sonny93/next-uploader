@@ -90,7 +90,7 @@
 }
 
 .controls-page {
-	width: 100%;
+	width: fit-content;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -100,8 +100,13 @@
 		width: 28px;
 		border-radius: 2px;
 		color: #dadce0;
+		background: #3f88c5;
 		// border: 1px solid blue;
 		transition: .15s;
+	}
+
+	& li:not(:last-child) {
+		margin-right: 10px;
 	}
 
 	& > li:hover {
@@ -109,11 +114,12 @@
 	}
 
 	& > li.reset.active {
-		background: #3f88c5;
+		background: rgba(0, 0, 0, .25);
 	}
 
 	& > li.reset.next,
 	& > li.reset.prev {
+		width: 75px;
 		padding: 5px;
 		display: flex;
 		align-items: center;
