@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-
 import File from './File';
 import Filter from './Filter';
 
