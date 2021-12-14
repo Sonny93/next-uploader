@@ -39,6 +39,7 @@ export default function NavigationMenu({ session, children }) {
                     <div className={styles['avatar']}>
                         <img src='/avatar.webp' alt='avatar' />
                     </div>
+                    <h2>{session?.user?.name}</h2>
                     <div className={`${styles['group']} ${styles['top']}`}>
                         <li className={styles['item']}>
                             <Link href='/'>

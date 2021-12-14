@@ -30,7 +30,7 @@
     & .avatar {
         background: rgba(255, 255, 255, .05);
         padding: 8px;
-        margin: 10px 0 20px;
+        margin: 15px 0;
         border-radius: 50%;
         display: flex;
 
@@ -40,6 +40,10 @@
             object-fit: cover;
             border-radius: 50%;
         }
+    }
+
+    & h2 {
+        margin-bottom: 25px;
     }
 
     & .item {
