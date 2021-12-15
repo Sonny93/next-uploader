@@ -1,7 +1,6 @@
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import axios from 'axios';
-import requestip from 'request-ip';
 
 import { prisma, fileSafeProps, createLogHTTP } from '../../utils';
 
@@ -14,17 +13,17 @@ import styles from '../../styles/file-preview/file-preview.module.scss';
 
 BigInt.prototype.toJSON = function () { return this.toString() }
 
-export default function File({ fid, file, music_recognition, error, transitionClass }) {
-	const [session, isLoadingSession] = useSession();
+export default function File({ fid, file, error, transitionClass }) {
+    const [session, isLoadingSession] = useSession();
 
     if (isLoadingSession && !session) { // Chargement session
-		return (
-			<div className={`${transitionClass} ${styles['App']}`}>
-				<Meta />
-				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
-			</div>
-		);
-	}
+        return (
+            <div className={`${transitionClass} ${styles['App']}`}>
+                <Meta />
+                <Loader label={'Chargement de la session'} top={true} backdrop={true} />
+            </div>
+        );
+    }
 
     if (!file) {
         return (
@@ -44,10 +43,10 @@ export default function File({ fid, file, music_recognition, error, transitionCl
         const type = file.fileMimeType.split('/')?.[0];
         return (
             <div className={`${transitionClass} ${styles['App']}`}>
-                <Meta 
-                    title={`Uploader • ${file.name}`} 
+                <Meta
+                    title={`Uploader • ${file.name}`}
                     description={file.name}
-                    pageUrl={`${process.env.NEXTAUTH_URL}/file/${file.file_id}`} 
+                    pageUrl={`${process.env.NEXTAUTH_URL}/file/${file.file_id}`}
                     assetUrl={file.url}>
                     {type === 'image' || type === 'video' ? <>
                         <meta property={`og:${type}`} content={file.url} />
@@ -55,9 +54,9 @@ export default function File({ fid, file, music_recognition, error, transitionCl
                         <meta property={`og:${type}:type`} content={file.fileMimeType} />
                     </> : null}
                 </Meta>
-			    <MenuNavigation session={session} />
+                <MenuNavigation session={session} />
                 <div className={styles['file']}>
-                    {error ? <p>{error}</p> : <FilePreview file={file} music_recognition={music_recognition} />}
+                    {error ? <p>{error}</p> : <FilePreview file={file} />}
                 </div>
             </div>
         );
@@ -71,37 +70,18 @@ export async function getServerSideProps({ req, query }) {
     });
 
     createLogHTTP(req);
-
-    let props;
+    
     if (file) {
         const fileSafe = fileSafeProps(file);
-        try {
-            const { data } = await axios.request({
-                method: 'post',
-                url: 'https://api.audd.io/',
-                data: {
-                    url: fileSafe.url,
-                    return: 'spotify,youtube',
-                    api_token: 'd9cedf345ea8b46bcfe7d6da4ff7035e'
-                }
-            });
-            console.log(data);
-            if (data.status === 'success') {
-                props = { 
-                    file: JSON.parse(JSON.stringify(fileSafe)), 
-                    music_recognition: data.result, 
-                    fid
-                };
-            } else if (data.status === 'error') {
-                props = { file: JSON.parse(JSON.stringify(fileSafe)), fid };
-            }
-        } catch (error) {
-            console.error('error', error);
-            props = { file: JSON.parse(JSON.stringify(fileSafe)), fid };
-        }
+        return {
+            file: JSON.parse(JSON.stringify(fileSafe)),
+            fid
+        };
     } else {
-        props = { file: null, fid, error: `Le fichier ${fid} est introuvable` };
+        return {
+            file: null,
+            fid,
+            error: `Le fichier ${fid} est introuvable`
+        };
     }
-
-    return { props };
 }
