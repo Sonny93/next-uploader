@@ -12,7 +12,7 @@ BigInt.prototype.toJSON = function () { return this.toString() }
 export default function Admin({ users, transitionClass }) {
     return (
         <div className={`${transitionClass} ${styles['admin']}`}>
-            <Meta />
+            <Meta description='Dashboard admin' />
             <MenuNavigationAdmin />
             <div className={styles['wrapper']}>
                 <h1>Users</h1>
@@ -23,7 +23,6 @@ export default function Admin({ users, transitionClass }) {
                         </li>)}
                     </ul>
                 </> : <p>Aucun utilisateur</p>}
-                
             </div>
         </div>
     );
