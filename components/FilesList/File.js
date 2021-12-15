@@ -69,13 +69,14 @@ export default function File({ file, index, contextMenu = false, setContextMenu,
                         <div className={styles['icon-btn']}>
                             {icon}
                         </div>
-                        <div className={styles['meta']}>
-                            <span className={styles['name']}>
-                                {name}
-                            </span>
-                            <span className={styles['details']}>
-                                <span style={{ color: '#3f88c5', fontWeight: '600' }}>{size}</span> - <span style={{ color: '#b3b3b3' }}>{dayjs(createdAt).format('D MMMM YYYY à HH:mm')}</span>
-                            </span>
+                        <div className={styles['name']}>
+                            {name}
+                        </div>
+                        <div className={styles['size']}>
+                            {size}
+                        </div>
+                        <div className={styles['date']}>
+                            {dayjs(createdAt).format('D/MM/YYYY')}
                         </div>
                     </a>
                 </Link>}
