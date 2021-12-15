@@ -29,11 +29,7 @@ export default function File({ fid, file, error, transitionClass }) {
         return (
             <div className={`${transitionClass} ${styles['App']}`}>
                 <Meta title={`Uploader • ${fid}`} description='• Fichier introuvable' />
-                <header>
-                    <Link href='/'>
-                        <a className={styles['home-link']}>Revenir à la page d'accueil</a>
-                    </Link>
-                </header>
+                <MenuNavigation session={session} />
                 <div className={styles['file']}>
                     <p>Le fichier <code>{fid}</code> est introuvable</p>
                 </div>
@@ -70,18 +66,22 @@ export async function getServerSideProps({ req, query }) {
     });
 
     createLogHTTP(req);
-    
+
     if (file) {
         const fileSafe = fileSafeProps(file);
         return {
-            file: JSON.parse(JSON.stringify(fileSafe)),
-            fid
+            props: {
+                file: JSON.parse(JSON.stringify(fileSafe)),
+                fid
+            }
         };
     } else {
         return {
-            file: null,
-            fid,
-            error: `Le fichier ${fid} est introuvable`
+            props: {
+                file: null,
+                fid,
+                error: `Le fichier ${fid} est introuvable`
+            }
         };
     }
 }
