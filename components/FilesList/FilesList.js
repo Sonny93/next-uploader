@@ -41,20 +41,28 @@ export default function FilesList({ files, globalSize }) {
     }
 
     if (!filesFilter || filesFilter.length < 1) {
-        return (<>
-            <Filter
-                files={files}
-                filesFilter={filesFilter}
-                globalSize={globalSize}
-                inputContent={inputContent}
-                setInputContent={setInputContent}
-                setFilesFilter={setFilesFilter}
-                loadItems={loadItems}
-            />
-            <div className={styles['no-files']}>
-                <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
-            </div>
-        </>);
+        if (inputContent) {
+            return (<>
+                <Filter
+                    files={files}
+                    filesFilter={filesFilter}
+                    globalSize={globalSize}
+                    inputContent={inputContent}
+                    setInputContent={setInputContent}
+                    setFilesFilter={setFilesFilter}
+                    loadItems={loadItems}
+                />
+                <div className={styles['no-files']}>
+                    <p>Aucune correspondance pour "<b>{inputContent}</b>"</p>
+                </div>
+            </>);
+        } else {
+            return (<>
+                <div className={styles['no-files']}>
+                    <p>Aucun fichier</p>
+                </div>
+            </>);
+        }
     } else {
         return (<>
             <Filter
