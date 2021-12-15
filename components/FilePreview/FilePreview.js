@@ -9,7 +9,7 @@ import Audio from './Audio';
 import styles from '../../styles/file-preview/file-preview.module.scss';
 import PDFViewer from './PDFViewer';
 
-export default function FilePreview({ file, music_recognition }) {
+export default function FilePreview({ file }) {
     const { url, name, fileExtension, fileMimeType } = file;
     const mime = fileMimeType.split('/');
     
@@ -20,12 +20,12 @@ export default function FilePreview({ file, music_recognition }) {
         </>);
     } else if (mime[0] === 'video') {
         return (<>
-            <Video src={url} music_recognition={music_recognition} />
+            <Video src={url} />
             <Details file={file} mime={mime} />
         </>);
     } else if (mime[0] === 'audio') {
         return (<>
-            <Audio src={url} music_recognition={music_recognition} />
+            <Audio src={url} />
             <Details file={file} mime={mime} />
         </>);
     } else if (fileExtension === 'pdf') {

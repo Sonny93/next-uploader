@@ -16,7 +16,7 @@ export default function Filter({ globalSize, files, filesFilter, inputContent, s
 
         setFilteredSize(size);
         loadItems();
-    }, [filesFilter, setFilesFilter]);
+    }, [filesFilter, setFilesFilter, loadItems]);
 
     function onChange({ target }) {
         setInputContent(target.value);
