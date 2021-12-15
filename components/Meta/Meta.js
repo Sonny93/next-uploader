@@ -1,11 +1,13 @@
 import Head from 'next/head';
 
-export default function Meta({ 
-    title = 'Uploader', 
-    description = 'Uploader sonnydata.fr créé & développé par Sonny#0005. Site privé.',
-    pageUrl = null,
-    children
-}) {
+export default function Meta(props) {
+    const title = props?.title || process.env.META_DEFAULT_TITLE;
+    const description = props?.description || process.env.META_DEFAULT_DESCRIPTION;
+    const site_name = process.env.META_DEFAULT_SITE_NAME;
+
+    const children = props?.children || null;
+    const pageUrl = props?.pageUrl || null;
+
     return (
         <Head>
             <meta charSet='UTF-8' />
@@ -14,7 +16,7 @@ export default function Meta({
             <meta name='description' content={description} />
             
             {/* Open Graph */}
-            <meta property='og:site_name' content='> Uploader.sonnydata.fr' />
+            <meta property='og:site_name' content={site_name} />
             <meta property='og:author' content='Sonny#0005' />
             <meta property='og:type' content='website' />
 

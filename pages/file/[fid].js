@@ -1,6 +1,4 @@
 import { useSession } from 'next-auth/client';
-import Link from 'next/link';
-import axios from 'axios';
 
 import { prisma, fileSafeProps, createLogHTTP } from '../../utils';
 
