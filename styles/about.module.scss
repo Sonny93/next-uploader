@@ -1,0 +1,26 @@
+.App {
+	height: 100%;
+	width: 1280px;
+	padding: 10px;
+	color: #fff;
+	background: rgba(16 18 27 / 40%);
+	backdrop-filter: blur(40px);
+	overflow: auto;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+@media (max-width: 1280px) {
+	.App {
+		width: 100%;
+	}
+}
+
+@media (max-width: 800px) {
+	.App {
+		position: relative;
+		width: 100%;
+		flex-direction: column;
+	}
+}
