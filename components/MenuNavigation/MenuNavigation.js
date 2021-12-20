@@ -47,7 +47,7 @@ export default function NavigationMenu({ session, children }) {
                             </Link>
                         </li>
                         <li className={styles['item']}>
-                            <Link href='/#'>
+                            <Link href='/create'>
                                 <a><AiOutlineFileAdd /> Créer un fichier</a>
                             </Link>
                         </li>
