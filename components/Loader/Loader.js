@@ -1,8 +1,8 @@
-import LoaderSVG from './Loader.svg';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 export default function Loader({ label = 'Chargement en cours', top = true, backdrop = false }) {
     return <div className={`loader${top ? ' top' : ''}${backdrop ? ' backdrop' : ''}`}>
-        <LoaderSVG />
+        <AiOutlineLoading />
         <div className='label'>
             {label}
         </div>

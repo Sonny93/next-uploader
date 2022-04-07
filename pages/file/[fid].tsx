@@ -1,17 +1,27 @@
 import { useSession } from 'next-auth/client';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-import { prisma, fileSafeProps, createLogHTTP } from '../../utils';
+import { prisma, fileSafeProps } from '../../utils';
 
 import Meta from '../../components/Meta/Meta';
-import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
+// @ts-ignore
+import MenuNavigation from '../../components/MenuNavigation/MenuNavigation.tsx';
 import FilePreview from '../../components/FilePreview/FilePreview';
 import Loader from '../../components/Loader/Loader';
 
+// @ts-ignore
 import styles from '../../styles/file-preview/file-preview.module.scss';
 
+// @ts-ignore
 BigInt.prototype.toJSON = function () { return this.toString() }
 
-export default function File({ fid, file, error, transitionClass }) {
+interface FileProps {
+    fid: string;
+    file: any;
+    error?: string;
+    transitionClass: string;
+}
+export default function File({ fid, file, error, transitionClass }: FileProps) {
     const [session, isLoadingSession] = useSession();
 
     if (isLoadingSession && !session) { // Chargement session
@@ -57,13 +67,11 @@ export default function File({ fid, file, error, transitionClass }) {
     }
 }
 
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ query }) {
     const { fid } = query;
     const file = await prisma.file.findUnique({
         where: { file_id: fid }
     });
-
-    createLogHTTP(req);
 
     if (file) {
         const fileSafe = fileSafeProps(file);

@@ -1,4 +1,6 @@
 import { signIn, signOut } from 'next-auth/client';
+import { Session } from 'next-auth';
+
 import {
     AiFillFileAdd,
     AiOutlineUnorderedList,
@@ -9,10 +11,15 @@ import {
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import Link from 'next/link';
 
+// @ts-ignore
 import styles from '../../styles/menu.module.scss';
 import { useEffect, useState } from 'react';
 
-export default function NavigationMenu({ session, children }) {
+interface NavigationMenuProps {
+    session: Session;
+    children?: any;
+}
+export default function NavigationMenu({ session, children }: NavigationMenuProps) {
     const mediaQuery = '(max-width: 800px)';
     const [isOpen, setOpen] = useState(null);
     const [isMobile, setMobile] = useState(false);
@@ -29,7 +36,7 @@ export default function NavigationMenu({ session, children }) {
             <button className={styles['button-controls']} onClick={() => setOpen(true)}>Afficher le menu</button>
     );
 
-    const className = `${styles['menu-wrapper']} ${isOpen === null ? '' : isOpen ? styles['menu-open'] : styles['menu-closed']}`;
+    const className = `${styles['menu-wrapper']} ${isOpen === null ? '' : (isOpen ? styles['menu-open'] : styles['menu-closed'])}`;
     if (session) {
         return (<>
             <ButtonControl />

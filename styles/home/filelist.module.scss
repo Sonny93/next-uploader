@@ -18,7 +18,7 @@
 
 .filelist {
 	width: 100%;
-	padding-right: 10px;
+	padding: 0 5px;
 	display: flex;
 	align-items: center;
 	flex: 1;
@@ -35,13 +35,13 @@
 		margin-bottom: 10px;
 		border-radius: 3px;
 		color: #fff;
-		background: rgba(0, 0, 0, .25);
+		background: rgba(0, 0, 0, 0.25);
 		border: 1px solid transparent;
 		padding: 10px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: .15s;
+		transition: 0.15s;
 	}
 
 	& .file:last-child {
@@ -86,7 +86,7 @@
 	}
 
 	& .size {
-		font-size: .9em;
+		font-size: 0.9em;
 		font-style: italic;
 		color: #3f88c5;
 		margin-right: 15px;
@@ -95,7 +95,7 @@
 	}
 
 	& .date {
-		font-size: .9em;
+		font-size: 0.9em;
 		display: flex;
 		align-items: center;
 	}
@@ -113,8 +113,7 @@
 		border-radius: 2px;
 		color: #dadce0;
 		background: #3f88c5;
-		// border: 1px solid blue;
-		transition: .15s;
+		transition: 0.15s;
 	}
 
 	& li:not(:last-child) {
@@ -126,7 +125,7 @@
 	}
 
 	& > li.reset.active {
-		background: rgba(0, 0, 0, .25);
+		background: rgba(0, 0, 0, 0.25);
 	}
 
 	& > li.reset.next,
@@ -144,7 +143,7 @@
 		height: 100%;
 		width: 100%;
 		color: white;
-		font-size: .85em;
+		font-size: 0.85em;
 		border: 0;
 		display: flex;
 		align-items: center;
@@ -157,13 +156,13 @@
 }
 
 .filter {
-    width: 100%;
+	width: 100%;
 	padding: 10px;
-    margin-bottom: 30px;
-    display: flex;
+	margin-bottom: 30px;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-    flex-direction: column;
+	flex-direction: column;
 
 	& .wrapper {
 		width: 375px;
@@ -175,10 +174,10 @@
 			text-align: center;
 			margin: 15px 0;
 		}
-	
+
 		& input {
 			color: #fff;
-			background: rgba(0, 0, 0, .25);
+			background: rgba(0, 0, 0, 0.25);
 			padding: 10px 15px;
 			border: 1px solid transparent;
 			border-radius: 3px;

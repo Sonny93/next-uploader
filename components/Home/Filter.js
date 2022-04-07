@@ -27,7 +27,7 @@ export default function Filter({ globalSize, files, filesFilter, inputContent, s
     }
 
     function GlobalSize() {
-        if (!globalSize) 
+        if (!globalSize)
             return <></>;
         else if (filteredSize === globalSize)
             return <><b>{files?.length} fichiers</b> ({calculSize(globalSize)})</>;
