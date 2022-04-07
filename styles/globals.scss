@@ -40,12 +40,9 @@ aside {
 	width: 100%;
 	text-align: center;
 	color: #fff;
-	// background: rgba(0, 0, 0, 0.25);
 	border-radius: 3px;
-	// border: 1px solid rgba(255, 255, 255, 0.18);
 	padding: 10px 15px;
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	// backdrop-filter: blur(10px);
+	// box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.3);
 }
 
 header {
@@ -179,15 +176,24 @@ input::placeholder {
 	}
 
 	&.backdrop {
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(5em);
 	}
 
 	& > svg {
 		margin: 0 !important;
+		font-size: 7em;
+		animation: rotating 1.25s linear infinite;
 
 		& > rect {
 			fill: #fff;
 		}
+	}
+
+	& > .label {
+		margin-top: 15px;
+		letter-spacing: 0.05em;
+		font-size: 1.2em;
+		font-weight: 300;
 	}
 }
 
@@ -212,5 +218,14 @@ input::placeholder {
 	100% {
 		opacity: 0;
 		transform: translateX(30px);
+	}
+}
+
+@keyframes rotating {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
 	}
 }

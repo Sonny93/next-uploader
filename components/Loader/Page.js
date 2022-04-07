@@ -9,14 +9,12 @@ export default function PageLoader({ setTransitioning }) {
 
     useEffect(() => { // Chargement pages
         const handleStart = (url) => {
-            console.log('changement de page');
             if (url !== router.asPath) {
                 setPageLoading(true);
                 setTransitioning(true);
             }
         };
         const handleComplete = (url) => {
-            console.log('changement de page terminé');
             setPageLoading(false);
             setTransitioning(false);
         };

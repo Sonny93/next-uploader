@@ -12,7 +12,7 @@ import styles from '../../styles/upload.module.scss';
 import Meta from '../../components/Meta/Meta';
 
 export default function Upload({ transitionClass }) {
-    const session = useSession();
+    const [session, isLoadingSession] = useSession();
     const refInput = useRef();
     const [files, setFiles] = useState([]);
 
@@ -31,7 +31,7 @@ export default function Upload({ transitionClass }) {
 
     return (<>
         <div className={`${transitionClass} ${styles['upload']}`}>
-                <Meta description='Uploder un nouveau fichier' />
+            <Meta description='Uploder un nouveau fichier' />
             <MenuNavigation session={session} />
             <div className={styles['wrapper']}>
                 {files && files.length > 0 ?

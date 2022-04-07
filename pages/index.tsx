@@ -6,32 +6,39 @@ import 'dayjs/locale/fr';
 dayjs.extend(require('dayjs/plugin/relativeTime'))
 dayjs.locale('fr');
 
-import FilesList from '../components/FilesList/FilesList';
+import FilesList from '../components/Home/FilesList';
 import Loader from '../components/Loader/Loader';
 import Meta from '../components/Meta/Meta';
-import MenuNavigation from '../components/MenuNavigation/MenuNavigation';
 
+// @ts-ignore
+import MenuNavigation from '../components/MenuNavigation/MenuNavigation.tsx';
+
+// @ts-ignore
 import styles from '../styles/home/home.module.scss';
+// @ts-ignore
 import stylesFL from '../styles/home/filelist.module.scss';
 
-export default function Home({ transitionClass }) {
+export default function Home({ transitionClass }: { transitionClass: string; }) {
 	const [session, isLoadingSession] = useSession();
 	const [files, setFiles] = useState(null);
 
-	const [globalSize, setGlobalSize] = useState(0);
+	const [globalSize, setGlobalSize] = useState<number>(0);
 
 	useEffect(() => { // Récupération des fichiers
 		async function getFiles() {
 			const request = await fetch('/api/files');
-			if (!request.ok)
+			if (!request.ok) {
 				return console.error(request);
+			}
 
 			const data = await request.json();
-			if (!data?.files)
+			if (!data?.files) {
 				return setFiles([]);
+			}
 
-			let somme = 0;
-			data.files.map((file) => somme += parseInt(file?.fileBrutSize, 10));
+			const somme = [...data.files]
+				.map(({ fileBrutSize }) => parseInt(fileBrutSize, 10))
+				.reduce((a, b) => a += b);
 
 			setFiles(data.files);
 			setGlobalSize(somme);

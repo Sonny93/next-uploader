@@ -17,7 +17,7 @@ if (typeof window === 'undefined') {
             global.prisma = new PrismaClient();
         }
         prisma = global.prisma;
-    }    
+    }
 }
 
 /**
@@ -28,7 +28,7 @@ if (typeof window === 'undefined') {
  */
 function calculSize(value = 0, decimals = 2) {
     const octets = Number(value);
-	if (octets === 0) return '0 Octet';
+    if (octets === 0) return '0 Octet';
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
@@ -47,11 +47,11 @@ function calculSize(value = 0, decimals = 2) {
 function fileSafeProps(file) {
     file.size = calculSize(file.fileBrutSize);
     file.url = `${process.env.UPLOAD_URL}/${file.file_id}`;
-    
+
     delete file.password;
     delete file.id;
     delete file.fileSaveAs;
-    
+
     return file;
 }
 
@@ -60,10 +60,10 @@ function fileSafeProps(file) {
  * @param {*} User Object de type User
  * @returns {*} Objet de type User
  */
-function userSafeProps(user) {    
+function userSafeProps(user) {
     delete user.id;
     delete user.password;
-    
+
     return user;
 }
 
@@ -76,12 +76,12 @@ function createLogHTTP(req) {
     let log;
     try {
         const ip = requestip.getClientIp(req);
-        log = prisma.log_http.create({ 
+        log = prisma.log_http.create({
             data: {
                 method: req.method,
                 url: req.url,
                 ip
-            } 
+            }
         });
     } catch (error) {
         log = null;
@@ -117,10 +117,10 @@ function createConnectionLogs(req, email, success, message) {
     return log;
 }
 
-export { 
-    prisma, 
-    calculSize, 
-    fileSafeProps, 
-    userSafeProps, 
+export {
+    prisma,
+    calculSize,
+    fileSafeProps,
+    userSafeProps,
     createLogHTTP, createConnectionLogs
 };
