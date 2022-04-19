@@ -3,37 +3,30 @@
 	width: 1280px;
 	padding: 10px;
 	color: #fff;
-	background: rgba(16 18 27 / 40%);
-	backdrop-filter: blur(40px);
 	overflow: auto;
+	gap: 10px;
 	display: flex;
 	align-items: center;
 	flex-direction: row;
 	overflow: hidden;
 
-	& aside {
+	& .wrapper {
 		height: 100%;
-		width: 350px;
-		background: rgba(0, 0, 0, 0.25);
-		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-		// backdrop-filter: blur(10px);
+		width: 100%;
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(20px);
+		gap: 15px;
+		padding: 15px 10px;
+		display: flex;
+		flex: 1;
+		flex-direction: column;
 	}
-
-    & .wrapper {
-        height: 100%;
-        width: 100%;
-        padding-left: 10px;
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-    }
 
 	& footer {
 		box-shadow: unset;
 		background: unset;
 		display: flex;
 		justify-content: center;
-		// backdrop-filter: blur(10px);
 	}
 }
 
@@ -54,11 +47,17 @@
 			top: 0;
 			left: -100%;
 			width: 100%;
-			background: rgba(0, 0, 0, .90);
+			background: rgba(0, 0, 0, 0.9);
 		}
 
 		& .wrapper {
+			height: calc(100% - 45px); // 30px button, 10px gap, 5px margin button = 45px
 			padding: 0;
+			gap: 10px;
+		}
+
+		& footer {
+			margin-bottom: 5px;
 		}
 	}
 }

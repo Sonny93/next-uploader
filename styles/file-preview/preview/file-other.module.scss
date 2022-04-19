@@ -1,0 +1,12 @@
+.preview-wrapper.file-other {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(20px);
+    border-radius: 3px;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
