@@ -1,15 +1,16 @@
 import { signIn, signOut } from 'next-auth/client';
 import { Session } from 'next-auth';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import {
-    AiFillFileAdd,
     AiOutlineUnorderedList,
     AiOutlineFileAdd,
+    AiOutlineUpload,
     AiOutlineUser,
     AiOutlineLogout
 } from 'react-icons/ai';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
-import Link from 'next/link';
 
 // @ts-ignore
 import styles from '../../styles/menu.module.scss';
@@ -44,7 +45,12 @@ export default function NavigationMenu({ session, children }: NavigationMenuProp
                 <ButtonControl />
                 <ul className={styles['menu']}>
                     <div className={styles['avatar']}>
-                        <img src='/avatar.webp' alt='avatar' />
+                        <Image
+                            src='/avatar.webp'
+                            alt='avatar'
+                            height={180}
+                            width={180}
+                        />
                     </div>
                     <h2>{session?.user?.name}</h2>
                     <div className={`${styles['group']} ${styles['top']}`}>
@@ -60,7 +66,7 @@ export default function NavigationMenu({ session, children }: NavigationMenuProp
                         </li>
                         <li className={styles['item']}>
                             <Link href='/upload'>
-                                <a><AiFillFileAdd /> Uploader un fichier</a>
+                                <a><AiOutlineUpload /> Uploader un fichier</a>
                             </Link>
                         </li>
                         {children && <>

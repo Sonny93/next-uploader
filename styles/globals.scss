@@ -28,33 +28,9 @@ h3,
 h4,
 h5,
 h6 {
-	color: #3f88c5;
+	color: #fff;
 	margin: 5px 0 5px;
 	font-weight: 600;
-}
-
-header,
-footer,
-aside {
-	user-select: none;
-	width: 100%;
-	text-align: center;
-	color: #fff;
-	border-radius: 3px;
-	padding: 10px 15px;
-	// box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.3);
-}
-
-header {
-	margin-bottom: 10px;
-}
-
-footer {
-	margin-top: 10px;
-}
-
-footer {
-	margin-right: 10px;
 }
 
 ul,
@@ -81,52 +57,8 @@ hr {
 	width: 100%;
 }
 
-button:not(.nostyle),
-.btn {
-	user-select: none;
-	cursor: pointer;
-	height: fit-content;
-	min-height: 30px;
-	width: 195px;
-	font-family: "Poppins", sans-serif;
-	color: #fff;
-	padding: 5px 7px;
-	background: #3f88c5;
-	border: 1px solid #3f88c5;
-	border-radius: 3px;
-	transition: 0.15s;
-
-	&:disabled {
-		cursor: default;
-		opacity: 0.5;
-	}
-
-	&:not(:disabled):hover {
-		box-shadow: #105b97 0 0 3px 1px;
-		background: #105b97;
-		color: #fff;
-	}
-}
-
-input:not(.nostyle) {
-	color: #333;
-	background: #fff;
-	padding: 10px;
-	border: 1px solid #dadce0;
-	border-bottom: 3px solid #dadce0;
-	transition: 0.15s;
-
-	&:focus {
-		border-bottom: 3px solid #3f88c5;
-	}
-}
-
-input::placeholder {
-	font-style: italic;
-	color: #dadce0;
-}
-
 ::-webkit-scrollbar {
+	height: 10px;
 	width: 10px;
 }
 
@@ -155,77 +87,33 @@ input::placeholder {
 	animation: transclassout 250ms both;
 }
 
-.loader {
-	user-select: none;
-	z-index: 999;
-	height: 100%;
-	width: 100%;
-	font-weight: 600;
-	color: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-
-	&.top {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
+@media (max-width: 800px) {
+	::-webkit-scrollbar {
+		height: 3px;
+		width: 3px;
 	}
 
-	&.backdrop {
-		backdrop-filter: blur(5em);
-	}
-
-	& > svg {
-		margin: 0 !important;
-		font-size: 7em;
-		animation: rotating 1.25s linear infinite;
-
-		& > rect {
-			fill: #fff;
-		}
-	}
-
-	& > .label {
-		margin-top: 15px;
-		letter-spacing: 0.05em;
-		font-size: 1.2em;
-		font-weight: 300;
+	::-webkit-scrollbar-track {
+		background: transparent;
 	}
 }
 
 @keyframes transclassin {
 	0% {
-		opacity: 0;
 		transform: translateX(-30px);
 	}
 
 	100% {
-		opacity: 1;
 		transform: translateX(0px);
 	}
 }
 
 @keyframes transclassout {
 	0% {
-		opacity: 1;
 		transform: translateX(0px);
 	}
 
 	100% {
-		opacity: 0;
 		transform: translateX(30px);
-	}
-}
-
-@keyframes rotating {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
 	}
 }

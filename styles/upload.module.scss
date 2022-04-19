@@ -1,86 +1,86 @@
 .upload {
     height: 100%;
     width: 1280px;
-    color: #fff;
-    background: rgba(16, 18, 27, 0.4);
-    backdrop-filter: blur(40px);
     padding: 10px;
+    color: #fff;
+    overflow: auto;
+    gap: 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    & aside {
-        height: 100%;
-        width: 350px;
-        min-width: 350px;
-        max-width: 350px;
-        background: rgba(0, 0, 0, 0.25);
-        margin-right: 10px;
-    }
+    flex-direction: row;
+    overflow: hidden;
 
     & .wrapper {
         height: 100%;
         width: 100%;
+        gap: 10px;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+    }
+
+    & .no-file {
+        user-select: none;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(20px);
+        font-size: 1.15em;
+        letter-spacing: 1px;
+        gap: 10px;
         display: flex;
         flex: 1;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-    }
 
-    & .no-file {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
+        & svg {
+            font-size: 3em;
+        }
     }
 
     & .upload-list {
+        height: auto;
         width: 100%;
-        margin: 0 10px 10px;
-        padding-right: 10px;
+        gap: 10px;
         flex: 1;
         overflow: auto;
 
         & .file-upload {
+            height: auto;
             width: 100%;
-            margin-bottom: 10px;
-            border-radius: 3px;
             color: #fff;
-            // background: rgba(255, 255, 255, 0.1);
-            // backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(20px);
             padding: 10px;
+            border-radius: 3px;
+            gap: 10px;
+            display: flex;
+            flex-direction: column;
 
-            &:last-child {
-                margin-bottom: 0;
-            }
-
-            & .name {
-                margin-bottom: 5px;
-            }
-
-            & .name,
-            & .password {
+            & .field {
+                height: auto;
+                width: 100%;
                 display: flex;
                 align-items: center;
+                justify-content: center;
+                flex-direction: column;
 
                 & label {
-                    font-size: .9em;
-                    display: block;
-                    width: 175px;
+                    font-size: 0.95em;
+                    margin-bottom: 2px;
                 }
 
                 & input {
                     color: #fff;
-                    background: transparent;
-                    padding: 5px;
-                    flex: 1;
-                    background: rgba(0, 0, 0, .25);
-                    border: 1px solid rgba(255, 255, 255, .25);
-                    border-bottom: 3px solid rgba(255, 255, 255, .25);
+                    background: rgba(0, 0, 0, 0.35);
+                    border: 1px solid rgba(255, 255, 255, 0.25);
+                    border-bottom: 3px solid rgba(255, 255, 255, 0.25);
+
+                    &:focus {
+                        border: 1px solid #3f88c5;
+                        border-bottom: 3px solid #3f88c5;
+                    }
                 }
             }
 
@@ -98,7 +98,7 @@
             }
 
             & .progression .progression-bar .progress {
-                transition: .15s;
+                transition: 0.15s;
             }
 
             & .progression .div-center {
@@ -109,21 +109,22 @@
                 bottom: 0;
                 height: 100%;
                 color: black;
-                font-size: .9em;
+                font-size: 0.9em;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 white-space: pre;
-                font-size: .8em;
+                font-size: 0.8em;
             }
         }
     }
 
     & .controls {
+        height: auto;
         width: 100%;
         color: #fff;
-        background: rgba(0, 0, 0, 0.25);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(20px);
         border-radius: 3px;
         padding: 8px 15px;
         display: flex;
@@ -137,29 +138,29 @@
 }
 
 @media (max-width: 1280px) {
-	.upload {
-		width: 100%;
-	}
+    .upload {
+        width: 100%;
+    }
 }
 
 @media (max-width: 800px) {
-	.upload {
-		position: relative;
-		width: 100%;
-		flex-direction: column;
+    .upload {
+        position: relative;
+        width: 100%;
+        flex-direction: column;
 
-		& aside {
-			position: absolute;
+        & aside {
+            position: absolute;
             z-index: 10;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			min-width: 100%;
-			background: rgba(0, 0, 0, .90);
-		}
+            top: 0;
+            left: -100%;
+            width: 100%;
+            min-width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+        }
 
-		& .wrapper {
-			padding: 0;
-		}
-	}
+        & .wrapper {
+            padding: 0;
+        }
+    }
 }

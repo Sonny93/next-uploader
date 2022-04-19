@@ -1,26 +1,30 @@
 import { useSession } from 'next-auth/client';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-import { prisma, fileSafeProps } from '../../utils';
+import { prisma } from '../../utils';
 
 import Meta from '../../components/Meta/Meta';
 // @ts-ignore
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation.tsx';
 import FilePreview from '../../components/FilePreview/FilePreview';
+import FileProtected from '../../components/FilePreview/FileProtected';
 import Loader from '../../components/Loader/Loader';
 
 // @ts-ignore
 import styles from '../../styles/file-preview/file-preview.module.scss';
 
+import { FileFront, FileType, FrontPageProps } from '../../front.d';
+import { FileBuilder } from '../../utils/api';
+
 // @ts-ignore
 BigInt.prototype.toJSON = function () { return this.toString() }
 
-interface FileProps {
+interface FileProps extends FrontPageProps {
     fid: string;
-    file: any;
+    file: FileFront;
     error?: string;
     transitionClass: string;
 }
+
 export default function File({ fid, file, error, transitionClass }: FileProps) {
     const [session, isLoadingSession] = useSession();
 
@@ -44,7 +48,7 @@ export default function File({ fid, file, error, transitionClass }: FileProps) {
             </div>
         );
     } else {
-        const type = file.fileMimeType.split('/')?.[0];
+        const { type } = file.meta;
         return (
             <div className={`${transitionClass} ${styles['App']}`}>
                 <Meta
@@ -52,15 +56,16 @@ export default function File({ fid, file, error, transitionClass }: FileProps) {
                     description={file.name}
                     pageUrl={`${process.env.NEXTAUTH_URL}/file/${file.file_id}`}
                     assetUrl={file.url}>
-                    {type === 'image' || type === 'video' ? <>
+                    {type === FileType.IMAGE || type === FileType.VIDEO ? <>
                         <meta property={`og:${type}`} content={file.url} />
                         <meta property={`og:${type}:alt`} content={`${type} content for ${file.name} (${file.file_id})`} />
-                        <meta property={`og:${type}:type`} content={file.fileMimeType} />
+                        <meta property={`og:${type}:type`} content={type} />
                     </> : null}
                 </Meta>
                 <MenuNavigation session={session} />
                 <div className={styles['file']}>
-                    {error ? <p>{error}</p> : <FilePreview file={file} />}
+                    {error && (<p>{error}</p>)}
+                    {!file.passwordSet ? <FilePreview file={file} /> : <FileProtected file={file} />}
                 </div>
             </div>
         );
@@ -74,7 +79,7 @@ export async function getServerSideProps({ query }) {
     });
 
     if (file) {
-        const fileSafe = fileSafeProps(file);
+        const fileSafe = FileBuilder(file);
         return {
             props: {
                 file: JSON.parse(JSON.stringify(fileSafe)),

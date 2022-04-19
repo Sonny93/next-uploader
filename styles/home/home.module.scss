@@ -10,19 +10,13 @@
 	flex-direction: row;
 	overflow: hidden;
 
-	& aside {
-		height: 100%;
-		width: 350px;
-		background: rgba(0, 0, 0, 0.3);
-		backdrop-filter: blur(20px);
-	}
-
 	& .wrapper {
 		height: 100%;
 		width: 100%;
 		background: rgba(0, 0, 0, 0.3);
 		backdrop-filter: blur(20px);
-		padding: 10px;
+		gap: 15px;
+		padding: 15px 10px;
 		display: flex;
 		flex: 1;
 		flex-direction: column;
@@ -57,7 +51,13 @@
 		}
 
 		& .wrapper {
+			height: calc(100% - 45px); // 30px button, 10px gap, 5px margin button = 45px
 			padding: 0;
+			gap: 10px;
+		}
+
+		& footer {
+			margin-bottom: 5px;
 		}
 	}
 }

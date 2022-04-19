@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { prisma, fileSafeProps } from '../../utils';
+import { prisma } from '../../utils';
 
-import { File } from './api';
+import { FileAPI } from '../../api';
+import { FileBuilder } from '../../utils/api';
 
 //@ts-ignore
 BigInt.prototype.toJSON = function () { return this.toString() }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const files: File[] = await (await prisma.file.findMany()).reverse();
-        files.map((file: File) => fileSafeProps(file));
+        const filesDB: FileAPI[] = await (await prisma.file.findMany()).reverse();
+        const files = filesDB.map((file: FileAPI) => FileBuilder(file));
+        console.log(files);
 
         res.status(200).json({ files });
     } catch (error) {

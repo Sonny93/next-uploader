@@ -1,27 +1,29 @@
 import { useSession } from 'next-auth/client';
 import { useState, useEffect } from 'react';
 
+import { ImFileEmpty } from "react-icons/im";
+
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
-dayjs.extend(require('dayjs/plugin/relativeTime'))
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime)
 dayjs.locale('fr');
 
 import FilesList from '../components/Home/FilesList';
 import Loader from '../components/Loader/Loader';
 import Meta from '../components/Meta/Meta';
 
-// @ts-ignore
-import MenuNavigation from '../components/MenuNavigation/MenuNavigation.tsx';
+import MenuNavigation from '../components/MenuNavigation/MenuNavigation';
 
-// @ts-ignore
 import styles from '../styles/home/home.module.scss';
-// @ts-ignore
 import stylesFL from '../styles/home/filelist.module.scss';
 
-export default function Home({ transitionClass }: { transitionClass: string; }) {
-	const [session, isLoadingSession] = useSession();
-	const [files, setFiles] = useState(null);
+import { FileFront, FrontPageProps } from '../front';
 
+export default function Home({ transitionClass }: FrontPageProps) {
+	const [session, isLoadingSession] = useSession();
+
+	const [files, setFiles] = useState<FileFront[] | null>(null);
 	const [globalSize, setGlobalSize] = useState<number>(0);
 
 	useEffect(() => { // Récupération des fichiers
@@ -32,12 +34,12 @@ export default function Home({ transitionClass }: { transitionClass: string; }) 
 			}
 
 			const data = await request.json();
-			if (!data?.files) {
+			if (Array.isArray(data?.files) && data?.files?.length === 0) {
 				return setFiles([]);
 			}
 
 			const somme = [...data.files]
-				.map(({ fileBrutSize }) => parseInt(fileBrutSize, 10))
+				.map(({ size, passwordSet }: FileFront) => Number(!passwordSet ? size.raw : 0))
 				.reduce((a, b) => a += b);
 
 			setFiles(data.files);
@@ -48,11 +50,11 @@ export default function Home({ transitionClass }: { transitionClass: string; }) 
 		return () => setFiles(null);
 	}, [setFiles]);
 
-	if (isLoadingSession && !session) { // Chargement session
+	if (isLoadingSession && !session) {
 		return (
 			<div className={`${transitionClass} ${styles['App']}`}>
 				<Meta />
-				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
+				<Loader label={'Session en cours de chargement'} backdrop={true} />
 			</div>
 		);
 	}
@@ -64,14 +66,23 @@ export default function Home({ transitionClass }: { transitionClass: string; }) 
 			<div className={styles['wrapper']}>
 				{files === null ?
 					<div className={stylesFL['no-files']}>
-						<Loader label='Chargement des fichiers' top={false} />
+						<Loader label='Récupération des fichiers' />
 					</div> :
-					files?.length < 1 || files === undefined ?
-						<div className={stylesFL['no-files']}>
-							<p>Aucun fichier</p>
-						</div> :
+					files?.length === 0 ?
+						<NoFile /> :
 						<FilesList files={files} globalSize={globalSize} />}
 			</div>
 		</div>
 	);
+}
+
+function NoFile() {
+	return (
+		<div className={stylesFL['no-files']}>
+			<ImFileEmpty />
+			<span>
+				Aucun fichier
+			</span>
+		</div>
+	)
 }

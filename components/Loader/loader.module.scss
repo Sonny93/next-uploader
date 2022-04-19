@@ -1,0 +1,50 @@
+.loader {
+    user-select: none;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &.top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    &.backdrop {
+        backdrop-filter: blur(5em);
+    }
+
+    & > svg {
+        margin: 0 !important;
+        font-size: 6em;
+        animation: rotating 1.5s linear infinite;
+
+        & > rect {
+            fill: #fff;
+        }
+    }
+
+    & > .label {
+        margin-top: 15px;
+        letter-spacing: 0.04em;
+        font-size: 1em;
+        font-weight: 300;
+    }
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

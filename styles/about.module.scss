@@ -3,12 +3,12 @@
 	width: 1280px;
 	padding: 10px;
 	color: #fff;
-	background: rgba(16 18 27 / 40%);
-	backdrop-filter: blur(40px);
 	overflow: auto;
+	gap: 10px;
 	display: flex;
 	align-items: center;
-	flex-direction: column;
+	flex-direction: row;
+	overflow: hidden;
 }
 
 @media (max-width: 1280px) {
