@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import Loader from '../components/Loader/Loader';
@@ -9,9 +9,9 @@ import styles from '../styles/about.module.scss';
 import { FrontPageProps } from '../front';
 
 export default function About({ transitionClass }: FrontPageProps) {
-    const [session, isLoadingSession] = useSession();
+    const { data: session, status } = useSession();
 
-    if (isLoadingSession && !session) { // Chargement session
+    if (status === 'loading' && !session) { // Chargement session
         return (
             <div className={`${transitionClass} ${styles['App']}`}>
                 <Meta />

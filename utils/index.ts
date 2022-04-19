@@ -66,6 +66,7 @@ const Icons = [
     { type: FileType.AUDIO, icon: `${path}/audio.png` },
 
     { type: FileType.HTML, icon: `${path}/html.png` },
+    { type: FileType.XML, icon: `${path}/xml.png` },
     { type: FileType.CSS, icon: `${path}/css.png` },
     { type: FileType.JSON, icon: `${path}/json.png` },
     { type: FileType.SASS, icon: `${path}/sass.png` },

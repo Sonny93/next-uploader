@@ -75,6 +75,7 @@ export function FileTypeBuilder(typeParam: string): FileType {
         { ext: 'wpl', type: FileType.AUDIO },
 
         { ext: 'html', type: FileType.HTML },
+        { ext: 'xml', type: FileType.XML },
         { ext: 'css', type: FileType.CSS },
         { ext: 'js', type: FileType.JAVASCRIPT },
         { ext: 'json', type: FileType.JSON },

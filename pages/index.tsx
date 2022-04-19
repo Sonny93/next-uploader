@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 
 import { ImFileEmpty } from "react-icons/im";
@@ -21,7 +21,7 @@ import stylesFL from '../styles/home/filelist.module.scss';
 import { FileFront, FrontPageProps } from '../front';
 
 export default function Home({ transitionClass }: FrontPageProps) {
-	const [session, isLoadingSession] = useSession();
+	const { data: session, status } = useSession();
 
 	const [files, setFiles] = useState<FileFront[] | null>(null);
 	const [globalSize, setGlobalSize] = useState<number>(0);
@@ -50,7 +50,7 @@ export default function Home({ transitionClass }: FrontPageProps) {
 		return () => setFiles(null);
 	}, [setFiles]);
 
-	if (isLoadingSession && !session) {
+	if (status === 'loading' && !session) {
 		return (
 			<div className={`${transitionClass} ${styles['App']}`}>
 				<Meta />

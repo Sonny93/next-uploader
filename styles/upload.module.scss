@@ -43,7 +43,9 @@
         height: auto;
         width: 100%;
         gap: 10px;
+        display: flex;
         flex: 1;
+        flex-direction: column;
         overflow: auto;
 
         & .file-upload {
@@ -52,7 +54,7 @@
             color: #fff;
             background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(20px);
-            padding: 10px;
+            padding: 15px;
             border-radius: 3px;
             gap: 10px;
             display: flex;
@@ -68,17 +70,16 @@
 
                 & label {
                     font-size: 0.95em;
-                    margin-bottom: 2px;
+                    margin-bottom: 5px;
                 }
 
                 & input {
                     color: #fff;
                     background: rgba(0, 0, 0, 0.35);
-                    border: 1px solid rgba(255, 255, 255, 0.25);
+                    border: 0;
                     border-bottom: 3px solid rgba(255, 255, 255, 0.25);
 
                     &:focus {
-                        border: 1px solid #3f88c5;
                         border-bottom: 3px solid #3f88c5;
                     }
                 }
