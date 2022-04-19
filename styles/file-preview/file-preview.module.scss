@@ -1,26 +1,21 @@
+@use "preview/editor.module.scss";
+@use "preview/video.module.scss";
+@use "preview/image.module.scss";
+@use "preview/audio.module.scss";
+@use "preview/pdf.module.scss";
+@use "preview/file-other.module.scss";
+
 .App {
     height: 100%;
     width: 1280px;
     padding: 10px;
-    background: rgba(0, 0, 0, 0.25);
-    box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
-    backdrop-filter: blur(40px);
+    color: #fff;
+    overflow: auto;
+    gap: 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    & header {
-        text-align: center;
-    }
-
-    & aside {
-        height: 100%;
-        width: 350px;
-        min-width: 350px;
-        max-width: 350px;
-        background: rgba(0, 0, 0, 0.25);
-        margin-right: 10px;
-    }
+    flex-direction: row;
+    overflow: hidden;
 }
 
 .file {
@@ -29,103 +24,78 @@
     width: 100%;
     color: #fff;
     padding-right: 10px;
+    gap: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
     overflow: auto;
 
-    & > a.home-link {
-        margin-bottom: 5px;
-    }
-
-    & > ul {
+    & > .file-details {
+        height: auto;
         width: 100%;
-        border-radius: 5px;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.25);
-        box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(20px);
         border-radius: 3px;
+        padding: 20px;
+        margin: 0;
+        gap: 5px;
+        display: flex;
+        justify-content: space-between;
+
+        & .details {
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+        }
+
+        & .size {
+            font-size: 0.8em;
+            color: #3f88c5;
+            display: flex;
+            align-items: center;
+        }
     }
 
     & > .preview-wrapper {
-        max-height: 100%;
         max-width: 100%;
         height: auto;
         width: 100%;
-        margin-bottom: 10px;
         display: flex;
         flex: 1;
         align-items: center;
         justify-content: center;
         flex-direction: column;
     }
-
-    & > .preview-wrapper img {
-        max-height: 100%;
-        max-width: 100%;
-        // aspect-ratio: 1 / 1;
-        height: 100%;
-        width: 100%;
-        /* flex: 1; */
-        object-fit: contain;
-    }
-
-    & > .preview-wrapper video {
-        max-width: 100%;
-        max-height: 100%;
-        height: 100%;
-        width: 100%;
-        object-fit: contain;
-    }
-
-    & .song-details h4 {
-        border: 0;
-    }
-
-    & li.field:not(:last-child) {
-        margin-bottom: 5px;
-    }
-
-    & li.field > span:first-child {
-        user-select: none;
-        color: #3f88c5;
-    }
-
-    & > p.no_music {
-        user-select: none;
-        margin: 0;
-        padding: 20px;
-    }
 }
 
 @media (max-width: 1280px) {
-	.App {
-		width: 100%;
-	}
+    .App {
+        width: 100%;
+    }
 }
 
 @media (max-width: 800px) {
-	.App {
-		position: relative;
-		width: 100%;
-		flex-direction: column;
+    .App {
+        position: relative;
+        width: 100%;
+        flex-direction: column;
 
-		& aside {
-			position: absolute;
+        & aside {
+            position: absolute;
             z-index: 10;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			min-width: 100%;
-			background: rgba(0, 0, 0, .90);
-		}
+            top: 0;
+            left: -100%;
+            width: 100%;
+            min-width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+        }
 
-		& .wrapper {
-			padding: 0;
-		}
+        & .wrapper {
+            padding: 0;
+        }
 
         & .file {
             padding: 0;
         }
-	}
+    }
 }

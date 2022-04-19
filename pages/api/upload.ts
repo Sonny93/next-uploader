@@ -1,14 +1,17 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect, { NextHandler } from 'next-connect';
+import { Session } from 'next-auth';
 import { getSession } from 'next-auth/client';
+
 import multer from 'multer';
 import { extname } from 'path';
 import { rename } from 'fs/promises';
 
-import { prisma, fileSafeProps } from '../../utils';
+import bcrypt from 'bcrypt';
 
 import { Request } from 'express';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { Session } from 'next-auth';
+import { prisma } from '../../utils';
+import { FileBuilder } from '../../utils/api';
 
 // @ts-ignore
 BigInt.prototype.toJSON = function () { return this.toString() }
@@ -42,6 +45,7 @@ apiRoute.use(upload.single('file'));
 apiRoute.use(async (req: Request, res: NextApiResponse) => {
     const file = req.file;
     const customName = req.body?.customName;
+
     if (!customName) {
         return res.status(403).send({ error: 'Vous devez préciser un nom pour le fichier' });
     }
@@ -54,7 +58,7 @@ apiRoute.use(async (req: Request, res: NextApiResponse) => {
         const fileDB = await prisma.file.create({
             data: {
                 name: customName,
-                password: password,
+                password: password ? await bcrypt.hash(password, 10) : null,
                 passwordSet: password ? true : false,
                 fileBrutSize: file.size,
                 fileSaveAs: saveAs.toString(),
@@ -64,7 +68,7 @@ apiRoute.use(async (req: Request, res: NextApiResponse) => {
         });
         try {
             await rename(`${process.env.UPLOAD_DIR}/${file.originalname}`, `${process.env.UPLOAD_DIR}/${saveAs}`);
-            res.status(200).send({ status: 'OK', file: fileSafeProps(fileDB) });
+            res.status(200).send({ status: 'OK', file: FileBuilder(fileDB) });
         } catch (error) {
             console.error(error);
             res.status(400).send({ error: 'Une erreur est survenue lors de la création du fichier' });
