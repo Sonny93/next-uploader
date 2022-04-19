@@ -1,0 +1,23 @@
+.preview-wrapper.code-editor {
+    align-items: flex-start;
+
+    & > pre {
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(20px);
+        padding: 10px;
+        border-radius: 3px;
+        margin: 0;
+
+        &,
+        & code {
+            max-width: 100%;
+            width: 100%;
+            display: block;
+            overflow: auto;
+        }
+
+        & span {
+            word-wrap: break-word;
+        }
+    }
+}

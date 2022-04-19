@@ -1,0 +1,83 @@
+button:not(.nostyle),
+.btn {
+    user-select: none;
+    cursor: pointer;
+    height: fit-content;
+    min-height: 30px;
+    width: 195px;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
+    padding: 5px 7px;
+    background: #3f88c5;
+    border: 1px solid #3f88c5;
+    border-radius: 3px;
+    transition: 0.15s;
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.5;
+    }
+
+    &:not(:disabled):hover {
+        box-shadow: #105b97 0 0 3px 1px;
+        background: #105b97;
+        color: #fff;
+    }
+}
+
+input:not(.nostyle) {
+    color: #333;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #dadce0;
+    border-bottom: 3px solid #dadce0;
+    transition: 0.15s;
+
+    &:focus {
+        border-bottom: 3px solid #3f88c5;
+    }
+}
+
+input::placeholder {
+    font-style: italic;
+    color: #dadce0;
+}
+
+.input-field {
+    & label,
+    & input {
+        width: 100%;
+    }
+}
+
+.progress-field {
+    height: auto;
+    width: 100%;
+
+    & > .progress-wrapper {
+        position: relative;
+        height: auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        & > .container {
+            height: 25px;
+        }
+
+        & > .details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            color: #000;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
