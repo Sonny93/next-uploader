@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 
 import { prisma } from '../../utils';
 
@@ -26,9 +26,9 @@ interface FileProps extends FrontPageProps {
 }
 
 export default function File({ fid, file, error, transitionClass }: FileProps) {
-    const [session, isLoadingSession] = useSession();
+    const { data: session, status } = useSession();
 
-    if (isLoadingSession && !session) { // Chargement session
+    if (status === 'loading' && !session) { // Chargement session
         return (
             <div className={`${transitionClass} ${styles['App']}`}>
                 <Meta />

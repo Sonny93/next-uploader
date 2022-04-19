@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 // @ts-ignore
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcrypt';
 
 import { prisma } from '../../../utils';
@@ -46,10 +47,30 @@ export default NextAuth({
                     email: user.email
                 }
             }
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code"
+                }
+            }
         })
     ],
-    pages: {
-        signIn: '/signin',
-        error: '/signin'
-    }
+    callbacks: {
+        async signIn({ account, profile }) {
+            console.log(account, profile, profile.email_verified && profile.email.endsWith("@gmail.com"));
+            if (account.provider === "google") {
+                return profile.email_verified && profile.email.endsWith("@gmail.com")
+            }
+            return true // Do different verification for other providers that don't have `email_verified`
+        }
+    },
+    // pages: {
+    //     signIn: '/signin',
+    //     error: '/signin'
+    // }
 });

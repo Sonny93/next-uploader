@@ -65,11 +65,13 @@ function FilterSize({ globalSize, filteredSize, filesCount }: FilterSizeProps) {
     const prettyFilteredSize = calculSize(filteredSize);
     const prettyGlobalSize = calculSize(globalSize);
 
+    const printedSize = filteredSize === globalSize ? prettyGlobalSize : `${prettyFilteredSize} — ${prettyGlobalSize}`;
+
     if (!globalSize) {
         return (<>0 fichier {calculSize(0)}</>);
     } else {
         return (<>
-            <b>{filesCount} fichiers</b> ({filteredSize === globalSize ? prettyGlobalSize : `${prettyFilteredSize} — ${prettyGlobalSize}`})
+            <b>{filesCount} fichier{filteredSize > 1 ? 's' : ''}</b> ({printedSize})
         </>);
     }
 }

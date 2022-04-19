@@ -1,55 +1,35 @@
 import { useRef, useState } from 'react';
-import { getSession, useSession } from 'next-auth/client';
+import { getSession, useSession } from 'next-auth/react';
 import { AiFillFileAdd } from 'react-icons/ai';
 
+import { extname } from 'path';
 import axios from 'axios';
 import toastr from 'toastr';
 
 import Meta from '../../components/Meta/Meta';
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
-import FilesUpload from '../../components/Upload/FilesUpload';
+import FilesUpload from '../../components/Upload/UploadFilesList';
 
 import styles from '../../styles/upload.module.scss';
 
 import { FileUpload, FrontPageProps } from '../../front';
+import UploadControls from '../../components/Upload/UploadControls';
+import { Provider } from 'react-redux';
+import { store } from '../../components/redux';
 
-export default function Upload({ transitionClass }: FrontPageProps) {
-    const [session, isLoadingSession] = useSession();
-    const refInput = useRef();
-    const [files, setFiles] = useState<FileUpload[] | []>([]);
-
-    function handleFiles({ target }) {
-        const files = (Array.from(target.files)).map(FileFormHandle);
-        setFiles(files);
-    }
+export default function Upload({ transitionClass }: FrontPageProps): JSX.Element {
+    const { data: session } = useSession();
 
     return (<>
         <Meta description='Uploder un nouveau fichier' />
         <div className={`${transitionClass} ${styles['upload']}`}>
             <MenuNavigation session={session} />
-            <div className={styles['wrapper']}>
-                <FilesUpload files={files} setFiles={setFiles} />
-                <div className={styles['controls']}>
-                    <input
-                        type='file'
-                        id='file-upload'
-                        onChange={handleFiles}
-                        multiple={true}
-                        ref={refInput}
-                        className={`nostyle ${styles['input-upload']}`}
-                    />
-                    <button
-                        onClick={() => UploadFiles(files, setFiles, refInput)}
-                        disabled={files.length < 1 || !refInput?.current ? true : false}
-                    >
-                        Envoyer {files.length > 0 ? `(${files.length} fichier${files.length > 1 ? 's' : ''})` : null}
-                    </button>
-                    {/* @ts-ignore */}
-                    <button className={`${styles['icon-btn']} btn`} onClick={() => refInput?.current?.click()}>
-                        <AiFillFileAdd />
-                    </button>
+            <Provider store={store}>
+                <div className={styles['wrapper']}>
+                    <FilesUpload />
+                    <UploadControls />
                 </div>
-            </div>
+            </Provider>
         </div>
     </>);
 }
@@ -138,31 +118,8 @@ async function UploadFiles(files, setFiles, refInput) {
         }
     }
 
-    // On récupère la liste des fichiers uploadés avec succès
-    const uploadedFiles = files.filter((file) => file?.uploaded);
-    if (uploadedFiles.length < 1)
-        toastr.info(`Aucun fichier n'a été uploadé`);
-    else
-        toastr.success(`${uploadedFiles.length} fichier(s) uploadés`);
-
-    // On supprime les fichiers qui ont été upload
-    setFiles((filesPrev) => {
-        const files = [...filesPrev];
-        return files.filter(file => file?.uploaded ? null : file);
-    });
-
     // On supprime les fichiers de l'input files
     refInput.current.value = null;
-}
-
-function FileFormHandle(file: FileUpload) {
-    file.customName = file.name;
-    file.password = '';
-    file.progress = null;
-    file.uploaded = false;
-    file.error = null;
-
-    return file;
 }
 
 export async function getServerSideProps(context) {

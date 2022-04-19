@@ -22,6 +22,7 @@ export default function FilePreview({ file, blob }: { file: FileFront, blob?: st
         component = <PDFViewer src={url} blob={blob} />;
     } else if (
         meta.type === FileType.HTML ||
+        meta.type === FileType.XML ||
         meta.type === FileType.CSS ||
         meta.type === FileType.SASS ||
         meta.type === FileType.JAVASCRIPT ||
