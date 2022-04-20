@@ -1,62 +1,53 @@
-import { getCsrfToken, getProviders, signIn } from 'next-auth/react';
-import { useState } from 'react';
+import { getProviders, signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
-import Input from '../components/Inputs/input';
+import Meta from '../components/Meta/Meta';
+import { FrontPageProps } from '../front';
 
 import styles from '../styles/login.module.scss';
 
-export default function SignIn({ csrfToken, providers }) {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const { error } = useRouter().query;
+interface SignInProps extends FrontPageProps {
+    providers: any;
+}
 
-    return (
-        <div className={styles['login']}>
-            {Object.values(providers).map(({ name, id }) => (
+export default function SignIn({ providers, transitionClass }: SignInProps): JSX.Element {
+    const { data: session, status } = useSession();
+    const { success, error } = useRouter().query;
+
+    return (<>
+        <Meta
+            title='Uploader — Authentification'
+            description='Page de connexion'
+        />
+        <div className={`${transitionClass} ${styles['login']}`}>
+            <h1>Authentification</h1>
+            <Providers providers={Object.values(providers)} />
+            {success && (<p className={styles['success']}>{success}</p>)}
+            {error && (<p className={styles['error']}>{error}</p>)}
+        </div>
+    </>);
+}
+
+function Providers({ providers }): JSX.Element {
+    console.log(providers)
+    if (providers.length > 0) {
+        return (<>
+            {providers.map(({ name, id }) => (
                 <div key={name}>
                     <button onClick={() => signIn(id)}>
-                        Sign in with {name}
+                        Se connecter avec {name}
                     </button>
                 </div>
             ))}
-            <form method='post' action='/api/auth/callback/credentials'>
-                <h1>Connexion</h1>
-                <input name='csrfToken' type='hidden' defaultValue={csrfToken} />
-                <Input
-                    label='Email'
-                    name='email'
-                    fieldClass={styles['field']}
-                    value={email}
-                    placeholder='user@example.com'
-                    onChangeCallback={({ target }, value) => setEmail(value)}
-                />
-                <Input
-                    label='Password'
-                    name='password'
-                    type='password'
-                    fieldClass={styles['field']}
-                    value={password}
-                    placeholder='********'
-                    onChangeCallback={({ target }, value) => setPassword(value)}
-                />
-                <button type='submit'>Se connecter</button>
-                {error && (
-                    <p className={styles['error']}>{error}</p>
-                )}
-            </form>
-        </div>
-    )
+        </>);
+    } else {
+        return (<>
+            <p>Aucun provider d'authentification disponible</p>
+        </>)
+    }
 }
 
-export async function getServerSideProps(context) {
-    const csrfToken = await getCsrfToken(context);
+export async function getServerSideProps() {
     const providers = await getProviders();
-
-    return {
-        props: {
-            csrfToken,
-            providers: await getProviders()
-        }
-    }
+    return { props: { providers } }
 }

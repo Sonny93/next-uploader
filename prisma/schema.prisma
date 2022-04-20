@@ -11,11 +11,15 @@ generator client {
 }
 
 model user {
-  id        Int      @id @default(autoincrement())
-  user_id   String   @default(uuid())
-  username  String
-  email     String   @unique
-  password  String
+  id      Int    @id @default(autoincrement())
+  user_id String @default(uuid())
+
+  username          String
+  email             String @unique
+  google_account_id String @unique
+
+  // permission_type
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

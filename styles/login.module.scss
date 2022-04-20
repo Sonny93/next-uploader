@@ -7,24 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
-
-    & form {
-        width: 350px;
-        gap: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-
-        & .field {
-            width: 100%;
-
-            & label {
-                color: #fff;
-            }
-        }
-    }
+    flex-direction: column;
 
     & .error {
         text-align: center;
@@ -32,6 +15,17 @@
         font-size: 0.9em;
         color: #d8000c;
         background-color: #ffbabab9;
+        padding: 10px;
+        border-radius: 3px;
+        animation: op-in 0.15s both;
+    }
+
+    & .success {
+        text-align: center;
+        font-style: italic;
+        font-size: 0.9em;
+        color: #049a00;
+        background-color: #afffa9b5;
         padding: 10px;
         border-radius: 3px;
         animation: op-in 0.15s both;
