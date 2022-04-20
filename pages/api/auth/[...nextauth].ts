@@ -22,7 +22,7 @@ export default NextAuth({
             if (account.provider === "google" && profile.email !== '') {
                 console.log(account, profile, profile.email_verified && profile.email.endsWith("@gmail.com"));
                 if (profile.email_verified && profile.email.endsWith("@gmail.com")) {
-                    return '/signin?success=' + encodeURI('Connecté avec succès');
+                    return true;
                 } else {
                     return "/signin?error=" + encodeURI('Une erreur s\'est produite lors de l\'authentification');
                 }

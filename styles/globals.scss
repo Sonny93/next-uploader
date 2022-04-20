@@ -10,7 +10,7 @@ body {
 	font-size: 1em;
 	font-family: "Poppins", sans-serif;
 	color: #111;
-	background: url(../public/background.jpg);
+	background: url(../public/bg.gif);
 	background-repeat: no-repeat;
 	background-size: cover;
 	margin: 0;
@@ -48,8 +48,8 @@ a {
 
 	&:hover,
 	&:focus {
-		color: #105b97;
-		border-bottom: 1px solid #105b97;
+		color: #3d7bab;
+		border-bottom: 1px solid #3d7bab;
 	}
 }
 
@@ -63,7 +63,7 @@ hr {
 }
 
 ::-webkit-scrollbar-track {
-	background: #105b97;
+	background: #3d7bab;
 }
 
 ::-webkit-scrollbar-thumb {

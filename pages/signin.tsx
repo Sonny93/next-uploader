@@ -1,5 +1,7 @@
 import { getProviders, signIn, useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Loader from '../components/Loader/Loader';
 
 import Meta from '../components/Meta/Meta';
 import { FrontPageProps } from '../front';
@@ -14,6 +16,16 @@ export default function SignIn({ providers, transitionClass }: SignInProps): JSX
     const { data: session, status } = useSession();
     const { success, error } = useRouter().query;
 
+    if (status === 'loading') {
+        return (<>
+            <Meta
+                title='Uploader — Authentification'
+                description='Page de connexion'
+            />
+            <Loader label='Chargement de la session' />
+        </>);
+    }
+
     return (<>
         <Meta
             title='Uploader — Authentification'
@@ -21,8 +33,12 @@ export default function SignIn({ providers, transitionClass }: SignInProps): JSX
         />
         <div className={`${transitionClass} ${styles['login']}`}>
             <h1>Authentification</h1>
-            <Providers providers={Object.values(providers)} />
-            {success && (<p className={styles['success']}>{success}</p>)}
+            {status === 'unauthenticated'
+                ? <Providers providers={Object.values(providers)} />
+                : <p>Vous êtes connecté</p>}
+            <Link href='/'>
+                <a>Retourner à l'accueil</a>
+            </Link>
             {error && (<p className={styles['error']}>{error}</p>)}
         </div>
     </>);
