@@ -24,7 +24,6 @@ export default function NavigationMenu({ session, children }: NavigationMenuProp
     const mediaQuery = '(max-width: 800px)';
     const [isOpen, setOpen] = useState(null);
     const [isMobile, setMobile] = useState(false);
-    console.log(session);
 
     useEffect(() => {
         if (typeof window === 'undefined') return;

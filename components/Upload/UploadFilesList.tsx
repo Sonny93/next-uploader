@@ -10,8 +10,7 @@ import { useSelector } from "react-redux";
 export default function FilesUpload() {
     const files = useSelector(({ fileUpload }: { fileUpload: FileUpload[] }) => fileUpload);
 
-    console.log('files là', files)
-    if (files && files.length > 0) {
+    if (files.length > 0) {
         return (
             <ul className={styles['upload-list']}>
                 {files.map((file, key) => (

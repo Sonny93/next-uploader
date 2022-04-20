@@ -1,6 +1,3 @@
-import Link from 'next/link';
-import axios from 'axios';
-
 import { calculSize } from '../../utils';
 
 import Input from '../Inputs/input';
@@ -13,15 +10,13 @@ import { useDispatch } from 'react-redux';
 import { setName, setPassword } from '../redux';
 
 export default function FileItemUpload({ file }: { file: FileUpload }) {
-    const { name, customName, password, progress, error } = file;
+    const { name, customName, password, progress, uploaded, error } = file;
     const dispatch = useDispatch();
-
-    console.log(file.progress)
 
     return (
         <li className={styles['file-upload']}>
             <Input
-                name='customName'
+                name={'customName' + name}
                 label='Nom du fichier'
                 placeholder={name}
                 fieldClass={styles['field']}
@@ -29,7 +24,7 @@ export default function FileItemUpload({ file }: { file: FileUpload }) {
                 onChangeCallback={({ target }) => dispatch(setName({ file, name: target.value }))}
             />
             <Input
-                name='password'
+                name={'password' + name}
                 label='Mot de passe (optionnel)'
                 type='password'
                 placeholder='********'
@@ -43,6 +38,8 @@ export default function FileItemUpload({ file }: { file: FileUpload }) {
                 </ProgressBar>
             )}
             {error && (<span style={{ color: 'red' }}>{error}</span>)}
+            {progress.inProgress && (<span>en cours d'upload</span>)}
+            {uploaded && (<span>uploaded</span>)}
         </li>
     );
 }
