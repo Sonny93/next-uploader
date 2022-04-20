@@ -1,7 +1,8 @@
 .preview-wrapper.code-editor {
-    align-items: flex-start;
+    justify-content: flex-start !important;
 
     & > pre {
+        height: 100%;
         background: rgba(0, 0, 0, 0.45);
         backdrop-filter: blur(20px);
         padding: 10px;

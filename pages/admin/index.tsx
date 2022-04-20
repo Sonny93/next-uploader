@@ -1,4 +1,4 @@
-import { getSession, useSession } from 'next-auth/client';
+import { getSession, useSession } from 'next-auth/react';
 
 import { prisma, userSafeProps } from '../../utils';
 
@@ -13,7 +13,7 @@ BigInt.prototype.toJSON = function () { return this.toString() }
 import { FrontPageProps } from '../../front';
 
 export default function Admin({ transitionClass }: FrontPageProps) {
-    const [session, isLoadingSession] = useSession();
+    const { data: session, status } = useSession();
 
     return (<>
         <Meta description='Dashboard admin' />

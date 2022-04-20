@@ -1,4 +1,4 @@
-import { Provider } from 'next-auth/client';
+import { SessionProvider } from 'next-auth/react';
 import { useState } from 'react';
 
 import 'toastr/build/toastr.css';
@@ -14,10 +14,10 @@ function MyApp({ Component, pageProps }) {
 	const transitionClass = isTransitioning === null ? '' : !isTransitioning ? 'transition-class-in' : 'transition-class-out';
 	return (
 		<ErrorBoundary>
-			<Provider session={pageProps.session} >
+			<SessionProvider session={pageProps.session} >
 				<PageLoader setTransitioning={setTransitioning} />
 				<Component transitionClass={transitionClass} {...pageProps} />
-			</Provider>
+			</SessionProvider>
 		</ErrorBoundary>
 	);
 }

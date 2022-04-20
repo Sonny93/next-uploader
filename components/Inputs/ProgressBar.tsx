@@ -1,10 +1,10 @@
-import { LineProgressBar } from '@frogress/line';
+import { ProgressUpload } from "../../front";
 
 interface ProgressBarProps {
     name: string;
     label?: string;
     fieldClass?: string;
-    progress: number;
+    progress: ProgressUpload;
     children?: any;
 }
 
@@ -19,10 +19,9 @@ export default function ProgressBar({ name, label, fieldClass = '', progress, ch
             </label>
         )}
         <div className="progress-wrapper">
-            <LineProgressBar
-                progressColor={progress < 100 ? inProgressColor : finishColor}
-                percent={progress}
-            />
+            <span>
+                {progress.percent} %
+            </span>
             <div className="details">
                 {children}
             </div>

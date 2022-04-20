@@ -1,4 +1,4 @@
-import { signIn, signOut } from 'next-auth/client';
+import { signIn, signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -46,7 +46,7 @@ export default function NavigationMenu({ session, children }: NavigationMenuProp
                 <ul className={styles['menu']}>
                     <div className={styles['avatar']}>
                         <Image
-                            src='/avatar.webp'
+                            src={session?.user?.image?.replace('=s96', '=s180')}
                             alt='avatar'
                             height={180}
                             width={180}

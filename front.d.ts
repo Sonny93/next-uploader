@@ -41,6 +41,7 @@ export enum FileType {
     AUDIO = "AUDIO",
 
     HTML = "HTML",
+    XML = "XML",
     CSS = "CSS",
     SASS = "SASS",
     JAVASCRIPT = "JAVASCRIPT",
@@ -83,14 +84,19 @@ export interface FileUpload extends File {
     size: number;
     type: string;
     lastModified: number;
+
     customName: string;
     password: string;
-    progress: ProgressUpload | null;
+    progress: ProgressUpload;
+
     uploaded: boolean;
+    canUpload: boolean;
     error: string | null;
 }
 
 export interface ProgressUpload {
     loaded: number;
     total: number;
+    percent: number;
+    inProgress: boolean;
 }

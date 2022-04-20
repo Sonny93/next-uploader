@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect, { NextHandler } from 'next-connect';
 import { Session } from 'next-auth';
-import { getSession } from 'next-auth/client';
+import { getSession } from 'next-auth/react';
 
 import multer from 'multer';
 import { extname } from 'path';
@@ -33,6 +33,7 @@ const apiRoute = nextConnect({
 // Middleware auth
 apiRoute.use(async (req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {
     const session: Session = await getSession({ req });
+    console.log(session);
     if (!session) {
         return res.status(403).send({ error: 'Vous devez être connecté' });
     }
@@ -58,7 +59,7 @@ apiRoute.use(async (req: Request, res: NextApiResponse) => {
         const fileDB = await prisma.file.create({
             data: {
                 name: customName,
-                password: password ? await bcrypt.hash(password, 10) : null,
+                password: password ? await bcrypt.hash(password, 10) : '',
                 passwordSet: password ? true : false,
                 fileBrutSize: file.size,
                 fileSaveAs: saveAs.toString(),
