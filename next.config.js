@@ -1,6 +1,6 @@
 module.exports = {
 	images: {
-		domains: ['localhost']
+		domains: ['localhost', 'lh3.googleusercontent.com']
 	},
 	webpack(config) {
 		config.module.rules.push({

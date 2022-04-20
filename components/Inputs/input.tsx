@@ -1,12 +1,15 @@
-import { ReactElement, useState } from "react";
+import { MutableRefObject, useState } from "react";
 
 interface InputProps {
     name: string;
     label?: string;
-    labelComponent?: any;
+    labelComponent?: JSX.Element;
+    type?: string;
+    multiple?: boolean;
+    innerRef?: MutableRefObject<any>;
     placeholder?: string;
     fieldClass?: string;
-    value: string;
+    value?: string;
     onChangeCallback: ({ target }, value) => void;
 }
 
@@ -14,11 +17,14 @@ export default function Input({
     name,
     label,
     labelComponent,
-    placeholder,
+    type = 'text',
+    multiple = false,
+    innerRef = null,
+    placeholder = 'Type something...',
     fieldClass = '',
     value,
     onChangeCallback
-}: InputProps) {
+}: InputProps): JSX.Element {
     const [inputValue, setInputValue] = useState<string>(value);
 
     function onChange({ target }) {
@@ -40,9 +46,12 @@ export default function Input({
         <input
             id={name}
             name={name}
+            type={type}
             onChange={onChange}
             value={inputValue}
-            placeholder={placeholder || 'Type something...'}
+            multiple={multiple}
+            placeholder={placeholder}
+            ref={innerRef}
         />
     </div>);
 }

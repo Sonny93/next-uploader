@@ -64,6 +64,7 @@ export default function FileProtected({ file }: { file: FileFront }): JSX.Elemen
                 <Input
                     name='password'
                     label='Mot de passe'
+                    type='password'
                     placeholder='Mot de passe...'
                     fieldClass={styles['password']}
                     value={password}
