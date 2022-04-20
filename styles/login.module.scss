@@ -19,17 +19,6 @@
         border-radius: 3px;
         animation: op-in 0.15s both;
     }
-
-    & .success {
-        text-align: center;
-        font-style: italic;
-        font-size: 0.9em;
-        color: #049a00;
-        background-color: #afffa9b5;
-        padding: 10px;
-        border-radius: 3px;
-        animation: op-in 0.15s both;
-    }
 }
 
 @keyframes op-in {

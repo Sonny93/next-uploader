@@ -1,5 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { FileType, UserFront } from '../front.d';
+import axios, { AxiosError } from 'axios';
+import toastr from 'toastr';
+
+import { setError, setUploaded, updateProgress } from '../components/redux';
+
+import { FileType, FileUpload, UserFront } from '../front.d';
 import { UserAPI } from '../api';
 
 /**
@@ -97,3 +102,81 @@ export function GetIcon(fileType: string) {
 }
 
 export const Pluralize = (str: string, num: number): string => `${str}${num > 1 ? 's' : ''}`;
+
+export async function UploadFiles(files: FileUpload[], dispatch) {
+    for await (const file of files) {
+        const formData = new FormData(); // Payload
+        formData.append('file', file);
+        formData.append('customName', file?.customName);
+        formData.append('password', file?.password);
+
+        try {
+            const { data } = await axios.request({
+                method: 'post',
+                url: '/api/upload',
+                data: formData,
+                onUploadProgress: ({ loaded, total }) => dispatch(updateProgress({ file, loaded, total }))
+            });
+
+            const fileUploaded = data?.file as FileUpload;
+            if (!fileUploaded) {
+                console.warn('Aucun fichier retourné par le serveur', data);
+            }
+
+            dispatch(setUploaded({ file, uploaded: true }));
+        } catch (error) {
+            const txtError = HandleCatchError(error);
+            dispatch(setError(txtError));
+            break;
+        }
+    }
+}
+
+export function HandleCatchError(error): string {
+    console.log('error handle catch', error)
+    let txtError: string;
+
+    if (error.response) {
+        const dataError = error.response.data as string;
+        if (dataError) {
+            txtError = dataError;
+        } else {
+            txtError = 'Une erreur est survenue lors de l\'upload du fichier';
+        }
+    } else if (error.request) { // Aucune erreur n'a été retournée par l'api
+        txtError = 'Aucune réponse envoyée par le serveur';
+    } else {
+        txtError = error.message;
+    }
+
+    toastr.error(txtError, 'Erreur!');
+    console.error(txtError);
+    return txtError;
+}
+
+interface FetchFileProps {
+    src: string;
+    password?: string;
+    confirmationOnly?: boolean;
+    onDownloadProgress?: (progress) => void
+}
+
+export async function FetchFile({ src, password, confirmationOnly, onDownloadProgress }: FetchFileProps): Promise<string | null> {
+    const headers = {};
+    if (password) {
+        headers['password'] = password;
+    }
+
+    if (confirmationOnly) {
+        headers['confirmation-only'] = 'true';
+    }
+
+    return axios
+        .get(src, {
+            headers,
+            responseType: 'blob',
+            onDownloadProgress
+        })
+        .then(async ({ data }) => Promise.resolve(confirmationOnly ? null : URL.createObjectURL(data)))
+        .catch(async ({ response }: AxiosError) => Promise.reject(JSON.stringify(await response.data.text())));
+}

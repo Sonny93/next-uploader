@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import toastr from 'toastr';
+
 import Details from './Details';
 import Editor from './Editor';
 import Image from './Image';
@@ -7,9 +10,43 @@ import PDFViewer from './PDFViewer';
 import FileOther from './FileOther';
 
 import { FileFront, FileType } from '../../front.d';
+import { FetchFile } from '../../utils';
+import Loader from '../Loader/Loader';
 
-export default function FilePreview({ file, blob }: { file: FileFront, blob?: string; }): JSX.Element {
+interface FilePreviewPassword {
+    file: FileFront;
+    password?: string;
+}
+
+export default function FilePreview({ file, password }: FilePreviewPassword): JSX.Element {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [blob, setBlob] = useState<string | null>(null);
     const { url, name, meta } = file;
+
+    useEffect(() => {
+        setLoading(true);
+        FetchFile({ src: file.url, password })
+            .then(setBlob)
+            .catch(console.error)
+            .finally(() => setLoading(false));
+    }, [file, password]);
+
+    async function handleClickDownload() {
+        if (file.meta.type === FileType.PROTECTED && (!password || !file.url)) {
+            return toastr.error('Un mot de passe est requis pour télécharger ce fichier !', 'Erreur');
+        }
+
+        if (!blob) return;
+
+        FileSaveAS(blob, `${name}.${meta.extension}`);
+    }
+
+    if (loading) {
+        return (<>
+            <Details file={file} />
+            <Loader label='Téléchargement du fichier en cours' />
+        </>);
+    }
 
     let component: JSX.Element;
     if (meta.type === FileType.IMAGE) {
@@ -38,6 +75,16 @@ export default function FilePreview({ file, blob }: { file: FileFront, blob?: st
 
     return (<>
         <Details file={file} />
+        <button onClick={handleClickDownload}>
+            save
+        </button>
         {component}
     </>);
+}
+
+function FileSaveAS(blob: string, fileName: string) {
+    const a = document.createElement('a');
+    a.href = blob;
+    a.download = fileName
+    a.click();
 }

@@ -1,4 +1,4 @@
-import { signIn, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -82,11 +82,9 @@ export default function NavigationMenu({ session, children }: NavigationMenuProp
                             </Link>
                         </li>
                         <li className={styles['item']}>
-                            <Link href='#'>
-                                <a onClick={() => signOut()} className={styles['red']}>
-                                    <AiOutlineLogout /> Se déconnecter
-                                </a>
-                            </Link>
+                            <a href='#' onClick={() => signOut()} className={styles['red']}>
+                                <AiOutlineLogout /> Se déconnecter
+                            </a>
                         </li>
                     </div>
                 </ul>
@@ -108,8 +106,8 @@ export default function NavigationMenu({ session, children }: NavigationMenuProp
                     </div>
                     <div className={`${styles['group']} ${styles['bottom']}`}>
                         <li className={styles['item']}>
-                            <Link href='#'>
-                                <a onClick={() => signIn()} className={styles['blue']}>
+                            <Link href='/signin'>
+                                <a className={styles['blue']}>
                                     <AiOutlineUser /> Se connecter
                                 </a>
                             </Link>
