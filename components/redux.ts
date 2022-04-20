@@ -51,12 +51,14 @@ const fileUploadSlice = createSlice({
             const files = [...state];
             const file: FileUpload = payload.file;
             const loaded: number = payload.loaded;
+            const total: number = payload.total;
 
             const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
-                const percent = Number(((loaded / file.progress.total) * 100).toFixed(2));
+                const percent = Number(((loaded / total) * 100).toFixed(2));
                 files[index].progress = {
                     ...file.progress,
+                    total,
                     loaded,
                     percent,
                     inProgress: percent !== 100

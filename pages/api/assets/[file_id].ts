@@ -20,7 +20,6 @@ apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(403).send(`Impossible de trouver le fichier ${file_id}`);
     }
 
-    console.log('password required, header password:', password);
     if (file.passwordSet) {
         if (!password) {
             return res.status(400).send('Un mot de passe est requis pour accéder à ce fichier');

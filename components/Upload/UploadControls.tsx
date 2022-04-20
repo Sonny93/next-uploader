@@ -12,9 +12,11 @@ import { FileUpload } from '../../front';
 
 import { addFile, clearFiles, setError, setUploaded, updateProgress } from '../redux';
 import styles from '../../styles/upload.module.scss';
+import { Pluralize } from '../../utils';
 
 export default function UploadControls(): JSX.Element {
     const [uploadInProgress, setInProgress] = useState<boolean>(false);
+    const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
     const [filesSelected, setFilesSelected] = useState<boolean>(false);
 
     const files = useSelector(({ fileUpload }: { fileUpload: FileUpload[] }) => fileUpload);
@@ -28,17 +30,46 @@ export default function UploadControls(): JSX.Element {
     const handleFiles = ({ target }) =>
         (Array.from(target.files)).forEach((file: FileUpload) => FileFormHandle(file, dispatch));
 
-    const handleStartUpload = async () => {
+    const handleStartUpload = () => {
         setInProgress(true);
-        await UploadFiles(files, dispatch);
-        setInProgress(false);
-        handleClearFiles();
+        UploadFiles(files, dispatch)
+            .then(() => setUploadSuccess(true))
+            .catch(() => setUploadSuccess(false))
+            .finally(() => setInProgress(false));
+
     }
 
     const handleSelectFiles = () => refInput.current.click();
     const handleClearFiles = () => {
+        setInProgress(false);
+        setUploadSuccess(false);
         dispatch(clearFiles({}));
-        refInput.current.value = null;
+
+        if (refInput.current?.value) {
+            refInput.current.value = null;
+        }
+    }
+
+    if (uploadInProgress) {
+        const filesUploaded = files.filter((file) => file.uploaded);
+        const percentProgress = Math.ceil((filesUploaded.length / files.length) * 100) || 0;
+
+        return (
+            <div className={styles['controls']}>
+                En cours d'upload {filesUploaded.length} / {files.length} ({percentProgress} %)
+            </div>
+        )
+    }
+
+    if (uploadSuccess) {
+        return (<div className={styles['controls']}>
+            <span>
+                {files.length} {Pluralize('fichier', files.length)} uploadé avec succès
+            </span>
+            <button className={`${styles['icon-btn']} btn`} onClick={handleClearFiles}>
+                Clear
+            </button>
+        </div>)
     }
 
     return (
@@ -52,18 +83,17 @@ export default function UploadControls(): JSX.Element {
                 className={`nostyle ${styles['input-upload']}`}
             />
             <button onClick={handleStartUpload} disabled={uploadInProgress || !filesSelected}>
-                Envoyer {files.length} fichier{files.length > 1 ? 's' : ''}
+                Envoyer {files.length} {Pluralize('fichier', files.length)}
             </button>
-            {!filesSelected ? (<>
-                {/* @ts-ignore */}
+            {!filesSelected ? (
                 <button className={`${styles['icon-btn']} btn`} onClick={handleSelectFiles}>
                     <AiFillFileAdd />
                 </button>
-            </>) : (<>
+            ) : (
                 <button className={`${styles['icon-btn']} btn`} onClick={handleClearFiles}>
                     Clear
                 </button>
-            </>)}
+            )}
         </div>
     )
 }
@@ -100,12 +130,12 @@ async function UploadFiles(files: FileUpload[], dispatch) {
                 method: 'post',
                 url: '/api/upload',
                 data: formData,
-                onUploadProgress: ({ loaded }: { loaded: number; }) => dispatch(updateProgress({ file, loaded }))
+                onUploadProgress: ({ loaded, total }) => dispatch(updateProgress({ file, loaded, total }))
             });
 
             const fileUploaded = data?.file as FileUpload;
             if (!fileUploaded) {
-                toastr.warning('Veuillez rafraîchir la page pour avoir le fichier uploadé', 'Avertissement');
+                console.warn('Aucun fichier retourné par le serveur', data);
             }
 
             dispatch(setUploaded({ file, uploaded: true }));

@@ -95,3 +95,5 @@ export function GetIcon(fileType: string) {
     const { icon } = Icons.find(({ type }) => type === fileType);
     return icon;
 }
+
+export const Pluralize = (str: string, num: number): string => `${str}${num > 1 ? 's' : ''}`;
