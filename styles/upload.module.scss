@@ -23,12 +23,13 @@
         user-select: none;
         height: 100%;
         width: 100%;
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(20px);
         font-size: 1.15em;
         letter-spacing: 1px;
-        gap: 10px;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(20px);
+        border-radius: 3px;
         display: flex;
+        gap: 10px;
         flex: 1;
         align-items: center;
         justify-content: center;

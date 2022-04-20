@@ -5,71 +5,97 @@ const fileUploadSlice = createSlice({
     name: 'fileUpload',
     initialState: [] as FileUpload[],
     reducers: {
-        addFile: (state: FileUpload[], { payload }: { payload: FileUpload }) => { state.push(payload) },
+        addFile: (state: FileUpload[], { payload }: { payload: FileUpload }) => {
+            const files = [...state];
+            files.push(payload)
+            return files;
+        },
         deleteFile: (state: FileUpload[], { payload }: { payload: FileUpload }) => {
-            const index = state.findIndex((file) => file.name === payload.name);
+            const files = [...state];
+
+            const index = files.findIndex((file) => file.name === payload.name);
             if (index !== -1) {
-                delete state[index];
+                delete files[index];
             }
+
+            return files
         },
 
         setName: (state: FileUpload[], { payload }: { payload }) => {
+            const files = [...state];
             const file: FileUpload = payload.file;
             const name: string = payload.name;
 
-            const index = state.findIndex((f) => f.name === file.name);
+            const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
-                state[index].customName = name;
+                files[index].customName = name;
             }
+
+            return files;
         },
         setPassword: (state: FileUpload[], { payload }: { payload }) => {
+            const files = [...state];
+
             const file: FileUpload = payload.file;
             const password: string = payload.password;
 
-            const index = state.findIndex((f) => f.name === file.name);
+            const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
-                state[index].password = password;
+                files[index].password = password;
             }
+
+            return files;
         },
 
         updateProgress: (state: FileUpload[], { payload }: { payload }) => {
+            const files = [...state];
             const file: FileUpload = payload.file;
             const loaded: number = payload.loaded;
 
-            const index = state.findIndex((f) => f.name === file.name);
+            const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
                 const percent = Number(((loaded / file.progress.total) * 100).toFixed(2));
-                state[index].progress = {
+                files[index].progress = {
                     ...file.progress,
                     loaded,
                     percent,
-                    inProgress: percent === 100
+                    inProgress: percent !== 100
                 }
             }
+
+            return files;
         },
         setUploaded: (state: FileUpload[], { payload }: { payload }) => {
+            const files = [...state];
             const file: FileUpload = payload.file;
             const uploaded: boolean = payload.uploaded;
 
-            const index = state.findIndex((f) => f.name === file.name);
+            const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
-                state[index].uploaded = uploaded;
+                files[index].uploaded = uploaded;
             }
+
+            return files;
         },
 
         setError: (state: FileUpload[], { payload }: { payload }) => {
+            const files = [...state];
             const file: FileUpload = payload.file;
             const error: any = payload.error; // TODO: changer type
 
-            const index = state.findIndex((f) => f.name === file.name);
+            const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
-                state[index].error = error;
-                state[index].uploaded = false;
-                state[index].progress.loaded = 0;
-                state[index].progress.percent = 0;
-                state[index].progress.inProgress = false;
+                files[index].error = error;
+                files[index].uploaded = false;
+                files[index].progress.loaded = 0;
+                files[index].progress.percent = 0;
+                files[index].progress.inProgress = false;
             }
+
+            return files;
         },
+
+        clearFiles: (state: FileUpload[], action) => []
     }
 });
 
@@ -80,4 +106,4 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 });
 
-export const { addFile, deleteFile, setName, updateProgress, setPassword, setUploaded, setError } = fileUploadSlice.actions;
+export const { addFile, deleteFile, setName, updateProgress, setPassword, setUploaded, setError, clearFiles } = fileUploadSlice.actions;

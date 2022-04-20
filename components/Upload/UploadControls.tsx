@@ -1,24 +1,45 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiFillFileAdd } from 'react-icons/ai';
 
-import { extname } from 'path';
-
-import styles from '../../styles/upload.module.scss';
-import { FileUpload } from '../../front';
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from '@reduxjs/toolkit';
-import Input from '../Inputs/input';
-import { addFile, setError, setUploaded, updateProgress } from '../redux';
 import axios from 'axios';
 import toastr from 'toastr';
+import { extname } from 'path';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from '@reduxjs/toolkit';
+
+import { FileUpload } from '../../front';
+
+import { addFile, clearFiles, setError, setUploaded, updateProgress } from '../redux';
+import styles from '../../styles/upload.module.scss';
 
 export default function UploadControls(): JSX.Element {
+    const [uploadInProgress, setInProgress] = useState<boolean>(false);
+    const [filesSelected, setFilesSelected] = useState<boolean>(false);
+
     const files = useSelector(({ fileUpload }: { fileUpload: FileUpload[] }) => fileUpload);
-    const refInput = useRef();
+    const refInput = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        refInput.current?.value ? setFilesSelected(true) : setFilesSelected(false)
+    }, [refInput.current?.value]);
 
     const handleFiles = ({ target }) =>
         (Array.from(target.files)).forEach((file: FileUpload) => FileFormHandle(file, dispatch));
+
+    const handleStartUpload = async () => {
+        setInProgress(true);
+        await UploadFiles(files, dispatch);
+        setInProgress(false);
+        handleClearFiles();
+    }
+
+    const handleSelectFiles = () => refInput.current.click();
+    const handleClearFiles = () => {
+        dispatch(clearFiles({}));
+        refInput.current.value = null;
+    }
 
     return (
         <div className={styles['controls']}>
@@ -30,17 +51,19 @@ export default function UploadControls(): JSX.Element {
                 ref={refInput}
                 className={`nostyle ${styles['input-upload']}`}
             />
-            <button onClick={async () => {
-                await UploadFiles(files, dispatch)
-                // @ts-ignore
-                refInput?.current.value = null;
-            }}>
-                Envoyer {files.length} fichier
+            <button onClick={handleStartUpload} disabled={uploadInProgress || !filesSelected}>
+                Envoyer {files.length} fichier{files.length > 1 ? 's' : ''}
             </button>
-            {/* @ts-ignore */}
-            <button className={`${styles['icon-btn']} btn`} onClick={() => refInput?.current?.click()}>
-                <AiFillFileAdd />
-            </button>
+            {!filesSelected ? (<>
+                {/* @ts-ignore */}
+                <button className={`${styles['icon-btn']} btn`} onClick={handleSelectFiles}>
+                    <AiFillFileAdd />
+                </button>
+            </>) : (<>
+                <button className={`${styles['icon-btn']} btn`} onClick={handleClearFiles}>
+                    Clear
+                </button>
+            </>)}
         </div>
     )
 }
@@ -77,10 +100,7 @@ async function UploadFiles(files: FileUpload[], dispatch) {
                 method: 'post',
                 url: '/api/upload',
                 data: formData,
-                onUploadProgress: ({ loaded }: { loaded: number; }) => {
-                    console.log(loaded);
-                    dispatch(updateProgress({ file, loaded }))
-                }
+                onUploadProgress: ({ loaded }: { loaded: number; }) => dispatch(updateProgress({ file, loaded }))
             });
 
             const fileUploaded = data?.file as FileUpload;
@@ -93,6 +113,7 @@ async function UploadFiles(files: FileUpload[], dispatch) {
             const txtError = HandleCatchError(error);
             toastr.error(txtError, 'Erreur!');
             console.error(txtError);
+
             dispatch(setError(txtError));
             break;
         }
