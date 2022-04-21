@@ -13,7 +13,12 @@ import Loader from '../Loader/Loader';
 import styles from '../../styles/file-preview/file-preview.module.scss';
 import { FileFront } from '../../front';
 
-export default function Editor({ file, blob }: { file: FileFront, blob: string; }) {
+interface EditorPreviewProps {
+    file: FileFront;
+    blob: string;
+}
+
+export default function EditorPreview({ file, blob }: EditorPreviewProps) {
     const { url } = file;
     const [content, setContent] = useState(null);
 

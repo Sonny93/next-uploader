@@ -51,7 +51,7 @@ function Providers({ providers }): JSX.Element {
             {providers.map(({ name, id }) => (
                 <div key={name}>
                     <button onClick={() => signIn(id)}>
-                        Se connecter avec {name}
+                        Continuer avec {name}
                     </button>
                 </div>
             ))}
