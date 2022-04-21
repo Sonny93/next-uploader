@@ -68,7 +68,7 @@
             border-bottom: 2px solid transparent;
             display: flex;
             align-items: center;
-            transition: 0.15s;
+            transition: background 0.15s, border 0.15s;
 
             & > svg {
                 margin-right: 10px;

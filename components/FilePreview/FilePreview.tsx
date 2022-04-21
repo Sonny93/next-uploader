@@ -21,27 +21,36 @@ interface FilePreviewPassword {
 export default function FilePreview({ file, password }: FilePreviewPassword): JSX.Element {
     const [loading, setLoading] = useState<boolean>(false);
     const [blob, setBlob] = useState<string | null>(null);
+    const [needBlob, setNeedBlob] = useState<boolean>(false);
     const { url, name, meta } = file;
 
     useEffect(() => {
-        setLoading(true);
-        FetchFile({ src: file.url, password })
-            .then(setBlob)
-            .catch(console.error)
-            .finally(() => setLoading(false));
-    }, [file, password]);
+        if (BlobNeeded(meta.type)) {
+            setLoading(true);
+            setNeedBlob(true);
+            FetchFile({ src: file.url, password, onDownloadProgress: console.log })
+                .then(setBlob)
+                .catch(console.error)
+                .finally(() => setLoading(false));
+        }
+    }, [file, password, needBlob, meta.type]);
 
     async function handleClickDownload() {
         if (file.meta.type === FileType.PROTECTED && (!password || !file.url)) {
             return toastr.error('Un mot de passe est requis pour télécharger ce fichier !', 'Erreur');
         }
 
-        if (!blob) return;
-
-        FileSaveAS(blob, `${name}.${meta.extension}`);
+        if (!blob) {
+            FetchFile({ src: file.url, password, onDownloadProgress: console.log })
+                .then((blob) => FileSaveAS(blob, `${name}.${meta.extension}`))
+                .catch(console.error)
+                .finally(() => setLoading(false));
+        } else {
+            FileSaveAS(blob, `${name}.${meta.extension}`);
+        }
     }
 
-    if (loading) {
+    if (needBlob && loading) {
         return (<>
             <Details file={file} />
             <Loader label='Téléchargement du fichier en cours' />
@@ -80,6 +89,28 @@ export default function FilePreview({ file, password }: FilePreviewPassword): JS
         </button>
         {component}
     </>);
+}
+
+function BlobNeeded(type: FileType) {
+    if (
+        type === FileType.IMAGE ||
+        type === FileType.VIDEO ||
+        type === FileType.AUDIO ||
+        type === FileType.PDF ||
+        type === FileType.HTML ||
+        type === FileType.XML ||
+        type === FileType.CSS ||
+        type === FileType.SASS ||
+        type === FileType.JAVASCRIPT ||
+        type === FileType.JSON ||
+        type === FileType.REACT ||
+        type === FileType.VUEJS ||
+        type === FileType.TYPESCRIPT
+    ) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function FileSaveAS(blob: string, fileName: string) {

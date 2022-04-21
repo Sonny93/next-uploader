@@ -97,7 +97,7 @@ const fileUploadSlice = createSlice({
             return files;
         },
 
-        clearFiles: (state: FileUpload[], action) => []
+        clearFiles: (state: FileUpload[], action) => [] as FileUpload[]
     }
 });
 
