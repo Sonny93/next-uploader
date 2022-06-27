@@ -48,8 +48,8 @@ a {
 
 	&:hover,
 	&:focus {
-		color: #105b97;
-		border-bottom: 1px solid #105b97;
+		color: #3d7bab;
+		border-bottom: 1px solid #3d7bab;
 	}
 }
 
@@ -63,7 +63,7 @@ hr {
 }
 
 ::-webkit-scrollbar-track {
-	background: #105b97;
+	background: #3d7bab;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -80,10 +80,14 @@ hr {
 }
 
 .transition-class-in {
+	position: relative;
+	left: -30px;
 	animation: transclassin 250ms both;
 }
 
 .transition-class-out {
+	position: relative;
+	left: 0;
 	animation: transclassout 250ms both;
 }
 
@@ -100,20 +104,20 @@ hr {
 
 @keyframes transclassin {
 	0% {
-		transform: translateX(-30px);
+		left: -30px;
 	}
 
 	100% {
-		transform: translateX(0px);
+		left: 0;
 	}
 }
 
 @keyframes transclassout {
 	0% {
-		transform: translateX(0px);
+		left: 0;
 	}
 
 	100% {
-		transform: translateX(30px);
+		left: 30px;
 	}
 }
