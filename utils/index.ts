@@ -133,7 +133,6 @@ export async function UploadFiles(files: FileUpload[], dispatch) {
 }
 
 export function HandleCatchError(error): string {
-    console.log('error handle catch', error)
     let txtError: string;
 
     if (error.response) {

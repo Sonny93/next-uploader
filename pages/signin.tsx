@@ -45,7 +45,6 @@ export default function SignIn({ providers, transitionClass }: SignInProps): JSX
 }
 
 function Providers({ providers }): JSX.Element {
-    console.log(providers)
     if (providers.length > 0) {
         return (<>
             {providers.map(({ name, id }) => (

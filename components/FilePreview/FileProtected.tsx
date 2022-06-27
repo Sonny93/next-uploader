@@ -19,22 +19,16 @@ export default function FileProtected({ file }: { file: FileFront }): JSX.Elemen
         const timeout = setTimeout(() => setError(null), 5000);
         return () => clearTimeout(timeout);
     }, [error]);
-    console.log(error)
 
     function handleFormSubmit(event) {
         event.preventDefault();
-        console.log(file)
+
         setAccessGranted(false);
         setError(null);
+
         FetchFile({ src: file.url, password, confirmationOnly: true })
-            .then(() => {
-                setAccessGranted(true);
-                console.log('là')
-            })
-            .catch((error) => {
-                console.error('error là', error);
-                setError(error);
-            });
+            .then(() => setAccessGranted(true))
+            .catch((error) => setError(error));
     }
 
     if (accessGranted) {
