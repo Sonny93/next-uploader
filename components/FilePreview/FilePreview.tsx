@@ -28,7 +28,8 @@ export default function FilePreview({ file, password }: FilePreviewPassword): JS
         if (BlobNeeded(meta.type)) {
             setLoading(true);
             setNeedBlob(true);
-            FetchFile({ src: file.url, password, onDownloadProgress: console.log })
+
+            FetchFile({ src: file.url, password })
                 .then(setBlob)
                 .catch(console.error)
                 .finally(() => setLoading(false));
@@ -41,7 +42,7 @@ export default function FilePreview({ file, password }: FilePreviewPassword): JS
         }
 
         if (!blob) {
-            FetchFile({ src: file.url, password, onDownloadProgress: console.log })
+            FetchFile({ src: file.url, password })
                 .then((blob) => FileSaveAS(blob, `${name}.${meta.extension}`))
                 .catch(console.error)
                 .finally(() => setLoading(false));
