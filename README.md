@@ -34,8 +34,15 @@ Lien vers la liste complète des tâches à réaliser : https://sonny93.notion.s
 ### Installation
 
 ```
-git clone https://github.com/Sonny/next-uploader.git
+git clone https://github.com/Sonny93/next-uploader.git
 npm install
+```
+
+Vous devez ensuite copier créer un fichier .env et un fichier .env.local en vous basant sur les deux fichiers d'exemple ".env.example" et ".env.local.example"
+
+```
+cp .env.example .env
+cp .env.local.example .env.local
 ```
 
 ### Développement
