@@ -20,6 +20,7 @@ export function FileBuilder({
                 type: FileTypeBuilder(fileExtension),
                 extension: fileExtension
             },
+            url: FileUrlBuilder(file_id),
             createdAt,
             updatedAt
         }

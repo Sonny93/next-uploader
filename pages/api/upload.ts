@@ -3,26 +3,19 @@ import nextConnect, { NextHandler } from 'next-connect';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 
-import multer from 'multer';
+import formidable, { Fields, File } from 'formidable';
+import IncomingForm from 'formidable/Formidable';
+
 import { extname } from 'path';
 import { rename } from 'fs/promises';
 
 import bcrypt from 'bcrypt';
 
-import { Request } from 'express';
 import { prisma } from '../../utils';
 import { FileBuilder } from '../../utils/api';
 
 // @ts-ignore
 BigInt.prototype.toJSON = function () { return this.toString() }
-
-// Upload
-const upload = multer({
-    storage: multer.diskStorage({
-        destination: process.env.UPLOAD_DIR,
-        filename: async (req: Request, file: Express.Multer.File, cb: (error: Error, filename: string) => void) => cb(null, file.originalname)
-    })
-});
 
 // Gesiton des erreurs
 const apiRoute = nextConnect({
@@ -31,54 +24,57 @@ const apiRoute = nextConnect({
 });
 
 // Middleware auth
-apiRoute.use(async (req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {
+apiRoute.post(async (req: NextApiRequest, res: NextApiResponse, next: NextHandler) => {
     const session: Session = await getSession({ req });
-    console.log(session);
     if (!session) {
-        return res.status(403).send({ error: 'Vous devez être connecté' });
+        res.status(403).send({ error: 'Vous devez être connecté' });
+    } else {
+        next();
     }
-
-    next();
 });
 
-apiRoute.use(upload.single('file'));
+apiRoute.post(async (request: NextApiRequest, response: NextApiResponse) => {
+    const form = formidable({ multiples: false, uploadDir: process.env.UPLOAD_DIR });
+    const { file, fields } = await HandleFiles(form, request);
 
-apiRoute.use(async (req: Request, res: NextApiResponse) => {
-    const file = req.file;
-    const customName = req.body?.customName;
+    const fileExtension = extname(file.originalFilename).substring(1);
+    const customName = fields['customName'] as string; // TODO: escape chars
+    const password = (fields['password'] || '') as string; // TODO: escape chars
 
-    if (!customName) {
-        return res.status(403).send({ error: 'Vous devez préciser un nom pour le fichier' });
+    if (!customName || typeof customName !== 'string') {
+        return response.status(403).send({ error: 'Vous devez préciser un nom pour le fichier' });
     }
 
-    const password = req.body?.password;
-    const extension = extname(req.file.originalname).substring(1);
+    const saveAs = `${Date.now()}-${file.size}.${fileExtension}`;
+    await rename(file.filepath, `${process.env.UPLOAD_DIR}/${saveAs}`);
 
-    try {
-        const saveAs = `${Date.now()}-${file.size}.${extension}`;
-        const fileDB = await prisma.file.create({
-            data: {
-                name: customName,
-                password: password ? await bcrypt.hash(password, 10) : '',
-                passwordSet: password ? true : false,
-                fileBrutSize: file.size,
-                fileSaveAs: saveAs.toString(),
-                fileExtension: extension,
-                fileMimeType: file.mimetype
+    const fileDB = await prisma.file.create({
+        data: {
+            name: customName,
+            password: password ? await bcrypt.hash(password, 10) : '',
+            passwordSet: password ? true : false,
+            fileBrutSize: file.size,
+            fileSaveAs: saveAs,
+            fileExtension: fileExtension,
+            fileMimeType: file.mimetype
+        }
+    });
+
+    response.status(200).send({ status: 'OK', file: FileBuilder(fileDB) });
+});
+
+function HandleFiles(form: IncomingForm, request: NextApiRequest): Promise<{ fields: Fields; file: File; }> {
+    return new Promise((resolve, reject) => {
+        form.parse(request, (error, fields, files) => {
+            if (error) {
+                reject(error);
+            } else {
+                const file = files.file as File;
+                resolve({ fields, file });
             }
         });
-        try {
-            await rename(`${process.env.UPLOAD_DIR}/${file.originalname}`, `${process.env.UPLOAD_DIR}/${saveAs}`);
-            res.status(200).send({ status: 'OK', file: FileBuilder(fileDB) });
-        } catch (error) {
-            console.error(error);
-            res.status(400).send({ error: 'Une erreur est survenue lors de la création du fichier' });
-        }
-    } catch (error) {
-        console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'ajout du fichier dans la base de donnée' });
-    }
-});
+    });
+}
 
 export default apiRoute;
 export const config = {

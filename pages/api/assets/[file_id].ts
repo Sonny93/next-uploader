@@ -14,27 +14,31 @@ const apiRoute = nextConnect({
 apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
     const file_id = req.query?.file_id as string;
     const password = req.headers?.['password'] as string;
+    const confirmationOnly = Boolean(req.headers?.['confirmation-only'] as string);
 
     const file = await prisma.file.findUnique({ where: { file_id } });
     if (!file) {
-        return res.status(403).send(`Impossible de trouver le fichier ${file_id}`);
+        return res.status(404).send(`Impossible de trouver le fichier ${file_id}`);
     }
 
-    console.log('password required, header password:', password);
     if (file.passwordSet) {
         if (!password) {
-            return res.status(400).send('Un mot de passe est requis pour accéder à ce fichier');
+            return res.status(403).send('Un mot de passe est requis pour accéder à ce fichier');
         }
 
         const passwordMatch = await bcrypt.compare(password, file.password);
         if (!passwordMatch) {
-            return res.status(400).send('Mot de passe incorrect');
+            return res.status(403).send('Mot de passe incorrect');
+        }
+
+        if (confirmationOnly) {
+            return res.status(200).send('Mot de passe correct');
         }
     }
 
     const filePath = `${process.env.UPLOAD_DIR}/${file.fileSaveAs}`;
     if (!existsSync(filePath)) {
-        return res.status(403).send(`Impossible de récupérer le fichier correspondant à ${file_id}`);
+        return res.status(400).send(`Impossible de récupérer le fichier correspondant à ${file_id}`);
     }
 
     const range = req.headers.range;

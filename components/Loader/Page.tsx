@@ -8,22 +8,28 @@ export default function PageLoader({ setTransitioning }) {
     const [pageLoading, setPageLoading] = useState<boolean>(false);
 
     useEffect(() => { // Chargement pages
+        let timeout;
+
         const handleStart = (url: string) => {
             if (url !== router.asPath) {
-                setPageLoading(true);
-                setTransitioning(true);
+                timeout = setTimeout(() => {
+                    setPageLoading(true);
+                    setTransitioning(true);
+                }, 200);
             }
-        };
+        }
+
         const handleComplete = () => {
             setPageLoading(false);
             setTransitioning(false);
-        };
+        }
 
         router.events.on('routeChangeStart', handleStart);
         router.events.on('routeChangeComplete', handleComplete);
         router.events.on('routeChangeError', handleComplete);
 
         return () => {
+            clearTimeout(timeout);
             router.events.off('routeChangeStart', handleStart);
             router.events.off('routeChangeComplete', handleComplete);
             router.events.off('routeChangeError', handleComplete);

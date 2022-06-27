@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { GetIcon } from '../../utils';
+import { FetchFile, GetIcon } from '../../utils';
 import { FileFront, FileType } from '../../front.d';
 
 import Input from '../Inputs/input';
@@ -12,7 +12,7 @@ import FilePreview from './FilePreview';
 export default function FileProtected({ file }: { file: FileFront }): JSX.Element {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const [blob, setBlob] = useState<string | null>(null);
+    const [accessGranted, setAccessGranted] = useState<boolean>(false);
     const { meta } = file;
 
     useEffect(() => {
@@ -20,32 +20,20 @@ export default function FileProtected({ file }: { file: FileFront }): JSX.Elemen
         return () => clearTimeout(timeout);
     }, [error]);
 
-    async function getToken(event) {
+    function handleFormSubmit(event) {
         event.preventDefault();
 
-        const headers = new Headers();
-        headers.set('password', password);
+        setAccessGranted(false);
+        setError(null);
 
-        const request = await fetch(`/api/assets/${file.file_id}`, { headers });
-        if (!request.ok) {
-            setError(await request.text());
-            return;
-        }
-
-        const data = await request.blob();
-        console.log(data, request);
-        if (data) {
-            setBlob(URL.createObjectURL(data));
-            setError(null);
-        } else {
-            setBlob(null);
-            setError("Impossible d'accéder au fichier demandé");
-        }
+        FetchFile({ src: file.url, password, confirmationOnly: true })
+            .then(() => setAccessGranted(true))
+            .catch((error) => setError(error));
     }
 
-    if (blob) {
+    if (accessGranted) {
         return (<>
-            <FilePreview file={file} blob={blob} />
+            <FilePreview file={file} password={password} />
         </>);
     }
 
@@ -60,7 +48,7 @@ export default function FileProtected({ file }: { file: FileFront }): JSX.Elemen
             <p>
                 Vous essayez d'accéder à un fichier protégé
             </p>
-            <form onSubmit={getToken}>
+            <form onSubmit={handleFormSubmit}>
                 <Input
                     name='password'
                     label='Mot de passe'

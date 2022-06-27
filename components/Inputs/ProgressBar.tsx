@@ -19,12 +19,12 @@ export default function ProgressBar({ name, label, fieldClass = '', progress, ch
             </label>
         )}
         <div className="progress-wrapper">
-            <span>
-                {progress.percent} %
-            </span>
             <div className="details">
                 {children}
             </div>
+            <span>
+                {progress.percent} %
+            </span>
         </div>
     </div>);
 }
