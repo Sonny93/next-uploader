@@ -23,7 +23,7 @@
     "formidable": "^2.0.1",
     "highlight.js": "^11.5.1",
     "next": "^12.1.5",
-    "next-auth": "^4.3.2",
+    "next-auth": "^4.9.0",
     "next-connect": "^0.10.2",
     "next-pwa": "^5.5.4",
     "next-seo": "^5.4.0",
