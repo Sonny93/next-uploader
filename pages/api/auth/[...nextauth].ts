@@ -10,24 +10,48 @@ export default NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             authorization: {
                 params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code"
+                    prompt: 'consent',
+                    access_type: 'offline',
+                    response_type: 'code'
                 }
             }
         })
     ],
+    secret: process.env.SECRET,
     callbacks: {
-        async signIn({ account, profile }) {
-            if (account.provider === "google" && profile.email !== '') {
-                console.log(account, profile, profile.email_verified && profile.email.endsWith("@gmail.com"));
-                if (profile.email_verified && profile.email.endsWith("@gmail.com")) {
-                    return true;
-                } else {
-                    return "/signin?error=" + encodeURI('Une erreur s\'est produite lors de l\'authentification');
-                }
+        async signIn({ account: accountParam, profile }) { // TODO: Auth
+            console.log('Connexion via', accountParam.provider, accountParam.providerAccountId, profile.email, profile.name)
+            if (accountParam.provider !== 'google') {
+                return '/signin?error=' + encodeURI('Authentitifcation via Google requise');
             }
-            return false;
+
+            const email = profile?.email;
+            if (email === '') {
+                return '/signin?error=' + encodeURI('Impossible de récupérer l\'email associé à ce compte Google');
+            }
+
+            const googleId = profile?.sub;
+            if (googleId === '') {
+                return '/signin?error=' + encodeURI('Impossible de récupérer l\'identifiant associé à ce compte Google');
+            }
+
+            try {
+                const account = await prisma.user.findFirst({
+                    where: {
+                        google_id: googleId,
+                        email
+                    }
+                });
+
+                if (!account) {
+                    return '/signin?error=' + encodeURI('Vous n\'êtes pas autorisé à vous connecter avec ce compte Google');
+                } else {
+                    return true;
+                }
+            } catch (error) {
+                console.error(error);
+                return '/signin?error=' + encodeURI('Une erreur est survenue lors de l\'authentification');
+            }
         }
     },
     pages: { signIn: '/signin' }

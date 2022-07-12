@@ -1,28 +1,10 @@
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-
-import Loader from '../components/Loader/Loader';
-import Meta from '../components/Meta/Meta';
-
+import { FrontPageProps } from '../front';
 import styles from '../styles/about.module.scss';
 
-import { FrontPageProps } from '../front';
-
-export default function About({ transitionClass }: FrontPageProps) {
-    const { data: session, status } = useSession();
-
-    if (status === 'loading' && !session) { // Chargement session
-        return (
-            <div className={`${transitionClass} ${styles['App']}`}>
-                <Meta />
-                <Loader label={'Chargement de la session'} top={true} backdrop={true} />
-            </div>
-        );
-    }
-
+function AboutPage({ transitionClass }: FrontPageProps) {
     return (
         <div className={`${transitionClass} ${styles['App']}`}>
-            <Meta />
             <h2>Qu'est ce que NextUpload</h2>
             <p>
                 NextUpload est une solution « clé-en-main » vous permettant d'héberger vos fichiers comme n'importe quel autre service cloud à la différence près que vous pouvez choisir de les hébérger vous-même sur vorte serveur.
@@ -48,3 +30,6 @@ export default function About({ transitionClass }: FrontPageProps) {
         </div>
     )
 }
+
+AboutPage.authRequired = false;
+export default AboutPage;

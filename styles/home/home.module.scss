@@ -13,8 +13,7 @@
 	& .wrapper {
 		height: 100%;
 		width: 100%;
-		background: rgba(0, 0, 0, 0.3);
-		backdrop-filter: blur(20px);
+		backdrop-filter: blur(20px) brightness(0.45);
 		gap: 15px;
 		padding: 15px 10px;
 		display: flex;

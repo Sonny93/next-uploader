@@ -1,28 +1,24 @@
-import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ImFileEmpty } from "react-icons/im";
+import { ImFileEmpty } from 'react-icons/im';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime)
+dayjs.extend(relativeTime);
 dayjs.locale('fr');
 
 import FilesList from '../components/Home/FilesList';
 import Loader from '../components/Loader/Loader';
-import Meta from '../components/Meta/Meta';
 
 import MenuNavigation from '../components/MenuNavigation/MenuNavigation';
 
-import styles from '../styles/home/home.module.scss';
 import stylesFL from '../styles/home/filelist.module.scss';
+import styles from '../styles/home/home.module.scss';
 
 import { FileFront, FrontPageProps } from '../front';
 
-export default function Home({ transitionClass }: FrontPageProps) {
-	const { data: session, status } = useSession();
-
+function HomePage({ transitionClass }: FrontPageProps) {
 	const [files, setFiles] = useState<FileFront[] | null>(null);
 	const [globalSize, setGlobalSize] = useState<number>(0);
 
@@ -50,19 +46,9 @@ export default function Home({ transitionClass }: FrontPageProps) {
 		return () => setFiles(null);
 	}, [setFiles]);
 
-	if (status === 'loading' && !session) {
-		return (
-			<div className={`${transitionClass} ${styles['App']}`}>
-				<Meta />
-				<Loader label={'Session en cours de chargement'} backdrop={true} />
-			</div>
-		);
-	}
-
 	return (
 		<div className={`${transitionClass} ${styles['App']}`}>
-			<Meta />
-			<MenuNavigation session={session} />
+			<MenuNavigation />
 			<div className={styles['wrapper']}>
 				{files === null ?
 					<div className={stylesFL['no-files']}>
@@ -86,3 +72,6 @@ function NoFile() {
 		</div>
 	)
 }
+
+HomePage.authRequired = true;
+export default HomePage;

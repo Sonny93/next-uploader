@@ -1,19 +1,15 @@
-import { useSession } from 'next-auth/react';
+import { NextSeo } from 'next-seo';
 
-import { prisma } from '../../utils';
-
-import Meta from '../../components/Meta/Meta';
-// @ts-ignore
-import MenuNavigation from '../../components/MenuNavigation/MenuNavigation.tsx';
 import FilePreview from '../../components/FilePreview/FilePreview';
 import FileProtected from '../../components/FilePreview/FileProtected';
-import Loader from '../../components/Loader/Loader';
-
-// @ts-ignore
-import styles from '../../styles/file-preview/file-preview.module.scss';
+import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
 
 import { FileFront, FileType, FrontPageProps } from '../../front.d';
+import { prisma } from '../../utils';
 import { FileBuilder } from '../../utils/api';
+
+import { OpenGraph } from 'next-seo/lib/types';
+import styles from '../../styles/file-preview/file-preview.module.scss';
 
 // @ts-ignore
 BigInt.prototype.toJSON = function () { return this.toString() }
@@ -25,51 +21,56 @@ interface FileProps extends FrontPageProps {
     transitionClass: string;
 }
 
-export default function File({ fid, file, error, transitionClass }: FileProps) {
-    const { data: session, status } = useSession();
-
-    if (status === 'loading' && !session) { // Chargement session
-        return (
-            <div className={`${transitionClass} ${styles['App']}`}>
-                <Meta />
-                <Loader label={'Chargement de la session'} top={true} backdrop={true} />
-            </div>
-        );
-    }
-
+function FilePage({ fid, file, error, transitionClass }: FileProps) {
     if (!file) {
         return (
             <div className={`${transitionClass} ${styles['App']}`}>
-                <Meta title={`Uploader • ${fid}`} description='• Fichier introuvable' />
-                <MenuNavigation session={session} />
+                <NextSeo
+                    title={`Uploader • ${fid}`}
+                    description='• Fichier introuvable'
+                />
+                <MenuNavigation />
                 <div className={styles['file']}>
                     <p>Le fichier <code>{fid}</code> est introuvable</p>
                 </div>
             </div>
         );
-    } else {
-        const { type } = file.meta;
-        return (
-            <div className={`${transitionClass} ${styles['App']}`}>
-                <Meta
-                    title={`Uploader • ${file.name}`}
-                    description={file.name}
-                    pageUrl={`${process.env.NEXTAUTH_URL}/file/${file.file_id}`}
-                    assetUrl={file.url}>
-                    {type === FileType.IMAGE || type === FileType.VIDEO ? <>
-                        <meta property={`og:${type}`} content={file.url} />
-                        <meta property={`og:${type}:alt`} content={`${type} content for ${file.name} (${file.file_id})`} />
-                        <meta property={`og:${type}:type`} content={type} />
-                    </> : null}
-                </Meta>
-                <MenuNavigation session={session} />
-                <div className={styles['file']}>
-                    {error && (<p>{error}</p>)}
-                    {!file.passwordSet ? <FilePreview file={file} /> : <FileProtected file={file} />}
-                </div>
-            </div>
-        );
     }
+
+    const openGraph = {
+        type: file.meta.type,
+        url: `${process.env.NEXTAUTH_URL}/file/${file.file_id}`
+    } as OpenGraph;
+
+    if (file.meta.type === FileType.IMAGE && file.url) {
+        openGraph.images = [{
+            url: file.url,
+            alt: `${file.name} image`,
+            type: file.meta.type
+        }];
+    }
+
+    if (file.meta.type === FileType.VIDEO && file.url) {
+        openGraph.videos = [{
+            url: file.url,
+            alt: `${file.name} video`
+        }];
+    }
+
+    return (<>
+        <div className={`${transitionClass} ${styles['App']}`}>
+            <NextSeo
+                title={`Uploader • ${file.name}`}
+                description={'Page de connexion'}
+                openGraph={openGraph}
+            />
+            <MenuNavigation />
+            <div className={styles['file']}>
+                {error && (<p>{error}</p>)}
+                {!file.passwordSet ? <FilePreview file={file} /> : <FileProtected file={file} />}
+            </div>
+        </div>
+    </>);
 }
 
 export async function getServerSideProps({ query }) {
@@ -96,3 +97,6 @@ export async function getServerSideProps({ query }) {
         };
     }
 }
+
+FilePage.authRequired = false;
+export default FilePage;

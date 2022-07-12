@@ -1,23 +1,23 @@
-import { getSession, useSession } from 'next-auth/react';
+import { NextSeo } from 'next-seo';
 import { Provider } from 'react-redux';
 
-import Meta from '../../components/Meta/Meta';
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
-import FilesUpload from '../../components/Upload/UploadFilesList';
 import UploadControls from '../../components/Upload/UploadControls';
+import FilesUpload from '../../components/Upload/UploadFilesList';
 
 import styles from '../../styles/upload.module.scss';
 
-import { FrontPageProps } from '../../front';
 import { store } from '../../components/redux';
+import { FrontPageProps } from '../../front';
 
-export default function Upload({ transitionClass }: FrontPageProps): JSX.Element {
-    const { data: session } = useSession();
-
+function UploadPage({ transitionClass }: FrontPageProps): JSX.Element {
     return (<>
-        <Meta description='Uploder un nouveau fichier' />
+        <NextSeo
+            title={'Upload'}
+            description={'Mettre en ligne un fichier'}
+        />
         <div className={`${transitionClass} ${styles['upload']}`}>
-            <MenuNavigation session={session} />
+            <MenuNavigation />
             <Provider store={store}>
                 <div className={styles['wrapper']}>
                     <FilesUpload />
@@ -28,21 +28,5 @@ export default function Upload({ transitionClass }: FrontPageProps): JSX.Element
     </>);
 }
 
-export async function getServerSideProps(context) {
-    const session = await getSession(context);
-
-    // Vérifie si l'utilisateur est connecté, si ce n'est pas le cas, on le redirige vers l'accueil
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
-            }
-        }
-    }
-
-    // On retourne un objet qui servira de contexte pour la page
-    return {
-        props: { session }
-    }
-}
+UploadPage.authRequired = true;
+export default UploadPage;
