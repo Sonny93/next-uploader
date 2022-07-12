@@ -1,10 +1,16 @@
-# next-uploader
+<div align="center">
+    <img src="public/icon-256x256.png" alt="NextUploader Logo">
+</div>
+
+---
 
 ### ⚠️ Warning
 
 Le projet est fourni “en tant que tel" : il existe potentiellement des failles de sécurité, si une faille est connue elle sera patchée quand j'aurai le temps ou via une PR.
 
--- JE NE SUIS EN AUCUN CAS RESPONSABLE EN CAS DE PROBLÈME --
+<p align="center">
+    -- JE NE SUIS EN AUCUN CAS RESPONSABLE EN CAS DE PROBLÈME --
+</p>
 
 ### 📓 Projet
 
@@ -41,9 +47,17 @@ npm install
 Vous devez ensuite copier créer un fichier .env et un fichier .env.local en vous basant sur les deux fichiers d'exemple ".env.example" et ".env.local.example"
 
 ```
-cp .env.example .env
 cp .env.local.example .env.local
 ```
+
+Pour créer les identifiants Google (GOOGLE_CLIENT_ID et GOOGLE_CLIENT_SECRET), rendez vous sur https://console.developers.google.com/apis/credentials puis
+
+-   Créer un nouveau projet
+-   Onglet identifiants -> Créer des identifiants -> "ID Client OAuth"
+-   Type d'application : Application Web
+-   Origines JavaScript autorisées : Exemple -> "https://uploader.sonnydata.fr"
+-   URI de redirection autorisés : Exemple -> "https://uploader.sonnydata.fr/api/auth/callback/google"
+-   Puis enregistrer
 
 ### Développement
 
