@@ -1,29 +1,26 @@
-import { signOut } from 'next-auth/react';
-import { Session } from 'next-auth';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import {
-    AiOutlineUnorderedList,
-    AiOutlineFileAdd,
-    AiOutlineUpload,
-    AiOutlineUser,
-    AiOutlineLogout
+    AiOutlineFileAdd, AiOutlineLogout, AiOutlineUnorderedList, AiOutlineUpload,
+    AiOutlineUser
 } from 'react-icons/ai';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 
-// @ts-ignore
 import styles from '../../styles/menu.module.scss';
-import { useEffect, useState } from 'react';
 
 interface NavigationMenuProps {
-    session: Session;
     children?: any;
 }
-export default function NavigationMenu({ session, children }: NavigationMenuProps) {
-    const mediaQuery = '(max-width: 800px)';
+export default function NavigationMenu({ children }: NavigationMenuProps) {
+    const { data: session } = useSession();
+
     const [isOpen, setOpen] = useState(null);
     const [isMobile, setMobile] = useState(false);
+
+    const mediaQuery = '(max-width: 800px)';
 
     useEffect(() => {
         if (typeof window === 'undefined') return;

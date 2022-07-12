@@ -1,11 +1,9 @@
 import Link from 'next/link';
-
+import { FrontPageProps } from '../front';
 import styles from '../styles/error.module.scss';
 
-import { FrontPageProps } from '../front';
-
-export default function Custom404({ transitionClass }: FrontPageProps) {
-    return (
+function Custom404Page({ transitionClass }: FrontPageProps) {
+    return (<>
         <div className={`${transitionClass} ${styles['error-page']}`}>
             <div className={styles['wrapper']}>
                 <p>
@@ -16,5 +14,8 @@ export default function Custom404({ transitionClass }: FrontPageProps) {
                 </Link>
             </div>
         </div>
-    );
+    </>);
 }
+
+Custom404Page.authRequired = true;
+export default Custom404Page;

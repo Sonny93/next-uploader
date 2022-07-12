@@ -1,28 +1,22 @@
-import { useSession } from 'next-auth/react';
-
+import { NextSeo } from 'next-seo';
 import MenuNavigation from '../components/MenuNavigation/MenuNavigation';
-import Loader from '../components/Loader/Loader';
 import Meta from '../components/Meta/Meta';
 
 import { FrontPageProps } from '../front';
 
-export default function Create({ transitionClass }: FrontPageProps) {
-	const { data: session, status } = useSession();
-
-	if (status === 'loading' && !session) { // Chargement session
-		return (
-			<div className={`${transitionClass}`}>
-				<Meta />
-				<Loader label={'Chargement de la session'} top={true} backdrop={true} />
-			</div>
-		);
-	}
-
-	return (
+function CreatePage({ transitionClass }: FrontPageProps) {
+	return (<>
+		<NextSeo
+			title={'Créer un fichier'}
+			description={'Création et mise en ligne automatique de fichiers'}
+		/>
 		<div className={`${transitionClass}`}>
 			<Meta />
-			<MenuNavigation session={session} />
+			<MenuNavigation />
 			<p>Page de création</p>
 		</div>
-	);
+	</>);
 }
+
+CreatePage.authRequired = true;
+export default CreatePage;

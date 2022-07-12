@@ -9,8 +9,7 @@
     min-width: 350px;
     width: 350px;
     max-width: 350px;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px) brightness(0.45);
     padding: 10px 15px;
     border-radius: 3px;
 }

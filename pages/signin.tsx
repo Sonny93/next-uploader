@@ -1,9 +1,12 @@
+import { NextSeo } from 'next-seo';
+
 import { getProviders, signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Loader from '../components/Loader/Loader';
 
+import Loader from '../components/Loader/Loader';
 import Meta from '../components/Meta/Meta';
+
 import { FrontPageProps } from '../front';
 
 import styles from '../styles/login.module.scss';
@@ -12,9 +15,9 @@ interface SignInProps extends FrontPageProps {
     providers: any;
 }
 
-export default function SignIn({ providers, transitionClass }: SignInProps): JSX.Element {
-    const { data: session, status } = useSession();
-    const { success, error } = useRouter().query;
+export default function SignInPage({ providers, transitionClass }: SignInProps): JSX.Element {
+    const { status } = useSession();
+    const { error, info } = useRouter().query;
 
     if (status === 'loading') {
         return (<>
@@ -26,10 +29,20 @@ export default function SignIn({ providers, transitionClass }: SignInProps): JSX
         </>);
     }
 
+    if (!providers) {
+        return (<>
+            <NextSeo
+                title={'Authentification'}
+                description={'Page de connexion'}
+            />
+            <p>aucun provider</p>
+        </>);
+    }
+
     return (<>
-        <Meta
-            title='Uploader — Authentification'
-            description='Page de connexion'
+        <NextSeo
+            title={'Authentification'}
+            description={'Page de connexion'}
         />
         <div className={`${transitionClass} ${styles['login']}`}>
             <h1>Authentification</h1>
@@ -40,6 +53,7 @@ export default function SignIn({ providers, transitionClass }: SignInProps): JSX
                 <a>Retourner à l'accueil</a>
             </Link>
             {error && (<p className={styles['error']}>{error}</p>)}
+            {info && (<p className={styles['info']}>{info}</p>)}
         </div>
     </>);
 }
@@ -64,5 +78,6 @@ function Providers({ providers }): JSX.Element {
 
 export async function getServerSideProps() {
     const providers = await getProviders();
+    console.log('providers', providers);
     return { props: { providers } }
 }

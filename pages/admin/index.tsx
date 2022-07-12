@@ -1,24 +1,17 @@
-import { getSession, useSession } from 'next-auth/react';
+import { NextSeo } from 'next-seo';
 
-import { prisma, userSafeProps } from '../../utils';
-
-import Meta from '../../components/Meta/Meta';
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
-
+import { FrontPageProps } from '../../front';
 import styles from '../../styles/admin/admin.module.scss';
 
-// @ts-ignore
-BigInt.prototype.toJSON = function () { return this.toString() }
-
-import { FrontPageProps } from '../../front';
-
-export default function Admin({ transitionClass }: FrontPageProps) {
-    const { data: session, status } = useSession();
-
+function AdminPage({ transitionClass }: FrontPageProps) {
     return (<>
-        <Meta description='Dashboard admin' />
+        <NextSeo
+            title={'Admin'}
+            description={'Dashboard admin'}
+        />
         <div className={`${transitionClass} ${styles['admin']}`}>
-            <MenuNavigation session={session} />
+            <MenuNavigation />
             <div className={styles['wrapper']}>
                 Mon super dashboard administrateur
             </div>
@@ -26,17 +19,5 @@ export default function Admin({ transitionClass }: FrontPageProps) {
     </>);
 }
 
-export async function getServerSideProps(context) {
-    const session = await getSession(context);
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
-            }
-        }
-    } else {
-        return { props: {} }
-    }
-}
+AdminPage.authRequired = true;
+export default AdminPage;

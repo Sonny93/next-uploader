@@ -2,41 +2,39 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
-model user {
-  id      Int    @id @default(autoincrement())
-  user_id String @default(uuid())
+model User {
+    id        Int      @id @default(autoincrement())
+    google_id String   @unique
+    email     String   @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  username          String
-  email             String @unique
-  google_account_id String @unique
-
-  // permission_type
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    @@map("user")
 }
 
-model file {
-  id      Int    @id @default(autoincrement())
-  file_id String @unique @default(uuid())
+model File {
+    id      Int    @id @default(autoincrement())
+    file_id String @unique @default(uuid())
 
-  name        String
-  password    String
-  passwordSet Boolean
+    name        String
+    password    String
+    passwordSet Boolean
 
-  fileBrutSize  BigInt
-  fileSaveAs    String @unique
-  fileExtension String
-  fileMimeType  String
+    fileBrutSize  BigInt
+    fileSaveAs    String @unique
+    fileExtension String
+    fileMimeType  String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("file")
 }
