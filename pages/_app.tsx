@@ -41,7 +41,7 @@ function Application({ Component, pageProps: { session, ...pageProps } }) {
 				locale: 'fr_FR',
 				url: process.env.NEXTAUTH_URL,
 				images: [{
-					url: process.env.NEXTAUTH_URL + '/favicon.svg'
+					url: process.env.NEXTAUTH_URL + '/nu/icons/icon-192x192.png'
 				}],
 				site_name: 'NextUploader'
 			}}
