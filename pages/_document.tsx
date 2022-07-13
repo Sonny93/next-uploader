@@ -4,8 +4,8 @@ const Document = () => (
     <Html lang='fr'>
         <Head>
             <link rel='manifest' href='/manifest.json' />
-            <link rel='apple-touch-icon' href='/icon-192x192.png' />
-            <link rel='icon' href='/icon-192x192.png' />
+            <link rel='apple-touch-icon' href='/nu/icons/icon-192x192.png' />
+            <link rel='icon' href='/nu/icons/icon-192x192.png' />
         </Head>
         <body>
             <Main />
