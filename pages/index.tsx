@@ -73,5 +73,5 @@ function NoFile() {
 	)
 }
 
-HomePage.authRequired = true;
+HomePage.authRequired = false;
 export default HomePage;
