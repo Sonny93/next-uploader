@@ -35,7 +35,8 @@ function Application({ Component, pageProps: { session, ...pageProps } }) {
 	return (<>
 		<DefaultSeo
 			titleTemplate='NextUploader — %s'
-			description='Drive personnel permettant la mise en ligne de fichiers en tous genres, pour les personnes authentifiées.'
+			defaultTitle='NextUploader'
+			description='Drive personnel perm<ettant la mise en ligne de fichiers en tous genres, pour les personnes authentifiées.'
 			openGraph={{
 				type: 'website',
 				locale: 'fr_FR',
@@ -43,6 +44,7 @@ function Application({ Component, pageProps: { session, ...pageProps } }) {
 				images: [{
 					url: process.env.NEXTAUTH_URL + '/nu/icons/icon-192x192.png'
 				}],
+				title: 'NextUploader',
 				site_name: 'NextUploader'
 			}}
 		/>
