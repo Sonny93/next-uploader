@@ -76,6 +76,7 @@ export function FileTypeBuilder(typeParam: string): FileType {
         { ext: 'wpl', type: FileType.AUDIO },
 
         { ext: 'html', type: FileType.HTML },
+        { ext: 'svg', type: FileType.SVG },
         { ext: 'xml', type: FileType.XML },
         { ext: 'css', type: FileType.CSS },
         { ext: 'js', type: FileType.JAVASCRIPT },
@@ -83,6 +84,7 @@ export function FileTypeBuilder(typeParam: string): FileType {
         { ext: 'jsx', type: FileType.REACT },
         { ext: 'tsx', type: FileType.REACT },
         { ext: 'ts', type: FileType.TYPESCRIPT },
+        { ext: 'sql', type: FileType.SQL },
         { ext: 'txt', type: FileType.PLAINTEXT },
 
         { ext: 'pdf', type: FileType.PDF },

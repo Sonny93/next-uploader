@@ -34,7 +34,11 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse, next: NextHandle
 });
 
 apiRoute.post(async (request: NextApiRequest, response: NextApiResponse) => {
-    const form = formidable({ multiples: false, uploadDir: process.env.UPLOAD_DIR });
+    const form = formidable({
+        multiples: false,
+        maxFileSize: Number(process.env.UPLOAD_MAX_SIZE),
+        uploadDir: process.env.UPLOAD_DIR
+    });
     const { file, fields } = await HandleFiles(form, request);
 
     const fileExtension = extname(file.originalFilename).substring(1);

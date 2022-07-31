@@ -1,4 +1,4 @@
-import { ProgressUpload } from "../../front";
+import { ProgressUpload } from '../../front';
 
 interface ProgressBarProps {
     name: string;
@@ -9,22 +9,19 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ name, label, fieldClass = '', progress, children }: ProgressBarProps) {
-    const inProgressColor = '#3f88c5';
-    const finishColor = '#00bd00';
-
-    return (<div className={`progress-field ${fieldClass}`}>
-        {label && (
-            <label htmlFor={name}>
-                {label}
-            </label>
-        )}
-        <div className="progress-wrapper">
-            <div className="details">
-                {children}
+    return (<>
+        <div className={`progress-field ${fieldClass}`}>
+            {label && (
+                <label htmlFor={name}>
+                    {label}
+                </label>
+            )}
+            <div className='progress-container'>
+                <div className='progress-bar' style={{ width: progress.percent + '%' }} />
+                <div className='details'>
+                    {progress.percent} %
+                </div>
             </div>
-            <span>
-                {progress.percent} %
-            </span>
         </div>
-    </div>);
+    </>);
 }

@@ -3,11 +3,11 @@
 
     & > pre {
         height: 100%;
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px) brightness(0.45);
         padding: 10px;
         border-radius: 3px;
         margin: 0;
+        tab-size: 4;
 
         &,
         & code {

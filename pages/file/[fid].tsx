@@ -26,7 +26,7 @@ function FilePage({ fid, file, error, transitionClass }: FileProps) {
         return (
             <div className={`${transitionClass} ${styles['App']}`}>
                 <NextSeo
-                    title={`Uploader • ${fid}`}
+                    title={fid}
                     description='• Fichier introuvable'
                 />
                 <MenuNavigation />
@@ -60,7 +60,7 @@ function FilePage({ fid, file, error, transitionClass }: FileProps) {
     return (<>
         <div className={`${transitionClass} ${styles['App']}`}>
             <NextSeo
-                title={`Uploader • ${file.name}`}
+                title={file.name}
                 description={'Page de connexion'}
                 openGraph={openGraph}
             />

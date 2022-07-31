@@ -12,7 +12,7 @@ import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import styles from '../../styles/menu.module.scss';
 
 interface NavigationMenuProps {
-    children?: any;
+    children?: JSX.Element[];
 }
 export default function NavigationMenu({ children }: NavigationMenuProps) {
     const { data: session } = useSession();

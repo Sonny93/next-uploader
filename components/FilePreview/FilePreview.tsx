@@ -28,13 +28,12 @@ export default function FilePreview({ file, password }: FilePreviewPassword): JS
         if (BlobNeeded(meta.type)) {
             setLoading(true);
             setNeedBlob(true);
-
             FetchFile({ src: file.url, password })
                 .then(setBlob)
                 .catch(console.error)
                 .finally(() => setLoading(false));
         }
-    }, [file, password, needBlob, meta.type]);
+    }, [file, password, meta.type]);
 
     async function handleClickDownload() {
         if (file.meta.type === FileType.PROTECTED && (!password || !file.url)) {
@@ -59,7 +58,7 @@ export default function FilePreview({ file, password }: FilePreviewPassword): JS
     }
 
     let component: JSX.Element;
-    if (meta.type === FileType.IMAGE) {
+    if (meta.type === FileType.IMAGE || meta.type === FileType.SVG) {
         component = <Image src={url} blob={blob} alt={`Image: ${name}`} />;
     } else if (meta.type === FileType.VIDEO) {
         component = <Video src={url} blob={blob} />;
@@ -76,7 +75,9 @@ export default function FilePreview({ file, password }: FilePreviewPassword): JS
         meta.type === FileType.JSON ||
         meta.type === FileType.REACT ||
         meta.type === FileType.VUEJS ||
-        meta.type === FileType.TYPESCRIPT
+        meta.type === FileType.TYPESCRIPT ||
+        meta.type === FileType.SQL ||
+        meta.type === FileType.PLAINTEXT
     ) {
         component = <Editor file={file} blob={blob} />;
     } else {
@@ -95,7 +96,7 @@ export default function FilePreview({ file, password }: FilePreviewPassword): JS
 function BlobNeeded(type: FileType) {
     if (
         type === FileType.IMAGE ||
-        type === FileType.VIDEO ||
+        // type === FileType.VIDEO ||
         type === FileType.AUDIO ||
         type === FileType.PDF ||
         type === FileType.HTML ||
@@ -106,6 +107,7 @@ function BlobNeeded(type: FileType) {
         type === FileType.JSON ||
         type === FileType.REACT ||
         type === FileType.VUEJS ||
+        type === FileType.SQL ||
         type === FileType.TYPESCRIPT
     ) {
         return true;

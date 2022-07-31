@@ -1,4 +1,4 @@
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useState } from 'react';
 
 interface InputProps {
     name: string;
@@ -11,6 +11,7 @@ interface InputProps {
     fieldClass?: string;
     value?: string;
     onChangeCallback: ({ target }, value) => void;
+    disabled?: boolean;
 }
 
 export default function Input({
@@ -23,7 +24,8 @@ export default function Input({
     placeholder = 'Type something...',
     fieldClass = '',
     value,
-    onChangeCallback
+    onChangeCallback,
+    disabled
 }: InputProps): JSX.Element {
     const [inputValue, setInputValue] = useState<string>(value);
 
@@ -38,7 +40,7 @@ export default function Input({
                 {label}
             </label>
         )}
-        {!!labelComponent && (
+        {labelComponent && (
             <label htmlFor={name} title={`${name} field`}>
                 {labelComponent}
             </label>
@@ -52,6 +54,7 @@ export default function Input({
             multiple={multiple}
             placeholder={placeholder}
             ref={innerRef}
+            disabled={disabled}
         />
     </div>);
 }

@@ -1,83 +1,143 @@
 button:not(.nostyle),
 .btn {
-    user-select: none;
-    cursor: pointer;
-    height: fit-content;
-    min-height: 30px;
-    width: 195px;
-    font-family: "Poppins", sans-serif;
-    color: #fff;
-    padding: 5px 7px;
-    background: #3f88c5;
-    border: 1px solid #3f88c5;
-    border-radius: 3px;
-    transition: 0.15s;
+	user-select: none;
+	cursor: pointer;
+	height: fit-content;
+	min-height: 30px;
+	width: 195px;
+	font-family: "Poppins", sans-serif;
+	color: #fff;
+	padding: 5px 7px;
+	background: #3f88c5;
+	border: 1px solid #3f88c5;
+	border-radius: 3px;
+	transition: 0.15s;
 
-    &:disabled {
-        cursor: default;
-        opacity: 0.5;
-    }
+	&:disabled {
+		cursor: default;
+		opacity: 0.5;
+	}
 
-    &:not(:disabled):hover {
-        box-shadow: #105b97 0 0 3px 1px;
-        background: #105b97;
-        color: #fff;
-    }
+	&:not(:disabled):hover {
+		box-shadow: #105b97 0 0 3px 1px;
+		background: #105b97;
+		color: #fff;
+	}
 }
 
 input:not(.nostyle) {
-    color: #333;
-    background: #fff;
-    padding: 10px;
-    border: 1px solid #dadce0;
-    border-bottom: 3px solid #dadce0;
-    transition: 0.15s;
+	color: #333;
+	background: #fff;
+	padding: 10px;
+	border: 1px solid #dadce0;
+	border-bottom: 3px solid #dadce0;
+	transition: 0.15s;
 
-    &:focus {
-        border-bottom: 3px solid #3f88c5;
-    }
+	&:focus {
+		border-bottom: 3px solid #3f88c5;
+	}
 }
 
 input::placeholder {
-    font-style: italic;
-    color: #dadce0;
+	font-style: italic;
+	color: #dadce0;
 }
 
 .input-field {
-    & label,
-    & input {
-        width: 100%;
-    }
+	& label,
+	& input {
+		width: 100%;
+	}
 }
 
 .progress-field {
-    height: auto;
-    width: 100%;
+	position: relative;
+	height: auto;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 
-    & > .progress-wrapper {
-        position: relative;
-        height: auto;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
+	& > .progress-container {
+		height: 25px;
+		width: 100%;
+		border-radius: 15px;
+		background-color: rgba(0, 0, 0, 0.35);
+		padding: 5px;
 
-        & > .container {
-            height: 25px;
-        }
+		& > .progress-bar {
+			height: 100%;
+			background-color: #105b97;
+			border-radius: 15px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: 0.5s;
+		}
 
-        & > .details {
-            // position: absolute;
-            // top: 0;
-            // left: 0;
-            // height: 100%;
-            // width: 100%;
-            color: #000;
-            font-size: 0.8em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
+		& > .details {
+			position: absolute;
+			top: 50%;
+			bottom: 50%;
+			left: 50%;
+			right: 50%;
+			height: fit-content;
+			width: fit-content;
+			font-size: 0.9em;
+			transform: translate(-50%, -50%);
+		}
+	}
+}
+
+$width: 25px;
+$height: $width / 2;
+$color-on: #3f88c5;
+$color-off: rgba(0, 0, 0, 0.35);
+
+.switch input {
+	display: none;
+}
+
+.switch {
+	display: inline-block;
+	width: $width;
+	height: $height;
+	margin: 4px;
+	transform: translateY(50%);
+	position: relative;
+}
+
+.slider {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	border-radius: 30px;
+	box-shadow: 0 0 0 2px $color-off, 0 0 4px $color-off;
+	cursor: pointer;
+	border: 4px solid transparent;
+	overflow: hidden;
+	transition: 0.2s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-color: $color-off;
+	border-radius: 30px;
+	transform: translateX(-($width - $height));
+	transition: 0.2s;
+}
+
+input:checked + .slider:before {
+	transform: translateX($width - $height);
+	background-color: $color-on;
+}
+
+input:checked + .slider {
+	box-shadow: 0 0 0 2px $color-on, 0 0 8px $color-on;
 }

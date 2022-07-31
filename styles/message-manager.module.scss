@@ -1,0 +1,52 @@
+.message-manager {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    & > p {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    & .info {
+        height: fit-content;
+        width: 100%;
+        text-align: center;
+        font-style: italic;
+        font-size: 1em;
+        color: #fff;
+        background-color: rgba(63, 136, 197, 0.35);
+        padding: 10px;
+        border-radius: 3px;
+        border: 1px solid rgba(63, 136, 197, 0.35);
+    }
+
+    & .error {
+        height: fit-content;
+        width: 100%;
+        text-align: center;
+        font-style: italic;
+        font-size: 1em;
+        color: #fff;
+        background-color: rgba(255, 0, 0, 0.35);
+        padding: 10px;
+        border-radius: 3px;
+        border: 1px solid rgba(255, 0, 0, 0.5);
+    }
+
+    & .success {
+        height: fit-content;
+        width: 100%;
+        text-align: center;
+        font-style: italic;
+        font-size: 1em;
+        color: #fff;
+        background-color: rgba(0, 128, 0, 0.35);
+        padding: 10px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 128, 0, 0.35);
+    }
+}

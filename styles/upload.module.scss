@@ -1,4 +1,4 @@
-.upload {
+.page-upload {
     height: 100%;
     width: 1280px;
     padding: 10px;
@@ -10,34 +10,13 @@
     flex-direction: row;
     overflow: hidden;
 
-    & .wrapper {
+    & .wrapper-upload {
         height: 100%;
         width: 100%;
         gap: 10px;
         display: flex;
         flex: 1;
         flex-direction: column;
-    }
-
-    & .no-file {
-        user-select: none;
-        height: 100%;
-        width: 100%;
-        font-size: 1.15em;
-        letter-spacing: 1px;
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(20px);
-        border-radius: 3px;
-        display: flex;
-        gap: 10px;
-        flex: 1;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-
-        & svg {
-            font-size: 3em;
-        }
     }
 
     & .upload-list {
@@ -48,85 +27,13 @@
         flex: 1;
         flex-direction: column;
         overflow: auto;
-
-        & .file-upload {
-            height: auto;
-            width: 100%;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(20px);
-            padding: 15px;
-            border-radius: 3px;
-            gap: 10px;
-            display: flex;
-            flex-direction: column;
-
-            & .field {
-                height: auto;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-
-                & label {
-                    font-size: 0.95em;
-                    margin-bottom: 5px;
-                }
-
-                & input {
-                    color: #fff;
-                    background: rgba(0, 0, 0, 0.35);
-                    border: 0;
-                    border-bottom: 3px solid rgba(255, 255, 255, 0.25);
-
-                    &:focus {
-                        border-bottom: 3px solid #3f88c5;
-                    }
-                }
-            }
-
-            & .progression {
-                user-select: none;
-                position: relative;
-            }
-
-            & .progression .progression-bar {
-                height: 25px;
-                margin-bottom: 5px;
-                background: #fff;
-                border-radius: 0 0 3px 3px;
-                border-top: 1px solid #dadce0;
-            }
-
-            & .progression .progression-bar .progress {
-                transition: 0.15s;
-            }
-
-            & .progression .div-center {
-                position: absolute;
-                left: 0;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                height: 100%;
-                color: black;
-                font-size: 0.9em;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                white-space: pre;
-                font-size: 0.8em;
-            }
-        }
     }
 
     & .controls {
         height: auto;
         width: 100%;
         color: #fff;
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px) brightness(0.45);
         border-radius: 3px;
         padding: 8px 15px;
         display: flex;
@@ -136,6 +43,106 @@
         & .input-upload {
             display: none;
         }
+    }
+}
+
+.upload-list .file-upload {
+    height: auto;
+    width: 100%;
+    color: #fff;
+    backdrop-filter: blur(20px) brightness(0.45);
+    padding: 15px;
+    border-radius: 3px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    & button.remove-file {
+        color: #fff;
+        background: rgba(255, 0, 0, 0.25);
+        border: 1px solid rgba(255, 0, 0, 0.25);
+
+        &:hover {
+            background: rgba(255, 0, 0, 0.5);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 4px 1px rgba(255, 0, 0, 0.5);
+        }
+    }
+
+    & .field {
+        height: auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        & label {
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        & input {
+            color: #fff;
+            background: rgba(0, 0, 0, 0.35);
+            border: 0;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.25);
+
+            &:focus {
+                border-bottom: 3px solid #3f88c5;
+            }
+        }
+    }
+
+    & .progression {
+        user-select: none;
+        position: relative;
+    }
+
+    & .progression .progression-bar {
+        height: 25px;
+        margin-bottom: 5px;
+        background: #fff;
+        border-radius: 0 0 3px 3px;
+        border-top: 1px solid #dadce0;
+    }
+
+    & .progression .progression-bar .progress {
+        transition: 0.15s;
+    }
+
+    & .progression .div-center {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        color: black;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: pre;
+        font-size: 0.8em;
+    }
+}
+
+.no-file {
+    user-select: none;
+    height: 100%;
+    width: 100%;
+    font-size: 1.15em;
+    backdrop-filter: blur(20px) brightness(0.45);
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    & svg {
+        font-size: 5em;
     }
 }
 

@@ -1,36 +1,42 @@
-import { ImFileEmpty } from "react-icons/im";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FileUploadItem from './UploadFileItem';
 
+import { FileUpload } from '../../front';
+import { clearFiles } from '../redux';
+
 import styles from '../../styles/upload.module.scss';
+import { BsUpload } from 'react-icons/bs';
 
-import { FileUpload } from "../../front";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { clearFiles } from "../redux";
-;
 export default function FilesUpload() {
-    const files = useSelector(({ fileUpload }: { fileUpload: FileUpload[] }) => fileUpload);
-    const dispatch = useDispatch();
+	const files = useSelector(({ fileUpload }: { fileUpload: FileUpload[] }) => fileUpload);
+	const dispatch = useDispatch();
 
-    useEffect(() => { dispatch(clearFiles(null)) }, [dispatch]);
+	useEffect(() => { dispatch(clearFiles(null)) }, [dispatch]);
 
-    if (files.length > 0) {
-        return (
-            <ul className={styles['upload-list']}>
-                {files.map((file, key) => (
-                    <FileUploadItem file={file} key={key} />
-                ))}
-            </ul>
-        );
-    } else {
-        return (
-            <div className={styles['no-file']}>
-                <ImFileEmpty />
-                <span>
-                    Aucun fichier
-                </span>
-            </div>
-        );
-    }
+	if (files.length > 0) {
+		return (<>
+			<ul className={styles['upload-list']}>
+				{files.map((file) => (
+					<FileUploadItem file={file} key={file.fileId} />
+				))}
+			</ul>
+		</>);
+	}
+
+	return (<NoFile />);
+}
+
+function NoFile() {
+	return (<>
+		<div className={styles['no-file']}>
+			<div className={styles['icon']}>
+				<BsUpload />
+			</div>
+			<div className={styles['details']}>
+				Faites glisser vos documents ou cliquez sur le bouton "Parcourir les fichiers"
+			</div>
+		</div>
+	</>)
 }

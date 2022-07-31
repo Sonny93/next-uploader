@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FetchFile, GetIcon } from '../../utils';
 import { FileFront, FileType } from '../../front.d';
 
-import Input from '../Inputs/input';
+import Input from '../Inputs/Input';
 
 import styles from '../../styles/file-preview/file-protected.module.scss';
 import FilePreview from './FilePreview';

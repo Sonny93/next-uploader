@@ -41,6 +41,7 @@ export enum FileType {
     AUDIO = "AUDIO",
 
     HTML = "HTML",
+    SVG = "SVG",
     XML = "XML",
     CSS = "CSS",
     SASS = "SASS",
@@ -49,6 +50,7 @@ export enum FileType {
     REACT = "REACT",
     VUEJS = "VUEJS",
     TYPESCRIPT = "TYPESCRIPT",
+    SQL = "SQL",
     PLAINTEXT = "PLAINTEXT",
 
     PDF = "PDF",
@@ -80,6 +82,8 @@ export interface FrontPageProps {
 }
 
 export interface FileUpload extends File {
+    fileId?: string;
+
     name: string;
     size: number;
     type: string;

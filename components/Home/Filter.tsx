@@ -3,7 +3,7 @@ import { calculSize } from '../../utils';
 
 import styles from '../../styles/home/filelist.module.scss';
 import { FileFront } from '../../front';
-import Input from '../Inputs/input';
+import Input from '../Inputs/Input';
 
 interface FilterProps {
     globalSize: number;

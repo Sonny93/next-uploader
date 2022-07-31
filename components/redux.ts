@@ -1,5 +1,5 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { FileUpload, ProgressUpload } from "../front";
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { FileUpload } from '../front';
 
 const fileUploadSlice = createSlice({
     name: 'fileUpload',
@@ -15,7 +15,7 @@ const fileUploadSlice = createSlice({
 
             const index = files.findIndex((file) => file.name === payload.name);
             if (index !== -1) {
-                delete files[index];
+                files.splice(index, 1);
             }
 
             return files
@@ -41,7 +41,7 @@ const fileUploadSlice = createSlice({
 
             const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
-                files[index].password = password;
+                files[index].password = '';
             }
 
             return files;
@@ -55,7 +55,7 @@ const fileUploadSlice = createSlice({
 
             const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
-                const percent = Number(((loaded / total) * 100).toFixed(2));
+                const percent = Math.ceil(((loaded / total) * 100));
                 files[index].progress = {
                     ...file.progress,
                     total,
@@ -70,11 +70,13 @@ const fileUploadSlice = createSlice({
         setUploaded: (state: FileUpload[], { payload }: { payload }) => {
             const files = [...state];
             const file: FileUpload = payload.file;
+            const fileId: string = payload.fileId;
             const uploaded: boolean = payload.uploaded;
 
             const index = files.findIndex((f) => f.name === file.name);
             if (index !== -1) {
                 files[index].uploaded = uploaded;
+                files[index].fileId = fileId;
             }
 
             return files;

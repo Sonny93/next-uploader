@@ -4,7 +4,7 @@ import toastr from 'toastr';
 
 import { setError, setUploaded, updateProgress } from '../components/redux';
 
-import { FileType, FileUpload, UserFront } from '../front.d';
+import { FileFront, FileType, FileUpload, UserFront } from '../front.d';
 import { UserAPI } from '../api';
 
 /**
@@ -92,13 +92,14 @@ const Icons = [
     { type: FileType.EXE, icon: `${path}/exe.png` },
     { type: FileType.APK, icon: `${path}/apk.png` },
 
-    { type: 'PROTECTED', icon: `${path}/protected.png` },
-    { type: 'OTHER', icon: `${path}/empty-file.png` }
+    { type: FileType.PROTECTED, icon: `${path}/protected.png` },
+    { type: FileType.OTHER, icon: `${path}/empty-file.png` }
 ]
 
 export function GetIcon(fileType: string) {
-    const { icon } = Icons.find(({ type }) => type === fileType);
-    return icon;
+    const icon = Icons.find(({ type }) => type === fileType);
+    const def = Icons.find(({ type }) => type === FileType.OTHER);
+    return icon ? icon.icon : def.icon;
 }
 
 export const Pluralize = (str: string, num: number): string => `${str}${num > 1 ? 's' : ''}`;
@@ -118,12 +119,13 @@ export async function UploadFiles(files: FileUpload[], dispatch) {
                 onUploadProgress: ({ loaded, total }) => dispatch(updateProgress({ file, loaded, total }))
             });
 
-            const fileUploaded = data?.file as FileUpload;
+            const fileUploaded = data?.file as FileFront;
             if (!fileUploaded) {
                 console.warn('Aucun fichier retourné par le serveur', data);
             }
+            console.log('server file', fileUploaded)
 
-            dispatch(setUploaded({ file, uploaded: true }));
+            dispatch(setUploaded({ file, fileId: fileUploaded?.file_id, uploaded: true }));
         } catch (error) {
             const txtError = HandleCatchError(error);
             dispatch(setError(txtError));

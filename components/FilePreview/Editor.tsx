@@ -35,7 +35,7 @@ export default function EditorPreview({ file, blob }: EditorPreviewProps) {
         return (
             <div className={className}>
                 <pre>
-                    <code dangerouslySetInnerHTML={{ __html: hljs.highlight('typescript', content).value }} />
+                    <code dangerouslySetInnerHTML={{ __html: hljs.highlight(content, { language: 'typescript' }).value }} />
                 </pre>
             </div>
         );

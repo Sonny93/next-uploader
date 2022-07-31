@@ -1,6 +1,5 @@
 import { NextSeo } from 'next-seo';
 import MenuNavigation from '../components/MenuNavigation/MenuNavigation';
-import Meta from '../components/Meta/Meta';
 
 import { FrontPageProps } from '../front';
 
@@ -11,7 +10,6 @@ function CreatePage({ transitionClass }: FrontPageProps) {
 			description={'Création et mise en ligne automatique de fichiers'}
 		/>
 		<div className={`${transitionClass}`}>
-			<Meta />
 			<MenuNavigation />
 			<p>Page de création</p>
 		</div>
