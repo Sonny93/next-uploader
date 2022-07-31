@@ -8,7 +8,7 @@ import { FileFront, FileType, FrontPageProps } from '../../front.d';
 import { prisma } from '../../utils';
 import { FileBuilder } from '../../utils/api';
 
-import { OpenGraph } from 'next-seo/lib/types';
+import { OpenGraph, OpenGraphVideo } from 'next-seo/lib/types';
 import styles from '../../styles/file-preview/file-preview.module.scss';
 
 // @ts-ignore
@@ -51,10 +51,11 @@ function FilePage({ fid, file, error, transitionClass }: FileProps) {
     }
 
     if (file.meta.type === FileType.VIDEO && file.url) {
-        openGraph.videos = [{
+        openGraph.type = 'video.other';
+        openGraph.video = {
             url: file.url,
             alt: `${file.name} video`
-        }];
+        } as OpenGraphVideo;
     }
 
     console.log('openGraph file preview', openGraph)
