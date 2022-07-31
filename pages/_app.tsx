@@ -36,7 +36,7 @@ function Application({ Component, pageProps: { session, ...pageProps } }) {
 		<DefaultSeo
 			titleTemplate='NextUploader — %s'
 			defaultTitle='NextUploader'
-			description='Drive personnel perm<ettant la mise en ligne de fichiers en tous genres, pour les personnes authentifiées.'
+			description='Drive personnel permettant la mise en ligne de fichiers en tous genres, pour les personnes authentifiées.'
 			openGraph={{
 				type: 'website',
 				locale: 'fr_FR',
