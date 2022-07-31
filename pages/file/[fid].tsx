@@ -5,7 +5,7 @@ import FileProtected from '../../components/FilePreview/FileProtected';
 import MenuNavigation from '../../components/MenuNavigation/MenuNavigation';
 
 import { FileFront, FileType, FrontPageProps } from '../../front.d';
-import { calculSize, prisma } from '../../utils';
+import { prisma } from '../../utils';
 import { FileBuilder } from '../../utils/api';
 
 import { OpenGraph } from 'next-seo/lib/types';
@@ -61,7 +61,7 @@ function FilePage({ fid, file, error, transitionClass }: FileProps) {
         <div className={`${transitionClass} ${styles['App']}`}>
             <NextSeo
                 title={file.name}
-                description={`${file.name} • ${calculSize(file.size)}`}
+                description={`${file.name} • ${file.size.pretty}`}
                 openGraph={openGraph}
             />
             <MenuNavigation />
