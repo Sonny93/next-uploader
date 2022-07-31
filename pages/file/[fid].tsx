@@ -57,6 +57,8 @@ function FilePage({ fid, file, error, transitionClass }: FileProps) {
         }];
     }
 
+    console.log('openGraph file preview', openGraph)
+
     return (<>
         <div className={`${transitionClass} ${styles['App']}`}>
             <NextSeo
