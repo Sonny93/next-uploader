@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="public/nu/logos/logo-original.png" alt="NextUploader Logo>
+    <img src="public/nu/logos/logo-original.png" alt="NextUploader Logo">
 </div>
 
 ---
